@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psyche & chronische Krankheit – Salua</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#1B7A6E;--primary-light:#2A9D8F;--dark:#0F1A20;--dark2:#152028;--gray-700:#4a5568;--gray-500:#718096;--gray-400:#90a4ae;--gray-300:#CBD5E0;--gray-100:#F7FAFC;--white:#fff;--radius:16px;--radius-lg:24px;--transition:all .4s cubic-bezier(.4,0,.2,1)}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',-apple-system,sans-serif;color:var(--gray-700);background:var(--white);line-height:1.7;-webkit-font-smoothing:antialiased}
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.8);backdrop-filter:blur(24px);border-bottom:1px solid rgba(0,0,0,.04);transition:var(--transition)}
+.nav.scrolled{box-shadow:0 1px 30px rgba(0,0,0,.06)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:72px}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo svg{height:38px;width:auto}
+.nav-logo-text{font-size:1.3rem;font-weight:300;letter-spacing:5px;color:var(--dark);text-transform:uppercase}
+.nav-back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--gray-500);font-size:.88rem;font-weight:500;transition:var(--transition)}
+.nav-back:hover{color:var(--primary)}
+.nav-back svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+.page-hero{padding:8rem 2rem 4rem;background:var(--dark);position:relative;overflow:hidden}
+.page-hero-grad{position:absolute;top:-30%;right:-15%;width:600px;height:600px;background:radial-gradient(circle,rgba(42,157,143,.12) 0%,transparent 65%);border-radius:50%;filter:blur(60px)}
+.page-hero-inner{max-width:800px;margin:0 auto;position:relative;z-index:1}
+.page-hero-label{color:var(--primary-light);font-size:.78rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-bottom:1rem}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:3rem;font-weight:600;color:var(--white);line-height:1.2;margin-bottom:1rem}
+.page-hero p{color:var(--gray-400);font-size:1.1rem;line-height:1.75;max-width:600px}
+.content{max-width:800px;margin:0 auto;padding:4rem 2rem 6rem}
+.content h2{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--dark);margin:3rem 0 1rem;line-height:1.3}
+.content h2:first-child{margin-top:0}
+.content p{margin-bottom:1.2rem;font-size:1.05rem;line-height:1.8;color:var(--gray-700)}
+.content strong{color:var(--dark)}
+.content ul,.content ol{margin:1rem 0 1.5rem 1.5rem}
+.content li{margin-bottom:.6rem;font-size:1rem;line-height:1.7;color:var(--gray-700)}
+.info-box{background:var(--dark);color:var(--gray-400);padding:1.5rem 2rem;border-radius:var(--radius);border-left:3px solid var(--primary);margin:2rem 0;font-size:.95rem;line-height:1.7}
+.info-box strong{color:var(--white)}
+.back-link{display:inline-flex;align-items:center;gap:8px;color:var(--primary);text-decoration:none;font-weight:600;font-size:.95rem;margin-top:2rem;transition:var(--transition)}
+.back-link:hover{gap:12px}
+.footer{background:var(--dark);padding:3rem 2rem;text-align:center}
+.footer p{color:var(--gray-500);font-size:.85rem}
+.footer a{color:var(--primary-light);text-decoration:none}
+@media(max-width:768px){.page-hero h1{font-size:2.2rem}.page-hero{padding:7rem 1.5rem 3rem}.content{padding:3rem 1.5rem 4rem}}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+<div class="nav-inner">
+<a href="../index.html" class="nav-logo">
+<svg viewBox="0 0 90 90" height="38"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#54E5D4"/><stop offset="60%" stop-color="#2A8C7F"/><stop offset="100%" stop-color="#1A574E"/></linearGradient></defs><g transform="translate(10,20)"><path d="M 25,50 C 45,50 45,15 25,-5 C 5,15 5,50 25,50 Z" fill="url(#lg1)" transform="rotate(-30 25 22.5)"/><path d="M 55,60 C 75,60 75,25 55,5 C 35,25 35,60 55,60 Z" fill="url(#lg1)" transform="rotate(15 55 32.5)"/></g></svg>
+<span class="nav-logo-text">Salua</span>
+</a>
+<a href="../index.html" class="nav-back"><svg viewBox="0 0 24 24"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>Zurück</a>
+</div>
+</nav>
+
+<section class="page-hero">
+<div class="page-hero-grad"></div>
+<div class="page-hero-inner">
+<div class="page-hero-label">GEIST</div>
+<h1>Psyche & chronische Krankheit</h1>
+<p>Wie ME/CFS die seelische Gesundheit beeinflusst und warum es nicht psychosomatisch ist.</p>
+</div>
+</section>
+
+<div class="content">
+<h2>Die emotionale Belastung</h2>
+<p>ME/CFS ist nicht nur eine physische Erkrankung – sie ist auch eine tiefgreifend emotionale und psychologische Herausforderung. Die Diagnose bedeutet oft das Ende eines Lebens, wie man es kannte. Karrieren werden unterbrochen, Freundschaften ändern sich, unabhängige Lebensführung wird eingeschränkt. Das ist ein enormer Trauer- und Anpassungsprozess.</p>
+
+<p>Viele Menschen mit ME/CFS erleben in der Zeit nach der Diagnose Depression, Angststörungen und Trauma. Dies sind nicht Zeichen psychischer Krankheit – sie sind normale emotionale Reaktionen auf abnormale Umstände. Die Psyche reagiert auf Realität: Ich bin krank. Ich kann nicht das tun, was ich vorher konnte. Meine Zukunft ist unsicher. Dies sind legitime Sorgen.</p>
+
+<p>Dazu kommt oft ein zusätzliches Trauma aus dem Gesundheitssystem selbst: Ärztinnen und Ärzte, die nicht glauben, dass die Erkrankung real ist. Psychologinnen und Psychologen, die Cognitive Behavioral Therapy empfehlen, als könnten positive Gedanken ME/CFS heilen. Diese Erfahrungen hinterlassen tiefe emotionale Wunden.</p>
+
+<h2>Gehirnnebel und kognitive Symptome</h2>
+<p>Neben der emotionalen Belastung erleben viele Menschen mit ME/CFS auch <strong>Gehirnnebel</strong> (Brain Fog) und andere kognitive Symptome. Dies sind nicht psychische Symptome – sie sind <strong>organisch</strong> bedingt. Die Forschung zeigt abnormale Aktivierungsmuster im Gehirn von Patientinnen und Patienten mit ME/CFS. Der Gehirnstoffwechsel ist verändert.</p>
+
+<p>Gehirnnebel äußert sich als Konzentrationsstörungen, Gedächtnisverlust, Wortfindungsstörungen, Verwirrung und Desorientierung. Es ist frustrierend und beängstigend. Manche Menschen fürchten, dass sie Demenz bekommen. Es ist wichtig zu wissen: Dies sind Symptome von ME/CFS, nicht von neurologischer Degeneration. Mit Pacing und Ruhe können diese Symptome sich oft verbessern.</p>
+
+<h2>Die Kritik an psychosomatischen Erklärungen</h2>
+<p>Einer der schädlichsten Mythen über ME/CFS ist, dass es „psychosomatisch" ist – dass psychische Faktoren die Erkrankung hauptsächlich verursachen. Dies ist <strong>wissenschaftlich falsch</strong> und schädlich. Internationale ME/CFS-Organisationen und moderne Forschung sind eindeutig: ME/CFS ist eine biologische Erkrankung mit dokumentierten biomedizinischen Abnormalitäten.</p>
+
+<p>Ja, psychische Gesundheit beeinflusst physische Gesundheit. Stress kann Symptome verschärfen, genau wie bei Diabetes oder Asthma. Aber dies macht ME/CFS nicht „psychosomatisch". Die Abkehr von der Idee, dass Positive Denken heilen kann, ist zentral für den modernen Verständnis von ME/CFS.</p>
+
+<div class="info-box">
+<strong>Wichtig:</strong> Therapien wie Graded Exercise Therapy (GET) oder intensive Cognitive Behavioral Therapy wurden auf Basis falscher Annahmen entwickelt und können schwere Schäden anrichten. Patientinnen und Patienten berichten von Verschlimmerung nach GET. Dies sollte nicht empfohlen werden.
+</div>
+
+<h2>Psychologische Unterstützung für Patientinnen und Patienten</h2>
+<p>Das bedeutet nicht, dass psychologische Unterstützung nicht hilfreich ist. Aber es muss die richtige Art sein. Eine Psychologin oder Psycholog, die ME/CFS versteht und akzeptiert, kann helfen mit:</p>
+
+<ul>
+<li><strong>Trauerprozessen:</strong> Die Anpassung an neue Grenzen und das Abschied nehmen von früheren Fähigkeiten.</li>
+<li><strong>Identitätsrekonstruktion:</strong> Ein neues Selbstbild zu entwickeln, das nicht auf Produktivität basiert.</li>
+<li><strong>Bewältigung von Trauma:</strong> Viele Menschen mit ME/CFS haben Trauma aus Arzt-Patienten-Beziehungen und medizinischer Ablehnung erlebt.</li>
+<li><strong>Soziale Isolation:</strong> Strategien, um Beziehungen zu pflegen trotz physischer Einschränkungen.</li>
+<li><strong>Akzeptanztherapien:</strong> Acceptance and Commitment Therapy (ACT) oder ähnliche Ansätze, die Akzeptanz von nicht veränderbaren Realitäten lehren.</li>
+</ul>
+
+<p>Eine unterstützende Therapie respektiert die biologische Realität von ME/CFS und hilft Patientinnen und Patienten, damit zu leben und damit Frieden zu schließen.</p>
+
+<h2>Selbstmitgefühl und innere Haltung</h2>
+<p>In einer Welt, die Produktivität über alles schätzt, ist es schwer, Selbstmitgefühl zu haben, wenn man chronisch krank ist. Viele Menschen mit ME/CFS erleben Schuldgefühle: „Warum kann ich nicht mehr tun? Warum bin ich eine Last für meine Familie? Hätte ich das verhindern können?"</p>
+
+<p>Es ist wichtig zu verstehen: Diese Schuldgefühle sind nicht rational. Sie sind Produkt einer Gesellschaft, die Krankheit als persönliches Versagen ansieht. Selbstmitgefühl bedeutet, sich selbst so zu behandeln, wie man einen guten Freund behandeln würde, der krank ist. Mit Verständnis, nicht mit Kritik.</p>
+
+<h2>Auswirkungen auf Beziehungen</h2>
+<p>ME/CFS belastet auch Beziehungen enorm. Partner, Familienangehörige und Freunde verstehen oft nicht, was vor sich geht. Sie sehen jemanden, der manchmal okay aussieht, aber dann plötzlich nicht aufstehen kann. Dies kann zu Skepsis, Frustration und Missverständnissen führen.</p>
+
+<p>Offene Kommunikation ist essentiell. Das Teilen von Ressourcen über ME/CFS mit geliebten Menschen, das Erklären von PEM und Pacing, kann helfen, Verständnis zu schaffen. Manche Beziehungen scheitern an ME/CFS – und das ist eine legitime Folge dieser Erkrankung, kein persönliches Versagen.</p>
+
+<div class="info-box">
+<strong>Hilfe suchen:</strong> Falls Sie mit Depressionen oder Suizidgedanken kämpfen, wenden Sie sich an eine Fachperson oder an Telefonseelsorge. Das ist nicht ein Zeichen von Schwäche – es ist ein Zeichen von Weisheit, um Hilfe zu bitten.
+</div>
+
+<a href="../index.html#themen" class="back-link">← Alle Themen ansehen</a>
+</div>
+
+<footer class="footer"><p><a href="../index.html">salua.de</a> – Gesundheit verstehen.</p></footer>
+
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50)});
+</script>
+</body>
+</html>

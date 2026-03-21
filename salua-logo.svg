@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="100%" height="100%">
+    <defs>
+        <linearGradient id="saluaVibrant" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#54E5D4"/>
+            <stop offset="60%" stop-color="#2A8C7F"/>
+            <stop offset="100%" stop-color="#1A574E"/>
+        </linearGradient>
+        
+        <linearGradient id="saluaGloss" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+            <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.3"/>
+        </linearGradient>
+    </defs>
+
+    <g transform="translate(10, 25)">
+        <path d="M 25,50 C 45,50 45,15 25,-5 C 5,15 5,50 25,50 Z" fill="url(#saluaVibrant)" transform="rotate(-30 25 22.5)" />
+        
+        <path d="M 55,60 C 75,60 75,25 55,5 C 35,25 35,60 55,60 Z" fill="url(#saluaVibrant)" transform="rotate(15 55 32.5)" />
+        
+        <path d="M 55,5 C 65,15 65,35 55,45" fill="none" stroke="url(#saluaGloss)" stroke-width="1.5" stroke-linecap="round" transform="rotate(15 55 32.5) translate(-1, -3)" />
+    </g>
+
+    <text x="115" y="75" font-family="'Optima', 'Montserrat', 'Noto Serif', serif" font-size="38" font-weight="300" letter-spacing="8" fill="#F0F4F4">SALUA</text>
+</svg>

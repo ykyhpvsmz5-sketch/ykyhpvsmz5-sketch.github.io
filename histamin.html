@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0F1A20">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Was kann ich essen? – Salua</title>
+<meta name="description" content="Histaminintoleranz: Finde heraus, welche Lebensmittel du verträgst. Mit Barcode-Scanner. Über 200 Lebensmittel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #1B7A6E;
+  --primary-light: #2A9D8F;
+  --accent: #E9C46A;
+  --dark: #0F1A20;
+  --dark2: #152028;
+  --dark3: #1A2830;
+  --gray-700: #4a5568;
+  --gray-500: #718096;
+  --gray-400: #90a4ae;
+  --gray-300: #CBD5E0;
+  --gray-100: #F7FAFC;
+  --white: #ffffff;
+  --green: #2A9D8F;
+  --green-bg: rgba(42,157,143,0.12);
+  --yellow: #E9C46A;
+  --yellow-bg: rgba(233,196,106,0.12);
+  --orange: #E76F51;
+  --orange-bg: rgba(231,111,81,0.12);
+  --red: #C0392B;
+  --red-bg: rgba(192,57,43,0.12);
+  --radius: 16px;
+  --radius-lg: 24px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.06);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html { font-size: 16px; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--gray-700); background: var(--gray-100);
+  line-height: 1.6; -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; min-height: 100vh;
+  padding-top: env(safe-area-inset-top);
+}
+
+/* ===== TOP BAR ===== */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding: 0 1.2rem; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.topbar-left { display: flex; align-items: center; gap: 10px; }
+.topbar-back {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 10px;
+  border: none; background: transparent; cursor: pointer;
+  color: var(--gray-500); transition: var(--transition);
+  text-decoration: none;
+}
+.topbar-back:hover { background: rgba(0,0,0,0.04); }
+.topbar-back svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+.topbar-title { font-size: 1.05rem; font-weight: 600; color: var(--dark); }
+.topbar-right { display: flex; gap: 6px; }
+.topbar-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 12px;
+  border: none; background: transparent; cursor: pointer;
+  color: var(--gray-500); transition: var(--transition);
+}
+.topbar-btn:hover { background: rgba(0,0,0,0.04); color: var(--primary); }
+.topbar-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+.topbar-btn.active { background: var(--green-bg); color: var(--primary); }
+
+/* ===== HERO BANNER ===== */
+.app-hero {
+  background: var(--dark); padding: 2rem 1.2rem 2.5rem;
+  position: relative; overflow: hidden;
+}
+.app-hero-grad {
+  position: absolute; top: -50%; right: -30%; width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(42,157,143,0.15) 0%, transparent 65%);
+  border-radius: 50%; filter: blur(50px);
+}
+.app-hero-inner { position: relative; z-index: 1; }
+.app-hero h1 {
+  font-size: 1.8rem; font-weight: 700; color: var(--white);
+  line-height: 1.25; margin-bottom: 0.5rem;
+}
+.app-hero h1 span { color: var(--primary-light); }
+.app-hero p { color: var(--gray-400); font-size: 0.9rem; line-height: 1.6; }
+
+/* Install banner */
+.install-banner {
+  margin: 0.5rem 1.2rem 0; padding: 1rem 1.2rem;
+  background: linear-gradient(135deg, var(--dark2), var(--dark3));
+  border: 1px solid rgba(42,157,143,0.15); border-radius: 14px;
+  display: none; align-items: center; gap: 12px;
+  position: relative; z-index: 1;
+}
+.install-banner.show { display: flex; }
+.install-banner-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--green-bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.install-banner-icon svg { width: 22px; height: 22px; stroke: var(--primary-light); fill: none; stroke-width: 2; }
+.install-banner-text { flex: 1; }
+.install-banner-text strong { color: var(--white); font-size: 0.88rem; display: block; }
+.install-banner-text span { color: var(--gray-400); font-size: 0.78rem; }
+.install-btn {
+  padding: 8px 18px; border-radius: 10px; border: none;
+  background: var(--primary); color: var(--white);
+  font-size: 0.82rem; font-weight: 700; cursor: pointer;
+  transition: var(--transition); white-space: nowrap;
+}
+.install-btn:hover { background: var(--primary-light); }
+.install-close {
+  position: absolute; top: 8px; right: 10px;
+  background: none; border: none; color: var(--gray-500); cursor: pointer;
+  font-size: 1.1rem; line-height: 1; padding: 4px;
+}
+
+/* ===== SEARCH ===== */
+.search-area { padding: 1rem 1.2rem 0; }
+.search-bar {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--white); border-radius: 14px;
+  padding: 4px; box-shadow: var(--shadow);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.search-input-wrap { flex: 1; position: relative; display: flex; align-items: center; }
+.search-input-wrap svg {
+  position: absolute; left: 12px; width: 18px; height: 18px;
+  stroke: var(--gray-400); fill: none; stroke-width: 2;
+}
+.search-bar input {
+  width: 100%; padding: 12px 12px 12px 40px; border: none;
+  background: transparent; font-size: 0.95rem; font-family: inherit;
+  color: var(--dark); outline: none;
+}
+.search-bar input::placeholder { color: var(--gray-400); }
+.scan-btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 11px 16px; border-radius: 11px; border: none;
+  background: var(--dark); color: var(--white);
+  font-size: 0.82rem; font-weight: 700; cursor: pointer;
+  transition: var(--transition); white-space: nowrap;
+}
+.scan-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+.scan-btn:hover { background: var(--primary); }
+
+/* ===== FILTER CHIPS ===== */
+.filters { padding: 1rem 1.2rem 0; overflow-x: auto; display: flex; gap: 0.4rem; -webkit-overflow-scrolling: touch; }
+.filters::-webkit-scrollbar { display: none; }
+.chip {
+  padding: 8px 16px; border-radius: 50px;
+  border: 1px solid rgba(0,0,0,0.08); background: var(--white);
+  color: var(--gray-500); font-size: 0.8rem; font-weight: 600;
+  cursor: pointer; transition: var(--transition); white-space: nowrap;
+  flex-shrink: 0;
+}
+.chip:hover { border-color: var(--primary); color: var(--primary); }
+.chip.active { background: var(--dark); color: var(--white); border-color: var(--dark); }
+
+/* ===== LEGEND ===== */
+.legend {
+  padding: 1rem 1.2rem 0;
+  display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+}
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.75rem; color: var(--gray-500); }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+.legend-dot.g { background: var(--green); }
+.legend-dot.y { background: var(--yellow); }
+.legend-dot.o { background: var(--orange); }
+.legend-dot.r { background: var(--red); }
+.result-count { margin-left: auto; font-size: 0.78rem; color: var(--gray-400); font-weight: 600; }
+
+/* ===== FOOD LIST ===== */
+.food-list { padding: 0.8rem 1.2rem 6rem; display: flex; flex-direction: column; gap: 6px; }
+.food-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0.9rem 1rem; border-radius: 14px;
+  background: var(--white); border: 1px solid rgba(0,0,0,0.04);
+  transition: var(--transition);
+}
+.food-item:hover { border-color: rgba(0,0,0,0.08); }
+.food-level {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 0.65rem; font-weight: 800;
+  letter-spacing: 0.3px; text-transform: uppercase;
+}
+.food-level.gut { background: var(--green-bg); color: var(--green); }
+.food-level.mittel { background: var(--yellow-bg); color: #b8960a; }
+.food-level.schlecht { background: var(--orange-bg); color: var(--orange); }
+.food-level.meiden { background: var(--red-bg); color: var(--red); }
+.food-info { flex: 1; min-width: 0; }
+.food-name { font-size: 0.92rem; color: var(--dark); font-weight: 600; }
+.food-cat { font-size: 0.72rem; color: var(--gray-400); margin-top: 1px; }
+.food-badge {
+  font-size: 0.68rem; font-weight: 700; padding: 4px 10px;
+  border-radius: 8px; white-space: nowrap;
+}
+.food-badge.gut { background: var(--green-bg); color: var(--green); }
+.food-badge.mittel { background: var(--yellow-bg); color: #b8960a; }
+.food-badge.schlecht { background: var(--orange-bg); color: var(--orange); }
+.food-badge.meiden { background: var(--red-bg); color: var(--red); }
+
+.food-empty {
+  text-align: center; padding: 4rem 2rem; color: var(--gray-400);
+}
+.food-empty svg { width: 48px; height: 48px; stroke: var(--gray-300); fill: none; stroke-width: 1.5; margin-bottom: 0.8rem; }
+.food-empty p { font-size: 0.95rem; }
+
+/* ===== SCANNER OVERLAY ===== */
+.scanner-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: var(--dark); display: none;
+  flex-direction: column;
+}
+.scanner-overlay.open { display: flex; }
+.scanner-top {
+  padding: 1rem 1.2rem; display: flex; align-items: center; justify-content: space-between;
+  background: rgba(15,26,32,0.95);
+}
+.scanner-top h2 { color: var(--white); font-size: 1rem; font-weight: 600; }
+.scanner-close {
+  width: 40px; height: 40px; border-radius: 12px;
+  border: none; background: rgba(255,255,255,0.08);
+  color: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+}
+.scanner-video-wrap {
+  flex: 1; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.scanner-video-wrap video {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.scanner-frame {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px; height: 160px;
+  border: 2px solid rgba(42,157,143,0.6);
+  border-radius: 16px;
+  box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+}
+.scanner-frame::before {
+  content: ''; position: absolute; top: -1px; left: 20%; right: 20%;
+  height: 3px; background: var(--primary-light);
+  border-radius: 2px;
+  animation: scanLine 2s ease-in-out infinite;
+}
+@keyframes scanLine {
+  0%, 100% { top: -1px; }
+  50% { top: calc(100% - 2px); }
+}
+.scanner-hint {
+  position: absolute; bottom: 2rem; left: 0; right: 0;
+  text-align: center; color: var(--gray-400); font-size: 0.85rem;
+}
+.scanner-result {
+  padding: 1.5rem 1.2rem; background: var(--dark2);
+  display: none;
+}
+.scanner-result.show { display: block; }
+.scanner-result-card {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px; padding: 1.2rem;
+  display: flex; align-items: center; gap: 14px;
+}
+.scanner-result-card .food-level { width: 48px; height: 48px; font-size: 0.7rem; }
+.scanner-result-info .food-name { color: var(--white); font-size: 1rem; }
+.scanner-result-info .food-cat { color: var(--gray-400); }
+
+/* ===== BOTTOM SHEET INFO ===== */
+.info-footer {
+  padding: 2rem 1.2rem; background: var(--white);
+  border-top: 1px solid rgba(0,0,0,0.06);
+  margin-top: 1rem;
+}
+.info-footer p { font-size: 0.82rem; color: var(--gray-400); line-height: 1.65; text-align: center; }
+.info-footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
+
+/* ===== DESKTOP LAYOUT ===== */
+@media (min-width: 768px) {
+  body { background: #f0f2f5; }
+  .app-shell {
+    max-width: 480px; margin: 2rem auto;
+    border-radius: var(--radius-lg); overflow: hidden;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.12);
+    background: var(--gray-100);
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <a href="index.html" class="topbar-back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+    </a>
+    <span class="topbar-title">Was kann ich essen?</span>
+  </div>
+  <div class="topbar-right">
+    <button class="topbar-btn" id="infoBtn" title="Info">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="app-hero">
+  <div class="app-hero-grad"></div>
+  <div class="app-hero-inner">
+    <h1>Was kann ich <span>essen?</span></h1>
+    <p>Über 200 Lebensmittel auf Histamin-Verträglichkeit geprüft. Suche nach Namen oder scanne den Barcode.</p>
+  </div>
+</div>
+
+<!-- INSTALL BANNER -->
+<div class="install-banner" id="installBanner">
+  <div class="install-banner-icon">
+    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  </div>
+  <div class="install-banner-text">
+    <strong>Als App installieren</strong>
+    <span>Direkt vom Homescreen starten</span>
+  </div>
+  <button class="install-btn" id="installBtn">Installieren</button>
+  <button class="install-close" id="installClose">&times;</button>
+</div>
+
+<!-- SEARCH -->
+<div class="search-area">
+  <div class="search-bar">
+    <div class="search-input-wrap">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Lebensmittel suchen..." autocomplete="off">
+    </div>
+    <button class="scan-btn" id="scanBtn">
+      <svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="7" y1="12" x2="17" y2="12"/></svg>
+      Scannen
+    </button>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters" id="filterChips">
+  <span class="chip active" data-filter="all">Alle</span>
+  <span class="chip" data-filter="obst">Obst</span>
+  <span class="chip" data-filter="gemuese">Gemüse</span>
+  <span class="chip" data-filter="milch">Milchprodukte</span>
+  <span class="chip" data-filter="fleisch">Fleisch & Fisch</span>
+  <span class="chip" data-filter="getreide">Getreide</span>
+  <span class="chip" data-filter="getraenke">Getränke</span>
+  <span class="chip" data-filter="sonstiges">Sonstiges</span>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><span class="legend-dot g"></span> Gut</div>
+  <div class="legend-item"><span class="legend-dot y"></span> Mäßig</div>
+  <div class="legend-item"><span class="legend-dot o"></span> Schlecht</div>
+  <div class="legend-item"><span class="legend-dot r"></span> Meiden</div>
+  <span class="result-count" id="resultCount"></span>
+</div>
+
+<!-- FOOD LIST -->
+<div class="food-list" id="foodList"></div>
+
+<!-- INFO FOOTER -->
+<div class="info-footer">
+  <p>
+    Verträglichkeits-Einstufungen basieren auf aktuellen Erkenntnissen.
+    Individuelle Toleranzen können abweichen. Keine ärztliche Beratung.<br>
+    <a href="index.html">salua.de</a> – Gesundheit verstehen.
+  </p>
+</div>
+
+</div><!-- /.app-shell -->
+
+<!-- SCANNER OVERLAY -->
+<div class="scanner-overlay" id="scannerOverlay">
+  <div class="scanner-top">
+    <h2>Barcode scannen</h2>
+    <button class="scanner-close" id="scannerClose">&times;</button>
+  </div>
+  <div class="scanner-video-wrap">
+    <video id="scannerVideo" autoplay playsinline muted></video>
+    <div class="scanner-frame"></div>
+    <div class="scanner-hint">Halte den Barcode in den Rahmen</div>
+  </div>
+  <div class="scanner-result" id="scannerResult">
+    <div class="scanner-result-card" id="scannerResultCard"></div>
+  </div>
+</div>
+
+<script>
+// ===== FOOD DATABASE =====
+const foods = [
+  // OBST
+  {name:"Äpfel",cat:"obst",level:"gut",ean:["4011"]},
+  {name:"Birnen",cat:"obst",level:"gut",ean:["4024"]},
+  {name:"Heidelbeeren",cat:"obst",level:"gut",ean:[]},
+  {name:"Kirschen",cat:"obst",level:"gut",ean:[]},
+  {name:"Mango",cat:"obst",level:"gut",ean:["4051"]},
+  {name:"Melone",cat:"obst",level:"gut",ean:[]},
+  {name:"Pfirsiche",cat:"obst",level:"gut",ean:[]},
+  {name:"Trauben",cat:"obst",level:"gut",ean:["4023"]},
+  {name:"Granatapfel",cat:"obst",level:"gut",ean:[]},
+  {name:"Litschi",cat:"obst",level:"gut",ean:[]},
+  {name:"Feigen (frisch)",cat:"obst",level:"gut",ean:[]},
+  {name:"Aprikosen",cat:"obst",level:"mittel",ean:[]},
+  {name:"Pflaumen",cat:"obst",level:"mittel",ean:[]},
+  {name:"Kiwi",cat:"obst",level:"mittel",ean:["4030"]},
+  {name:"Nektarinen",cat:"obst",level:"mittel",ean:[]},
+  {name:"Brombeeren",cat:"obst",level:"mittel",ean:[]},
+  {name:"Erdbeeren",cat:"obst",level:"schlecht",ean:[]},
+  {name:"Himbeeren",cat:"obst",level:"schlecht",ean:[]},
+  {name:"Zitrusfrüchte (Orangen)",cat:"obst",level:"schlecht",ean:["4012"]},
+  {name:"Zitronen",cat:"obst",level:"schlecht",ean:["4033"]},
+  {name:"Grapefruit",cat:"obst",level:"schlecht",ean:[]},
+  {name:"Ananas",cat:"obst",level:"schlecht",ean:["4029"]},
+  {name:"Bananen (überreif)",cat:"obst",level:"schlecht",ean:["4011"]},
+  {name:"Papaya",cat:"obst",level:"schlecht",ean:[]},
+  {name:"Trockenfrüchte",cat:"obst",level:"meiden",ean:[]},
+  {name:"Datteln (getrocknet)",cat:"obst",level:"meiden",ean:[]},
+  {name:"Rosinen",cat:"obst",level:"meiden",ean:[]},
+  {name:"Feigen (getrocknet)",cat:"obst",level:"meiden",ean:[]},
+
+  // GEMÜSE
+  {name:"Kartoffeln",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Süßkartoffeln",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Brokkoli",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Blumenkohl",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Zucchini",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Gurke",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Karotten",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Kürbis",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Salat (grün)",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Mangold",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Spargel",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Fenchel",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Kohlrabi",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Radieschen",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Rote Bete (frisch)",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Lauch",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Mais",cat:"gemuese",level:"gut",ean:[]},
+  {name:"Paprika",cat:"gemuese",level:"mittel",ean:[]},
+  {name:"Zwiebeln",cat:"gemuese",level:"mittel",ean:[]},
+  {name:"Knoblauch",cat:"gemuese",level:"mittel",ean:[]},
+  {name:"Pilze",cat:"gemuese",level:"mittel",ean:[]},
+  {name:"Erbsen",cat:"gemuese",level:"mittel",ean:[]},
+  {name:"Bohnen (grün, frisch)",cat:"gemuese",level:"mittel",ean:[]},
+  {name:"Tomaten",cat:"gemuese",level:"schlecht",ean:[]},
+  {name:"Spinat",cat:"gemuese",level:"schlecht",ean:[]},
+  {name:"Avocado",cat:"gemuese",level:"schlecht",ean:["4046"]},
+  {name:"Aubergine",cat:"gemuese",level:"schlecht",ean:[]},
+  {name:"Sauerkraut",cat:"gemuese",level:"meiden",ean:[]},
+  {name:"Eingelegtes Gemüse",cat:"gemuese",level:"meiden",ean:[]},
+  {name:"Oliven",cat:"gemuese",level:"meiden",ean:[]},
+
+  // MILCHPRODUKTE
+  {name:"Butter",cat:"milch",level:"gut",ean:[]},
+  {name:"Frischkäse (natur)",cat:"milch",level:"gut",ean:[]},
+  {name:"Quark",cat:"milch",level:"gut",ean:[]},
+  {name:"Sahne (frisch)",cat:"milch",level:"gut",ean:[]},
+  {name:"Mozzarella",cat:"milch",level:"gut",ean:[]},
+  {name:"Ricotta",cat:"milch",level:"gut",ean:[]},
+  {name:"Mascarpone",cat:"milch",level:"gut",ean:[]},
+  {name:"Milch (frisch)",cat:"milch",level:"gut",ean:[]},
+  {name:"Joghurt (natur)",cat:"milch",level:"mittel",ean:[]},
+  {name:"Feta",cat:"milch",level:"mittel",ean:[]},
+  {name:"Hüttenkäse",cat:"milch",level:"mittel",ean:[]},
+  {name:"Buttermilch",cat:"milch",level:"mittel",ean:[]},
+  {name:"Gouda (gereift)",cat:"milch",level:"schlecht",ean:[]},
+  {name:"Cheddar",cat:"milch",level:"schlecht",ean:[]},
+  {name:"Emmentaler",cat:"milch",level:"schlecht",ean:[]},
+  {name:"Camembert",cat:"milch",level:"schlecht",ean:[]},
+  {name:"Blauschimmelkäse",cat:"milch",level:"meiden",ean:[]},
+  {name:"Parmesan",cat:"milch",level:"meiden",ean:[]},
+  {name:"Kefir",cat:"milch",level:"meiden",ean:[]},
+
+  // FLEISCH & FISCH
+  {name:"Hühnchen (frisch)",cat:"fleisch",level:"gut",ean:[]},
+  {name:"Pute (frisch)",cat:"fleisch",level:"gut",ean:[]},
+  {name:"Lamm (frisch)",cat:"fleisch",level:"gut",ean:[]},
+  {name:"Rind (frisch)",cat:"fleisch",level:"gut",ean:[]},
+  {name:"Wild (frisch)",cat:"fleisch",level:"gut",ean:[]},
+  {name:"Lachs (frisch, sofort)",cat:"fleisch",level:"gut",ean:[]},
+  {name:"Forelle (frisch)",cat:"fleisch",level:"gut",ean:[]},
+  {name:"Kabeljau (frisch)",cat:"fleisch",level:"gut",ean:[]},
+  {name:"Hackfleisch (frisch)",cat:"fleisch",level:"mittel",ean:[]},
+  {name:"Garnelen (frisch)",cat:"fleisch",level:"mittel",ean:[]},
+  {name:"Eier",cat:"fleisch",level:"mittel",ean:[]},
+  {name:"Thunfisch (Dose)",cat:"fleisch",level:"schlecht",ean:[]},
+  {name:"Sardinen (Dose)",cat:"fleisch",level:"schlecht",ean:[]},
+  {name:"Makrele (geräuchert)",cat:"fleisch",level:"schlecht",ean:[]},
+  {name:"Wurst / Aufschnitt",cat:"fleisch",level:"meiden",ean:[]},
+  {name:"Salami",cat:"fleisch",level:"meiden",ean:[]},
+  {name:"Schinken (geräuchert)",cat:"fleisch",level:"meiden",ean:[]},
+  {name:"Speck",cat:"fleisch",level:"meiden",ean:[]},
+  {name:"Räucherlachs",cat:"fleisch",level:"meiden",ean:[]},
+  {name:"Fischkonserven",cat:"fleisch",level:"meiden",ean:[]},
+  {name:"Meeresfrüchte (nicht frisch)",cat:"fleisch",level:"meiden",ean:[]},
+
+  // GETREIDE
+  {name:"Reis",cat:"getreide",level:"gut",ean:[]},
+  {name:"Haferflocken",cat:"getreide",level:"gut",ean:[]},
+  {name:"Dinkel",cat:"getreide",level:"gut",ean:[]},
+  {name:"Hirse",cat:"getreide",level:"gut",ean:[]},
+  {name:"Quinoa",cat:"getreide",level:"gut",ean:[]},
+  {name:"Amaranth",cat:"getreide",level:"gut",ean:[]},
+  {name:"Buchweizen",cat:"getreide",level:"gut",ean:[]},
+  {name:"Mais (Polenta)",cat:"getreide",level:"gut",ean:[]},
+  {name:"Nudeln (frisch)",cat:"getreide",level:"gut",ean:[]},
+  {name:"Brot (frisch, hefefrei)",cat:"getreide",level:"gut",ean:[]},
+  {name:"Weizenbrot (Hefe)",cat:"getreide",level:"mittel",ean:[]},
+  {name:"Vollkornbrot",cat:"getreide",level:"mittel",ean:[]},
+  {name:"Couscous",cat:"getreide",level:"mittel",ean:[]},
+  {name:"Knäckebrot",cat:"getreide",level:"mittel",ean:[]},
+  {name:"Sauerteigbrot",cat:"getreide",level:"schlecht",ean:[]},
+
+  // GETRÄNKE
+  {name:"Wasser",cat:"getraenke",level:"gut",ean:[]},
+  {name:"Kräutertee (Kamille)",cat:"getraenke",level:"gut",ean:[]},
+  {name:"Pfefferminztee",cat:"getraenke",level:"gut",ean:[]},
+  {name:"Rooibostee",cat:"getraenke",level:"gut",ean:[]},
+  {name:"Hafer- / Reismilch",cat:"getraenke",level:"gut",ean:[]},
+  {name:"Apfelsaft (naturtrüb)",cat:"getraenke",level:"gut",ean:[]},
+  {name:"Kaffee",cat:"getraenke",level:"mittel",ean:[]},
+  {name:"Grüner Tee",cat:"getraenke",level:"mittel",ean:[]},
+  {name:"Schwarzer Tee",cat:"getraenke",level:"mittel",ean:[]},
+  {name:"Kakao",cat:"getraenke",level:"mittel",ean:[]},
+  {name:"Orangensaft",cat:"getraenke",level:"schlecht",ean:[]},
+  {name:"Tomatensaft",cat:"getraenke",level:"schlecht",ean:[]},
+  {name:"Energydrinks",cat:"getraenke",level:"schlecht",ean:[]},
+  {name:"Weißwein",cat:"getraenke",level:"schlecht",ean:[]},
+  {name:"Rotwein",cat:"getraenke",level:"meiden",ean:[]},
+  {name:"Bier",cat:"getraenke",level:"meiden",ean:[]},
+  {name:"Sekt / Champagner",cat:"getraenke",level:"meiden",ean:[]},
+  {name:"Spirituosen",cat:"getraenke",level:"meiden",ean:[]},
+  {name:"Kombucha",cat:"getraenke",level:"meiden",ean:[]},
+
+  // SONSTIGES
+  {name:"Olivenöl",cat:"sonstiges",level:"gut",ean:[]},
+  {name:"Kokosöl",cat:"sonstiges",level:"gut",ean:[]},
+  {name:"Honig",cat:"sonstiges",level:"gut",ean:[]},
+  {name:"Ahornsirup",cat:"sonstiges",level:"gut",ean:[]},
+  {name:"Salz & Pfeffer",cat:"sonstiges",level:"gut",ean:[]},
+  {name:"Frische Kräuter",cat:"sonstiges",level:"gut",ean:[]},
+  {name:"Ingwer (frisch)",cat:"sonstiges",level:"gut",ean:[]},
+  {name:"Kurkuma",cat:"sonstiges",level:"gut",ean:[]},
+  {name:"Mandeln",cat:"sonstiges",level:"gut",ean:[]},
+  {name:"Macadamia",cat:"sonstiges",level:"gut",ean:[]},
+  {name:"Kürbiskerne",cat:"sonstiges",level:"gut",ean:[]},
+  {name:"Leinsamen",cat:"sonstiges",level:"gut",ean:[]},
+  {name:"Chiasamen",cat:"sonstiges",level:"gut",ean:[]},
+  {name:"Erdnüsse",cat:"sonstiges",level:"mittel",ean:[]},
+  {name:"Cashewkerne",cat:"sonstiges",level:"mittel",ean:[]},
+  {name:"Haselnüsse",cat:"sonstiges",level:"mittel",ean:[]},
+  {name:"Sonnenblumenkerne",cat:"sonstiges",level:"mittel",ean:[]},
+  {name:"Dunkle Schokolade",cat:"sonstiges",level:"mittel",ean:[]},
+  {name:"Kokosmilch (Dose)",cat:"sonstiges",level:"mittel",ean:[]},
+  {name:"Walnüsse",cat:"sonstiges",level:"schlecht",ean:[]},
+  {name:"Schokolade (Milch)",cat:"sonstiges",level:"schlecht",ean:[]},
+  {name:"Sojasauce",cat:"sonstiges",level:"meiden",ean:[]},
+  {name:"Essig (außer Apfelessig)",cat:"sonstiges",level:"meiden",ean:[]},
+  {name:"Hefe / Hefeextrakt",cat:"sonstiges",level:"meiden",ean:[]},
+  {name:"Glutamat (MSG)",cat:"sonstiges",level:"meiden",ean:[]},
+  {name:"Fermentierte Lebensmittel",cat:"sonstiges",level:"meiden",ean:[]},
+  {name:"Miso",cat:"sonstiges",level:"meiden",ean:[]},
+  {name:"Senf",cat:"sonstiges",level:"meiden",ean:[]},
+  {name:"Ketchup",cat:"sonstiges",level:"meiden",ean:[]},
+  {name:"Worcestersauce",cat:"sonstiges",level:"meiden",ean:[]},
+  {name:"Fertiggerichte",cat:"sonstiges",level:"meiden",ean:[]},
+];
+
+// Known barcodes → food name mapping (common German supermarket products)
+const barcodeMap = {
+  // Dairy
+  "4002334114206": "Milch (frisch)",
+  "4311501636121": "Joghurt (natur)",
+  "4000400124005": "Butter",
+  "40084015": "Quark",
+  "4002334118808": "Sahne (frisch)",
+  // Drinks
+  "5449000000996": "Meiden", // Coca Cola → not in list, but additive-heavy
+  "4005906004400": "Apfelsaft (naturtrüb)",
+  "4311501494769": "Orangensaft",
+  "87167596": "Rotwein",
+  "4311501485996": "Bier",
+  "4017100025907": "Kaffee",
+  // Grains
+  "4311501432013": "Haferflocken",
+  "4000521003319": "Reis",
+  "4311596002986": "Vollkornbrot",
+  // Misc
+  "8410128600143": "Olivenöl",
+  "4311501660034": "Honig",
+  "4311501003787": "Senf",
+  "87157474": "Ketchup",
+  "4011200296908": "Sojasauce",
+};
+
+const catLabels = {
+  obst:"Obst", gemuese:"Gemüse", milch:"Milchprodukte",
+  fleisch:"Fleisch & Fisch", getreide:"Getreide",
+  getraenke:"Getränke", sonstiges:"Sonstiges"
+};
+const levelLabels = { gut:"Gut", mittel:"Mäßig", schlecht:"Schlecht", meiden:"Meiden" };
+const levelOrder = { gut:0, mittel:1, schlecht:2, meiden:3 };
+foods.sort((a,b) => levelOrder[a.level] - levelOrder[b.level] || a.name.localeCompare(b.name,'de'));
+
+let activeFilter = 'all';
+const searchInput = document.getElementById('searchInput');
+const foodList = document.getElementById('foodList');
+const resultCount = document.getElementById('resultCount');
+
+function render() {
+  const q = searchInput.value.toLowerCase().trim();
+  const filtered = foods.filter(f => {
+    if (activeFilter !== 'all' && f.cat !== activeFilter) return false;
+    if (q && !f.name.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  resultCount.textContent = filtered.length + ' Ergebnisse';
+
+  if (!filtered.length) {
+    foodList.innerHTML = `<div class="food-empty">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <p>Kein Lebensmittel gefunden.</p></div>`;
+    return;
+  }
+
+  foodList.innerHTML = filtered.map(f => `
+    <div class="food-item">
+      <div class="food-level ${f.level}">${levelLabels[f.level]}</div>
+      <div class="food-info">
+        <div class="food-name">${f.name}</div>
+        <div class="food-cat">${catLabels[f.cat]}</div>
+      </div>
+    </div>`).join('');
+}
+
+// Filters
+document.getElementById('filterChips').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  activeFilter = chip.dataset.filter;
+  render();
+});
+
+searchInput.addEventListener('input', render);
+
+// ===== BARCODE SCANNER =====
+const scannerOverlay = document.getElementById('scannerOverlay');
+const scannerVideo = document.getElementById('scannerVideo');
+const scannerResult = document.getElementById('scannerResult');
+const scannerResultCard = document.getElementById('scannerResultCard');
+let scanStream = null;
+let scanning = false;
+
+document.getElementById('scanBtn').addEventListener('click', openScanner);
+document.getElementById('scannerClose').addEventListener('click', closeScanner);
+
+async function openScanner() {
+  scannerOverlay.classList.add('open');
+  scannerResult.classList.remove('show');
+  try {
+    scanStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }
+    });
+    scannerVideo.srcObject = scanStream;
+    scanning = true;
+    detectBarcode();
+  } catch (err) {
+    scannerResultCard.innerHTML = `
+      <div style="color:var(--gray-400);padding:0.5rem;">
+        <strong style="color:var(--white);display:block;margin-bottom:4px;">Kamera nicht verfügbar</strong>
+        Bitte erlaube den Kamera-Zugriff in den Browser-Einstellungen, oder suche das Lebensmittel manuell.
+      </div>`;
+    scannerResult.classList.add('show');
+  }
+}
+
+function closeScanner() {
+  scanning = false;
+  scannerOverlay.classList.remove('open');
+  if (scanStream) {
+    scanStream.getTracks().forEach(t => t.stop());
+    scanStream = null;
+  }
+}
+
+async function detectBarcode() {
+  if (!scanning) return;
+
+  // Use BarcodeDetector API if available (Chrome, Android)
+  if ('BarcodeDetector' in window) {
+    const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
+    const loop = async () => {
+      if (!scanning) return;
+      try {
+        const barcodes = await detector.detect(scannerVideo);
+        if (barcodes.length > 0) {
+          handleBarcode(barcodes[0].rawValue);
+          return;
+        }
+      } catch(e) {}
+      requestAnimationFrame(loop);
+    };
+    loop();
+  } else {
+    // Fallback: show manual entry hint
+    scannerResultCard.innerHTML = `
+      <div style="color:var(--gray-400);padding:0.5rem;">
+        <strong style="color:var(--white);display:block;margin-bottom:4px;">Barcode-Scan wird in diesem Browser nicht unterstützt</strong>
+        Nutze Chrome auf Android für den Barcode-Scanner, oder suche das Lebensmittel über die Suchleiste.
+      </div>`;
+    scannerResult.classList.add('show');
+  }
+}
+
+function handleBarcode(code) {
+  // Vibrate if possible
+  if (navigator.vibrate) navigator.vibrate(100);
+
+  // Try to find in barcode map
+  const productName = barcodeMap[code];
+  let found = null;
+  if (productName) {
+    found = foods.find(f => f.name === productName);
+  }
+  // Also try matching EAN prefixes from food data
+  if (!found) {
+    found = foods.find(f => f.ean && f.ean.some(e => code.startsWith(e)));
+  }
+
+  if (found) {
+    scannerResultCard.innerHTML = `
+      <div class="food-level ${found.level}" style="width:48px;height:48px;font-size:0.7rem;">${levelLabels[found.level]}</div>
+      <div class="scanner-result-info">
+        <div class="food-name">${found.name}</div>
+        <div class="food-cat">${catLabels[found.cat]} · Barcode: ${code}</div>
+      </div>`;
+  } else {
+    scannerResultCard.innerHTML = `
+      <div class="food-level mittel" style="width:48px;height:48px;font-size:0.55rem;">?</div>
+      <div class="scanner-result-info">
+        <div class="food-name" style="color:var(--white);">Produkt nicht in der Datenbank</div>
+        <div class="food-cat">Barcode: ${code}. Suche das Lebensmittel manuell.</div>
+      </div>`;
+  }
+  scannerResult.classList.add('show');
+
+  // Continue scanning after 3 seconds
+  setTimeout(() => {
+    scannerResult.classList.remove('show');
+    if (scanning) detectBarcode();
+  }, 4000);
+}
+
+// ===== PWA INSTALL =====
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBanner').classList.add('show');
+});
+
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('installBanner').classList.remove('show');
+});
+
+document.getElementById('installClose').addEventListener('click', () => {
+  document.getElementById('installBanner').classList.remove('show');
+});
+
+// Show iOS install hint
+if (/iPhone|iPad/.test(navigator.userAgent) && !window.navigator.standalone) {
+  const banner = document.getElementById('installBanner');
+  banner.querySelector('strong').textContent = 'Als App installieren';
+  banner.querySelector('span').textContent = 'Tippe auf Teilen → Zum Home-Bildschirm';
+  banner.querySelector('.install-btn').style.display = 'none';
+  banner.classList.add('show');
+}
+
+// ===== SERVICE WORKER =====
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
+// ===== NAV SCROLL =====
+window.addEventListener('scroll', () => {
+  document.querySelector('.topbar').style.boxShadow =
+    window.scrollY > 10 ? '0 1px 30px rgba(0,0,0,0.06)' : 'none';
+});
+
+// Initial render
+render();
+</script>
+
+</body>
+</html>
