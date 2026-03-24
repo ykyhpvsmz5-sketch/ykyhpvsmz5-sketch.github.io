@@ -66,11 +66,11 @@
 
         /* ===== HEADER ===== */
         .header {
-            padding: 14px 20px;
-            background: rgba(255,255,255,0.7);
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.8);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.04);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -78,27 +78,14 @@
             transition: var(--transition);
             position: relative;
             z-index: 50;
+            min-height: 60px;
         }
 
-        .header-logo {
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: var(--dark);
-        }
-
-        .header-logo svg {
-            width: 28px;
-            height: 28px;
-        }
-
-        .header-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--primary);
+            gap: 12px;
+            flex: 1;
         }
 
         .header-back {
@@ -109,10 +96,53 @@
             font-size: 24px;
             padding: 8px;
             transition: var(--transition);
+            display: none;
+            margin-right: 4px;
         }
 
         .header-back:hover {
             color: var(--primary-light);
+        }
+
+        .header-back.show {
+            display: block;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--dark);
+            flex: 1;
+        }
+
+        .header-logo svg {
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+        }
+
+        .header-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .header-title {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+
+        .header-subtitle {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--gray-500);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         /* ===== MAIN CONTENT ===== */
@@ -165,7 +195,7 @@
             font-size: 14px;
         }
 
-        .profile-badge {
+        .personalized-summary {
             background: var(--white);
             padding: 14px 16px;
             border-radius: var(--radius);
@@ -175,7 +205,7 @@
             border: 1px solid rgba(0,0,0,0.04);
         }
 
-        .badge-label {
+        .summary-label {
             color: var(--gray-500);
             display: block;
             margin-bottom: 6px;
@@ -184,10 +214,16 @@
             letter-spacing: 0.5px;
         }
 
-        .badge-value {
+        .summary-value {
             color: var(--primary);
             font-weight: 600;
             font-size: 15px;
+        }
+
+        .summary-subtext {
+            color: var(--gray-500);
+            font-size: 12px;
+            margin-top: 8px;
         }
 
         .quick-actions {
@@ -418,12 +454,14 @@
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 8px;
+            gap: 10px;
         }
 
         .food-name {
             font-weight: 600;
             font-size: 15px;
             color: var(--dark);
+            flex: 1;
         }
 
         .food-rating {
@@ -431,6 +469,7 @@
             padding: 4px 10px;
             border-radius: 6px;
             font-weight: 600;
+            white-space: nowrap;
         }
 
         .rating-0 {
@@ -448,10 +487,6 @@
         .rating-3 {
             background-color: rgba(211, 47, 47, 0.12);
             color: #D32F2F;
-        }
-        .rating-unknown {
-            background-color: rgba(144, 164, 174, 0.12);
-            color: #90a4ae;
         }
 
         .food-flags {
@@ -482,32 +517,169 @@
             line-height: 1.4;
         }
 
-        .personal-note {
+        .personal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
             font-size: 12px;
-            line-height: 1.4;
-            padding: 10px 12px;
-            border-radius: 8px;
-            margin-top: 8px;
-        }
-        .personal-note-green {
+            padding: 4px 8px;
             background: rgba(82, 183, 136, 0.1);
             color: #52b788;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-top: 6px;
         }
-        .personal-note-yellow {
-            background: rgba(255, 183, 77, 0.1);
+
+        /* ===== FOOD DETAIL MODAL ===== */
+        .food-detail-section {
+            margin-bottom: 24px;
+        }
+
+        .food-detail-section h3 {
+            font-size: 14px;
+            color: var(--gray-700);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .ampel-indicator {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            background: var(--gray-100);
+        }
+
+        .ampel-dot {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .ampel-0 {
+            background: rgba(82, 183, 136, 0.2);
+            color: #52b788;
+        }
+
+        .ampel-1 {
+            background: rgba(255, 183, 77, 0.2);
             color: #FFB74D;
         }
-        .personal-note-orange {
-            background: rgba(255, 152, 0, 0.1);
+
+        .ampel-2 {
+            background: rgba(255, 152, 0, 0.2);
             color: #FF9800;
         }
-        .personal-note-red {
-            background: rgba(211, 47, 47, 0.1);
+
+        .ampel-3 {
+            background: rgba(211, 47, 47, 0.2);
             color: #D32F2F;
         }
-        .personal-note-neutral {
-            background: rgba(144, 164, 174, 0.1);
+
+        .ampel-info {
+            flex: 1;
+        }
+
+        .ampel-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .ampel-description {
+            font-size: 12px;
             color: var(--gray-500);
+            line-height: 1.5;
+        }
+
+        .personalization-card {
+            background: var(--teal-50);
+            border: 1px solid rgba(27, 122, 110, 0.1);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+
+        .personalization-title {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .personalization-text {
+            font-size: 13px;
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips-list li {
+            padding: 10px;
+            padding-left: 24px;
+            position: relative;
+            font-size: 13px;
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+
+        .tips-list li::before {
+            content: '\u2192';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .categories-badges {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .category-badge {
+            font-size: 11px;
+            padding: 6px 10px;
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .test-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        .test-button:active {
+            background: var(--primary-dark);
+            transform: scale(0.98);
         }
 
         /* ===== SCANNER SECTION ===== */
@@ -678,6 +850,22 @@
             font-size: 18px;
             font-weight: 600;
             color: var(--dark);
+            flex: 1;
+        }
+
+        .modal-back {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 24px;
+            padding: 4px 8px;
+            transition: var(--transition);
+            margin-right: 8px;
+        }
+
+        .modal-back:hover {
+            color: var(--primary-dark);
         }
 
         .modal-close {
@@ -692,20 +880,6 @@
 
         .modal-close:hover {
             color: var(--gray-700);
-        }
-
-        .modal-back {
-            background: none;
-            border: none;
-            color: var(--primary);
-            cursor: pointer;
-            font-size: 24px;
-            padding: 4px;
-            transition: var(--transition);
-        }
-
-        .modal-back:hover {
-            color: var(--primary-dark);
         }
 
         /* ===== ONBOARDING ===== */
@@ -968,18 +1142,6 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
-            .intro-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .symptom-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .topics-grid {
-                grid-template-columns: 1fr;
-            }
-
             .modal-content {
                 max-width: 100%;
             }
@@ -1002,49 +1164,40 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--gray-400);
         }
-
-        .food-test-btns {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px solid rgba(0,0,0,0.06);
-        }
-
-        .food-test-btns button {
-            background: var(--gray-100);
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: 16px;
-            padding: 4px 10px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-            color: var(--gray-700);
-        }
-
-        .food-test-btns button:hover {
-            border-color: var(--primary);
-        }
-
-        .test-btn-active {
-            border-color: var(--primary) !important;
-            background: var(--teal-light) !important;
-            color: var(--primary) !important;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <a href="index.html" class="header-logo">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M8 12c0-1.657.895-3.102 2.234-3.891m0 7.782C8.895 15.102 8 13.657 8 12m4-7.234C10.102 3.105 11.547 2.21 13 2.21c1.453 0 2.898.895 3.766 2.555m-7.532 7.782C8.234 8.898 9.679 8.003 11.234 8.003m7.532 3.997c1.339.789 2.234 2.234 2.234 3.891m0-7.782c-1.339-.789-2.234-2.234-2.234-3.891"/>
-                </svg>
-                <span class="header-title">Salua</span>
-            </a>
-            <button class="header-back" id="header-back-btn" style="display:none;">←</button>
+            <div class="header-left">
+                <button class="header-back" id="header-back-btn">\u2190</button>
+                <a href="index.html" class="header-logo">
+                    <svg viewBox="0 0 90 90" height="38">
+                        <defs>
+                            <linearGradient id="headerLg" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stop-color="#54E5D4"/>
+                                <stop offset="60%" stop-color="#2A8C7F"/>
+                                <stop offset="100%" stop-color="#1A574E"/>
+                            </linearGradient>
+                            <linearGradient id="headerGloss" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#fff" stop-opacity="0.9"/>
+                                <stop offset="50%" stop-color="#fff" stop-opacity="0"/>
+                                <stop offset="100%" stop-color="#fff" stop-opacity="0.3"/>
+                            </linearGradient>
+                        </defs>
+                        <g transform="translate(10,20)">
+                            <path d="M 25,50 C 45,50 45,15 25,-5 C 5,15 5,50 25,50 Z" fill="url(#headerLg)" transform="rotate(-30 25 22.5)"/>
+                            <path d="M 55,60 C 75,60 75,25 55,5 C 35,25 35,60 55,60 Z" fill="url(#headerLg)" transform="rotate(15 55 32.5)"/>
+                            <path d="M 55,5 C 65,15 65,35 55,45" fill="none" stroke="url(#headerGloss)" stroke-width="1.5" stroke-linecap="round" transform="rotate(15 55 32.5) translate(-1,-3)"/>
+                        </g>
+                    </svg>
+                    <div class="header-info">
+                        <div class="header-title">Salua</div>
+                        <div class="header-subtitle">Ernährungskompass</div>
+                    </div>
+                </a>
+            </div>
         </div>
 
         <!-- Main Content -->
@@ -1056,9 +1209,10 @@
                     <p>Dein persönlicher Ernährungskompass für Histamin-Unverträglichkeit</p>
                 </div>
 
-                <div class="profile-badge">
-                    <span class="badge-label">Empfindlichkeitsstufe</span>
-                    <span class="badge-value" id="home-tolerance">Keine Angabe</span>
+                <div class="personalized-summary">
+                    <span class="summary-label">Für dich geeignet</span>
+                    <span class="summary-value" id="home-suitable-count">- Lebensmittel</span>
+                    <span class="summary-subtext" id="home-profile-info">Profil konfigurieren um Empfehlungen zu erhalten</span>
                 </div>
 
                 <div class="quick-actions">
@@ -1123,6 +1277,14 @@
                 </div>
 
                 <div class="profile-item">
+                    <div class="profile-label">Aktuelle Phase</div>
+                    <div class="profile-value" id="profile-phase">Elimination</div>
+                    <div class="profile-edit-btns">
+                        <button class="profile-edit-btn" id="edit-phase-btn">Ändern</button>
+                    </div>
+                </div>
+
+                <div class="profile-item">
                     <div class="profile-label">Bekannte Auslöser</div>
                     <div class="profile-value" id="profile-triggers">Keine</div>
                     <div class="profile-edit-btns">
@@ -1135,14 +1297,6 @@
                     <div class="profile-value" id="profile-exceptions">Keine</div>
                     <div class="profile-edit-btns">
                         <button class="profile-edit-btn" id="edit-exceptions-btn">Ändern</button>
-                    </div>
-                </div>
-
-                <div class="profile-item">
-                    <div class="profile-label">Aktuelle Phase</div>
-                    <div class="profile-value" id="profile-phase">Elimination</div>
-                    <div class="profile-edit-btns">
-                        <button class="profile-edit-btn" id="edit-phase-btn">Ändern</button>
                     </div>
                 </div>
 
@@ -1185,9 +1339,9 @@
 
             <!-- Step 1: Tolerance -->
             <div id="onboarding-step-1" class="onboarding-step active">
-                <div class="onboarding-progress">Schritt 1 von 3</div>
+                <div class="onboarding-progress">Schritt 1 von 4</div>
                 <div class="onboarding-progress-bar">
-                    <div class="onboarding-progress-fill" style="width: 33%;"></div>
+                    <div class="onboarding-progress-fill" style="width: 25%;"></div>
                 </div>
                 <h3 class="onboarding-title">Wie ist deine Empfindlichkeitsstufe?</h3>
                 <p class="onboarding-description">Dies hilft dir, bessere Empfehlungen zu erhalten.</p>
@@ -1213,11 +1367,41 @@
                 </div>
             </div>
 
-            <!-- Step 2: Triggers -->
+            <!-- Step 2: Phase -->
             <div id="onboarding-step-2" class="onboarding-step">
-                <div class="onboarding-progress">Schritt 2 von 3</div>
+                <div class="onboarding-progress">Schritt 2 von 4</div>
                 <div class="onboarding-progress-bar">
-                    <div class="onboarding-progress-fill" style="width: 66%;"></div>
+                    <div class="onboarding-progress-fill" style="width: 50%;"></div>
+                </div>
+                <h3 class="onboarding-title">Welche Phase befindest du dich?</h3>
+                <p class="onboarding-description">Dies bestimmt, welche Lebensmittel für dich geeignet sind.</p>
+
+                <div class="form-group">
+                    <label class="radio-option">
+                        <input type="radio" name="phase" value="elimination" required>
+                        <label><strong>Eliminationsphase</strong> - Strikte Diät</label>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="phase" value="reintroduction" required>
+                        <label><strong>Reintroduktionsphase</strong> - Testen</label>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="phase" value="maintenance" required>
+                        <label><strong>Erhaltungsphase</strong> - Langfristig</label>
+                    </label>
+                </div>
+
+                <div class="modal-buttons">
+                    <button class="btn btn-secondary" onclick="prevOnboardingStep(1)">Zurück</button>
+                    <button class="btn btn-primary" onclick="nextOnboardingStep(3)">Weiter</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Triggers -->
+            <div id="onboarding-step-3" class="onboarding-step">
+                <div class="onboarding-progress">Schritt 3 von 4</div>
+                <div class="onboarding-progress-bar">
+                    <div class="onboarding-progress-fill" style="width: 75%;"></div>
                 </div>
                 <h3 class="onboarding-title">Bekannte Auslöser</h3>
                 <p class="onboarding-description">Welche Kategorien lösen bei dir Reaktionen aus?</p>
@@ -1246,15 +1430,14 @@
                 </div>
 
                 <div class="modal-buttons">
-                    <button class="btn btn-secondary" onclick="prevOnboardingStep(1)">Zurück</button>
-                    <button class="btn btn-ghost" onclick="skipOnboarding()">Überspringen</button>
-                    <button class="btn btn-primary" onclick="nextOnboardingStep(3)">Weiter</button>
+                    <button class="btn btn-secondary" onclick="prevOnboardingStep(2)">Zurück</button>
+                    <button class="btn btn-primary" onclick="nextOnboardingStep(4)">Weiter</button>
                 </div>
             </div>
 
-            <!-- Step 3: Exceptions -->
-            <div id="onboarding-step-3" class="onboarding-step">
-                <div class="onboarding-progress">Schritt 3 von 3</div>
+            <!-- Step 4: Exceptions -->
+            <div id="onboarding-step-4" class="onboarding-step">
+                <div class="onboarding-progress">Schritt 4 von 4</div>
                 <div class="onboarding-progress-bar">
                     <div class="onboarding-progress-fill" style="width: 100%;"></div>
                 </div>
@@ -1267,7 +1450,7 @@
                 </div>
 
                 <div class="modal-buttons">
-                    <button class="btn btn-secondary" onclick="prevOnboardingStep(2)">Zurück</button>
+                    <button class="btn btn-secondary" onclick="prevOnboardingStep(3)">Zurück</button>
                     <button class="btn btn-primary" onclick="completeOnboarding()">Fertig</button>
                 </div>
             </div>
@@ -1300,6 +1483,36 @@
             <div class="modal-buttons">
                 <button class="btn btn-secondary" onclick="closeModal('tolerance-modal')">Abbrechen</button>
                 <button class="btn btn-primary" id="tolerance-save" onclick="saveTolerance()">Speichern</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phase Modal -->
+    <div id="phase-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Aktuelle Phase</h2>
+                <button class="modal-close" onclick="closeModal('phase-modal')">×</button>
+            </div>
+
+            <div class="form-group">
+                <label class="radio-option">
+                    <input type="radio" name="phase" value="elimination">
+                    <label><strong>Eliminationsphase</strong> - Beginn</label>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="phase" value="reintroduction">
+                    <label><strong>Reintroduktionsphase</strong> - Testen</label>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="phase" value="maintenance">
+                    <label><strong>Erhaltungsphase</strong> - Langfristig</label>
+                </label>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="closeModal('phase-modal')">Abbrechen</button>
+                <button class="btn btn-primary" id="phase-save" onclick="savePhase()">Speichern</button>
             </div>
         </div>
     </div>
@@ -1362,36 +1575,6 @@
         </div>
     </div>
 
-    <!-- Phase Modal -->
-    <div id="phase-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Aktuelle Phase</h2>
-                <button class="modal-close" onclick="closeModal('phase-modal')">×</button>
-            </div>
-
-            <div class="form-group">
-                <label class="radio-option">
-                    <input type="radio" name="phase" value="elimination">
-                    <label><strong>Eliminationsphase</strong> - Beginn</label>
-                </label>
-                <label class="radio-option">
-                    <input type="radio" name="phase" value="reintroduction">
-                    <label><strong>Reintroduktionsphase</strong> - Testen</label>
-                </label>
-                <label class="radio-option">
-                    <input type="radio" name="phase" value="maintenance">
-                    <label><strong>Erhaltungsphase</strong> - Langfristig</label>
-                </label>
-            </div>
-
-            <div class="modal-buttons">
-                <button class="btn btn-secondary" onclick="closeModal('phase-modal')">Abbrechen</button>
-                <button class="btn btn-primary" id="phase-save" onclick="savePhase()">Speichern</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Food Detail Modal -->
     <div id="food-detail-modal" class="modal">
         <div class="modal-content">
@@ -1412,19 +1595,154 @@
 
     <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.4/esm/html5-qrcode.min.js"></script>
     <script>
+        // ===== SIGHI FOOD DATABASE =====
+        const SIGHI_DB = {
+            'Gemüse': [
+                {name: 'Zucchini', rating: 0, category: 'Gemüse', triggers: []},
+                {name: 'Brokkoli', rating: 0, category: 'Gemüse', triggers: []},
+                {name: 'Blumenkohl', rating: 0, category: 'Gemüse', triggers: []},
+                {name: 'Gurke', rating: 0, category: 'Gemüse', triggers: []},
+                {name: 'Paprika (grün)', rating: 0, category: 'Gemüse', triggers: []},
+                {name: 'Spinat', rating: 0, category: 'Gemüse', triggers: []},
+                {name: 'Kopfsalat', rating: 0, category: 'Gemüse', triggers: []},
+                {name: 'Kartoffel', rating: 0, category: 'Gemüse', triggers: []},
+                {name: 'Karotte', rating: 1, category: 'Gemüse', triggers: []},
+                {name: 'Paprika (rot)', rating: 2, category: 'Gemüse', triggers: ['Amine']},
+                {name: 'Tomate', rating: 2, category: 'Gemüse', triggers: ['Histamin']},
+                {name: 'Aubergine', rating: 3, category: 'Gemüse', triggers: ['Histamin']},
+                {name: 'Sauerkraut', rating: 3, category: 'Gemüse', triggers: ['Histamin', 'Fermentiert']},
+                {name: 'Spinat (gekocht)', rating: 3, category: 'Gemüse', triggers: ['Histamin']},
+                {name: 'Avocado', rating: 3, category: 'Gemüse', triggers: ['Histamin', 'Amine']},
+            ],
+            'Obst': [
+                {name: 'Apfel', rating: 0, category: 'Obst', triggers: []},
+                {name: 'Birne', rating: 0, category: 'Obst', triggers: []},
+                {name: 'Traube (frisch)', rating: 1, category: 'Obst', triggers: []},
+                {name: 'Blaubeere', rating: 1, category: 'Obst', triggers: []},
+                {name: 'Melone', rating: 1, category: 'Obst', triggers: []},
+                {name: 'Mango', rating: 1, category: 'Obst', triggers: []},
+                {name: 'Orange', rating: 2, category: 'Obst', triggers: ['Amine']},
+                {name: 'Zitrone', rating: 0, category: 'Obst', triggers: []},
+                {name: 'Banane', rating: 1, category: 'Obst', triggers: ['Amine']},
+                {name: 'Erdbeere', rating: 2, category: 'Obst', triggers: ['Histamin']},
+                {name: 'Kiwi', rating: 2, category: 'Obst', triggers: ['Histamin', 'Amine']},
+                {name: 'Johannisbeere', rating: 2, category: 'Obst', triggers: ['Histamin']},
+                {name: 'Himbeere', rating: 3, category: 'Obst', triggers: ['Histamin']},
+                {name: 'Brombeere', rating: 3, category: 'Obst', triggers: ['Histamin']},
+                {name: 'Pflaume', rating: 3, category: 'Obst', triggers: ['Histamin']},
+                {name: 'Feige', rating: 3, category: 'Obst', triggers: ['Histamin']},
+                {name: 'Trockenobst', rating: 3, category: 'Obst', triggers: ['Histamin']},
+            ],
+            'Fleisch & Fisch': [
+                {name: 'Huhn (frisch)', rating: 0, category: 'Fleisch & Fisch', triggers: []},
+                {name: 'Rind (frisch)', rating: 0, category: 'Fleisch & Fisch', triggers: []},
+                {name: 'Schwein (frisch)', rating: 0, category: 'Fleisch & Fisch', triggers: []},
+                {name: 'Pute (frisch)', rating: 0, category: 'Fleisch & Fisch', triggers: []},
+                {name: 'Lammfleisch (frisch)', rating: 0, category: 'Fleisch & Fisch', triggers: []},
+                {name: 'Forelle (frisch)', rating: 1, category: 'Fleisch & Fisch', triggers: []},
+                {name: 'Kabeljau (frisch)', rating: 1, category: 'Fleisch & Fisch', triggers: []},
+                {name: 'Seelachs (frisch)', rating: 1, category: 'Fleisch & Fisch', triggers: []},
+                {name: 'Schinken', rating: 2, category: 'Fleisch & Fisch', triggers: ['Histamin']},
+                {name: 'Wurst', rating: 2, category: 'Fleisch & Fisch', triggers: ['Histamin']},
+                {name: 'Salami', rating: 3, category: 'Fleisch & Fisch', triggers: ['Histamin']},
+                {name: 'Thunfisch (konserviert)', rating: 3, category: 'Fleisch & Fisch', triggers: ['Histamin']},
+                {name: 'Sardinen', rating: 3, category: 'Fleisch & Fisch', triggers: ['Histamin']},
+                {name: 'Makrele', rating: 3, category: 'Fleisch & Fisch', triggers: ['Histamin']},
+                {name: 'Hering', rating: 3, category: 'Fleisch & Fisch', triggers: ['Histamin']},
+            ],
+            'Milchprodukte': [
+                {name: 'Milch (frisch)', rating: 0, category: 'Milchprodukte', triggers: []},
+                {name: 'Sahne', rating: 0, category: 'Milchprodukte', triggers: []},
+                {name: 'Ricotta', rating: 1, category: 'Milchprodukte', triggers: []},
+                {name: 'Mascarpone', rating: 1, category: 'Milchprodukte', triggers: []},
+                {name: 'Butter', rating: 0, category: 'Milchprodukte', triggers: []},
+                {name: 'Joghurt (frisch)', rating: 1, category: 'Milchprodukte', triggers: []},
+                {name: 'Quark', rating: 1, category: 'Milchprodukte', triggers: []},
+                {name: 'Käse (frisch)', rating: 2, category: 'Milchprodukte', triggers: ['Histamin']},
+                {name: 'Cheddar', rating: 3, category: 'Milchprodukte', triggers: ['Histamin']},
+                {name: 'Parmesan', rating: 3, category: 'Milchprodukte', triggers: ['Histamin']},
+                {name: 'Blauschimmelkäse', rating: 3, category: 'Milchprodukte', triggers: ['Histamin', 'Amine']},
+                {name: 'Brie', rating: 3, category: 'Milchprodukte', triggers: ['Histamin']},
+            ],
+            'Getreide': [
+                {name: 'Weizen', rating: 0, category: 'Getreide', triggers: []},
+                {name: 'Roggen', rating: 0, category: 'Getreide', triggers: []},
+                {name: 'Hafer', rating: 0, category: 'Getreide', triggers: []},
+                {name: 'Reis (weiß)', rating: 0, category: 'Getreide', triggers: []},
+                {name: 'Mais', rating: 0, category: 'Getreide', triggers: []},
+                {name: 'Quinoa', rating: 0, category: 'Getreide', triggers: []},
+                {name: 'Hirse', rating: 0, category: 'Getreide', triggers: []},
+                {name: 'Pasta (frisch)', rating: 0, category: 'Getreide', triggers: []},
+                {name: 'Brot', rating: 1, category: 'Getreide', triggers: []},
+            ],
+            'Hülsenfrüchte': [
+                {name: 'Linsen (frisch gekocht)', rating: 0, category: 'Hülsenfrüchte', triggers: []},
+                {name: 'Kichererbsen', rating: 0, category: 'Hülsenfrüchte', triggers: []},
+                {name: 'Weiße Bohnen', rating: 1, category: 'Hülsenfrüchte', triggers: []},
+                {name: 'Soja', rating: 1, category: 'Hülsenfrüchte', triggers: ['Amine']},
+                {name: 'Linsen (Konserve)', rating: 2, category: 'Hülsenfrüchte', triggers: ['Histamin']},
+            ],
+            'Getränke': [
+                {name: 'Wasser', rating: 0, category: 'Getränke', triggers: []},
+                {name: 'Frischer Saft (Apfel)', rating: 0, category: 'Getränke', triggers: []},
+                {name: 'Milch', rating: 0, category: 'Getränke', triggers: []},
+                {name: 'Wein (rot)', rating: 3, category: 'Getränke', triggers: ['Histamin']},
+                {name: 'Bier', rating: 2, category: 'Getränke', triggers: ['Histamin', 'Fermentiert']},
+                {name: 'Champagner', rating: 3, category: 'Getränke', triggers: ['Histamin', 'Fermentiert']},
+                {name: 'Kakao', rating: 2, category: 'Getränke', triggers: ['Amine']},
+                {name: 'Kaffee', rating: 2, category: 'Getränke', triggers: ['Amine']},
+                {name: 'Schwarztee', rating: 2, category: 'Getränke', triggers: ['Amine']},
+                {name: 'Grüntee', rating: 1, category: 'Getränke', triggers: ['Amine']},
+            ],
+            'Gewürze & Kräuter': [
+                {name: 'Salz', rating: 0, category: 'Gewürze & Kräuter', triggers: []},
+                {name: 'Zucker', rating: 0, category: 'Gewürze & Kräuter', triggers: []},
+                {name: 'Dill', rating: 0, category: 'Gewürze & Kräuter', triggers: []},
+                {name: 'Petersilie', rating: 0, category: 'Gewürze & Kräuter', triggers: []},
+                {name: 'Basilikum', rating: 0, category: 'Gewürze & Kräuter', triggers: []},
+                {name: 'Oregano', rating: 1, category: 'Gewürze & Kräuter', triggers: ['Amine']},
+                {name: 'Paprika (Gewürz)', rating: 2, category: 'Gewürze & Kräuter', triggers: ['Amine']},
+                {name: 'Chili', rating: 2, category: 'Gewürze & Kräuter', triggers: ['Amine']},
+                {name: 'Zimt', rating: 1, category: 'Gewürze & Kräuter', triggers: ['Amine']},
+                {name: 'Vanilla', rating: 0, category: 'Gewürze & Kräuter', triggers: []},
+                {name: 'Majoran', rating: 1, category: 'Gewürze & Kräuter', triggers: ['Amine']},
+                {name: 'Muskatnuss', rating: 1, category: 'Gewürze & Kräuter', triggers: []},
+                {name: 'Thymian', rating: 1, category: 'Gewürze & Kräuter', triggers: ['Amine']},
+            ],
+            'Nüsse & Samen': [
+                {name: 'Mandel', rating: 1, category: 'Nüsse & Samen', triggers: []},
+                {name: 'Haselnuss', rating: 1, category: 'Nüsse & Samen', triggers: []},
+                {name: 'Pinienkerne', rating: 1, category: 'Nüsse & Samen', triggers: []},
+                {name: 'Sesam', rating: 1, category: 'Nüsse & Samen', triggers: []},
+                {name: 'Erdnuss', rating: 1, category: 'Nüsse & Samen', triggers: ['Amine']},
+                {name: 'Walnuss', rating: 1, category: 'Nüsse & Samen', triggers: []},
+                {name: 'Cashew', rating: 2, category: 'Nüsse & Samen', triggers: ['Amine']},
+                {name: 'Pistazien', rating: 3, category: 'Nüsse & Samen', triggers: ['Amine']},
+            ],
+            'Fermentierte Lebensmittel': [
+                {name: 'Kombucha', rating: 3, category: 'Fermentierte Lebensmittel', triggers: ['Histamin', 'Fermentiert']},
+                {name: 'Kimchi', rating: 3, category: 'Fermentierte Lebensmittel', triggers: ['Histamin', 'Fermentiert']},
+                {name: 'Tempeh', rating: 2, category: 'Fermentierte Lebensmittel', triggers: ['Histamin', 'Fermentiert']},
+                {name: 'Miso', rating: 3, category: 'Fermentierte Lebensmittel', triggers: ['Histamin', 'Fermentiert']},
+                {name: 'Sauerkraut', rating: 3, category: 'Fermentierte Lebensmittel', triggers: ['Histamin', 'Fermentiert']},
+                {name: 'Joghurt (gereift)', rating: 2, category: 'Fermentierte Lebensmittel', triggers: ['Histamin', 'Fermentiert']},
+            ]
+        };
+
         // ===== APP STATE & PROFILE =====
         let appState = {
             profile: {
                 tolerance: 'medium',
+                phase: 'elimination',
                 triggers: [],
                 exceptions: [],
-                phase: 'elimination',
                 testedFoods: {}
             },
             currentTab: 'home',
             lastAction: null,
             scanner: null,
-            currentFilter: 'all'
+            currentFilter: 'all',
+            navigationHistory: ['home']
         };
 
         // Load profile from localStorage
@@ -1436,23 +1754,43 @@
                 showOnboarding();
             }
             updateProfileDisplay();
+            updateSuitableCount();
         }
 
         function saveProfile() {
             localStorage.setItem('salua-profile', JSON.stringify(appState.profile));
             updateProfileDisplay();
+            updateSuitableCount();
             showToast('Profil gespeichert ✓');
         }
 
         function updateProfileDisplay() {
             const toleranceMap = {low: 'Niedrig', medium: 'Mittel', high: 'Hoch'};
-            const phaseMap = {elimination: 'Elimination', reintroduction: 'Reintroduktion', maintenance: 'Erhaltung'};
+            const phaseMap = {elimination: 'Eliminationsphase', reintroduction: 'Reintroduktionsphase', maintenance: 'Erhaltungsphase'};
 
-            document.getElementById('home-tolerance').textContent = toleranceMap[appState.profile.tolerance];
             document.getElementById('profile-tolerance').textContent = toleranceMap[appState.profile.tolerance];
+            document.getElementById('profile-phase').textContent = phaseMap[appState.profile.phase];
             document.getElementById('profile-triggers').textContent = appState.profile.triggers.length > 0 ? appState.profile.triggers.join(', ') : 'Keine';
             document.getElementById('profile-exceptions').textContent = appState.profile.exceptions.length > 0 ? appState.profile.exceptions.join(', ') : 'Keine';
-            document.getElementById('profile-phase').textContent = phaseMap[appState.profile.phase];
+        }
+
+        function updateSuitableCount() {
+            let count = 0;
+            for (const category in SIGHI_DB) {
+                SIGHI_DB[category].forEach(food => {
+                    if (isFoodSuitable(food)) count++;
+                });
+            }
+            const countEl = document.getElementById('home-suitable-count');
+            const infoEl = document.getElementById('home-profile-info');
+            countEl.textContent = `${count} Lebensmittel`;
+            infoEl.textContent = getPersonalizedProfileSummary();
+        }
+
+        function getPersonalizedProfileSummary() {
+            const phaseMap = {elimination: 'Eliminationsphase', reintroduction: 'Reintroduktionsphase', maintenance: 'Erhaltungsphase'};
+            const tolMap = {low: 'mit niedriger Empfindlichkeit', medium: 'mit mittlerer Empfindlichkeit', high: 'mit hoher Empfindlichkeit'};
+            return `${phaseMap[appState.profile.phase]} ${tolMap[appState.profile.tolerance]}`;
         }
 
         // ===== MODAL FUNCTIONS =====
@@ -1470,16 +1808,14 @@
 
         // ===== ONBOARDING FLOW =====
         function nextOnboardingStep(step) {
-            // Hide all steps
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 4; i++) {
                 document.getElementById(`onboarding-step-${i}`).classList.remove('active');
             }
-            // Show next step
             document.getElementById(`onboarding-step-${step}`).classList.add('active');
         }
 
         function prevOnboardingStep(step) {
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 4; i++) {
                 document.getElementById(`onboarding-step-${i}`).classList.remove('active');
             }
             document.getElementById(`onboarding-step-${step}`).classList.add('active');
@@ -1491,6 +1827,7 @@
 
         function completeOnboarding() {
             const tolerance = document.querySelector('input[name="tolerance"]:checked')?.value || 'medium';
+            const phase = document.querySelector('input[name="phase"]:checked')?.value || 'elimination';
             const triggers = Array.from(document.querySelectorAll('input[name="triggers"]:checked')).map(el => el.value);
             const exceptions = document.getElementById('onboarding-exceptions').value
                 .split(/[,\n]+/)
@@ -1498,220 +1835,153 @@
                 .filter(e => e.length > 0);
 
             appState.profile.tolerance = tolerance;
+            appState.profile.phase = phase;
             appState.profile.triggers = triggers;
             appState.profile.exceptions = exceptions;
+
             saveProfile();
             closeModal('onboarding-modal');
         }
 
-        // ===== PROFILE MANAGEMENT =====
-        function saveTolerance() {
-            appState.profile.tolerance = document.querySelector('input[name="tol"]:checked').value;
-            saveProfile();
-            closeModal('tolerance-modal');
-        }
-
-        function saveTriggers() {
-            appState.profile.triggers = Array.from(document.querySelectorAll('input[name="trig"]:checked')).map(el => el.value);
-            saveProfile();
-            closeModal('triggers-modal');
-        }
-
-        function saveExceptions() {
-            appState.profile.exceptions = document.getElementById('exceptions-text').value
-                .split(/[,\n]+/)
-                .map(e => e.trim())
-                .filter(e => e.length > 0);
-            saveProfile();
-            closeModal('exceptions-modal');
-        }
-
-        function savePhase() {
-            appState.profile.phase = document.querySelector('input[name="phase"]:checked').value;
-            saveProfile();
-            closeModal('phase-modal');
-        }
-
-        // ===== TAB SWITCHING =====
-        function switchTab(tabName) {
-            // Hide all sections
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            // Show active section
-            document.getElementById(tabName + '-section').classList.add('active');
-
-            // Update nav tabs
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-
-            appState.currentTab = tabName;
-
-            // Initialize category list on first switch
-            if (tabName === 'categories') {
-                initializeCategories();
+        // ===== BACK BUTTON & NAVIGATION =====
+        function switchTab(tab, pushHistory = true) {
+            if (pushHistory && tab !== appState.currentTab) {
+                appState.navigationHistory.push(tab);
             }
+            appState.currentTab = tab;
+
+            document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab + '-section').classList.add('active');
+
+            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+
+            updateBackButton();
         }
 
-        // ===== CATEGORIES =====
-        function initializeCategories() {
-            if (document.getElementById('category-grid').children.length > 0) return;
-
-            const categories = {};
-            SIGHI_DB.forEach(food => {
-                if (!categories[food.category]) {
-                    categories[food.category] = 0;
-                }
-                categories[food.category]++;
-            });
-
-            const grid = document.getElementById('category-grid');
-            grid.innerHTML = '';
-
-            Object.entries(categories).sort().forEach(([cat, count]) => {
-                const item = document.createElement('div');
-                item.className = 'category-item';
-                item.innerHTML = `
-                    <div>
-                        <h3>${cat}</h3>
-                        <span class="category-count">${count} Lebensmittel</span>
-                    </div>
-                    <span class="category-item-arrow">→</span>
-                `;
-                item.onclick = () => showCategory(cat);
-                grid.appendChild(item);
-            });
-        }
-
-        function showCategory(category) {
-            const foods = SIGHI_DB.filter(f => f.category === category);
-            appState.currentFilter = 'all';
-            displayFoods(foods, 'search-results', true);
-            switchTab('search');
-        }
-
-        // ===== SEARCH =====
-        function searchFoods(query) {
-            if (!query.trim()) {
-                document.getElementById('search-results').innerHTML = '<p style="padding: 20px; color: var(--gray-500); text-align: center;">Gib einen Suchbegriff ein...</p>';
-                return;
-            }
-
-            const results = SIGHI_DB.filter(food => {
-                const searchStr = `${food.name} ${food.keywords.join(' ')}`.toLowerCase();
-                return searchStr.includes(query.toLowerCase());
-            });
-
-            displayFoods(results, 'search-results');
-        }
-
-        function filterBy(filter) {
-            appState.currentFilter = filter;
-            document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
-            event.target.classList.add('active');
-
-            const resultsDiv = document.getElementById('search-results');
-            const foods = Array.from(resultsDiv.querySelectorAll('.food-card')).map(card => {
-                return SIGHI_DB.find(f => f.name === card.getAttribute('data-food-name'));
-            });
-
-            if (filter === 'all') {
-                displayFoods(foods, 'search-results');
+        function updateBackButton() {
+            const backBtn = document.getElementById('header-back-btn');
+            if (appState.currentTab === 'home') {
+                backBtn.classList.remove('show');
             } else {
-                const rating = filter.split('-')[1];
-                const filtered = foods.filter(f => f.rating.toString() === rating);
-                displayFoods(filtered, 'search-results');
+                backBtn.classList.add('show');
             }
         }
 
-        function displayFoods(foods, containerId, isCategory = false) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
+        document.getElementById('header-back-btn')?.addEventListener('click', () => {
+            if (appState.navigationHistory.length > 1) {
+                appState.navigationHistory.pop();
+                const prevTab = appState.navigationHistory[appState.navigationHistory.length - 1];
+                switchTab(prevTab, false);
+            }
+        });
 
-            if (foods.length === 0) {
-                container.innerHTML = '<p style="padding: 20px; color: var(--gray-500); text-align: center;">Keine Lebensmittel gefunden</p>';
-                return;
+        // ===== FOOD DATA HELPERS =====
+        function isFoodSuitable(food) {
+            if (appState.profile.exceptions.some(e => e.toLowerCase() === food.name.toLowerCase())) {
+                return true;
             }
 
-            foods.forEach(food => {
-                const card = createFoodCard(food);
-                container.appendChild(card);
-            });
+            if (appState.profile.phase === 'elimination') {
+                if (appState.profile.tolerance === 'low') return food.rating === 0;
+                if (appState.profile.tolerance === 'medium') return food.rating <= 1;
+                if (appState.profile.tolerance === 'high') return food.rating <= 2;
+            } else if (appState.profile.phase === 'reintroduction') {
+                if (appState.profile.tolerance === 'low') return food.rating <= 1;
+                if (appState.profile.tolerance === 'medium') return food.rating <= 2;
+                if (appState.profile.tolerance === 'high') return food.rating <= 3;
+            }
+            return true;
         }
 
-        function createFoodCard(food) {
-            const card = document.createElement('div');
-            card.className = `food-card rating-${food.rating}`;
-            card.setAttribute('data-food-name', food.name);
-            card.onclick = () => showFoodDetail(food);
+        function getAmpelInfo(rating) {
+            const ampel = {
+                0: {color: '#52b788', label: 'Grün - Gut verträglich', text: 'Gut verträglich'},
+                1: {color: '#FFB74D', label: 'Gelb - Vorsicht', text: 'Vorsicht, individuell testen'},
+                2: {color: '#FF9800', label: 'Orange - Häufig problematisch', text: 'Häufig problematisch'},
+                3: {color: '#D32F2F', label: 'Rot - Meiden', text: 'Sollte gemieden werden'}
+            };
+            return ampel[rating] || ampel[0];
+        }
 
-            const ratingTexts = ['Grün ✓', 'Gelb ⚠', 'Orange ⚠', 'Rot ✗'];
-            const ratingClasses = ['rating-0', 'rating-1', 'rating-2', 'rating-3'];
-
-            let flags = '';
-            if (food.histamin) flags += `<span class="flag">Histamin</span>`;
-            if (food.amine) flags += `<span class="flag">Amin</span>`;
-            if (food.liberator) flags += `<span class="flag">Liberator</span>`;
-
-            let personalNote = '';
-            if (appState.profile.exceptions.some(ex => food.name.toLowerCase().includes(ex.toLowerCase()) || ex.toLowerCase().includes(food.name.toLowerCase()))) {
-                personalNote = `<div class="personal-note personal-note-green">✓ Deine Ausnahme: Du verträgst dies gut</div>`;
+        function getPersonalizedMessage(food) {
+            if (appState.profile.exceptions.some(e => e.toLowerCase() === food.name.toLowerCase())) {
+                return `Dieses Lebensmittel steht auf deiner Ausnahmeliste – du verträgst es persönlich gut. ✓`;
             }
 
-            card.innerHTML = `
-                <div class="food-header">
-                    <span class="food-name">${food.name}</span>
-                    <span class="food-rating ${ratingClasses[food.rating]}">${ratingTexts[food.rating]}</span>
-                </div>
-                <div class="food-category">${food.category} • ${food.mainCategory}</div>
-                ${flags ? `<div class="food-flags">${flags}</div>` : ''}
-                ${food.note ? `<div class="food-note">${food.note}</div>` : ''}
-                ${personalNote}
-            `;
-
-            return card;
+            if (appState.profile.phase === 'elimination') {
+                if (food.rating > 0) {
+                    return `Du befindest dich in der Eliminationsphase. Dieses Lebensmittel sollte aktuell vermieden werden.`;
+                } else {
+                    return `Du befindest dich in der Eliminationsphase. Dieses Lebensmittel ist sicher.`;
+                }
+            } else if (appState.profile.phase === 'reintroduction') {
+                return `Du befindest dich in der Reintroduktionsphase. Dieses Lebensmittel kann schrittweise getestet werden.`;
+            } else {
+                return `Du befindest dich in der Erhaltungsphase. Nutze dein Verträglichkeitswissen für persönliche Entscheidungen.`;
+            }
         }
 
+        // ===== FOOD DETAIL MODAL =====
         function showFoodDetail(food) {
-            const content = document.getElementById('food-detail-content');
-            const ratingTexts = ['Grün ✓', 'Gelb ⚠', 'Orange ⚠', 'Rot ✗'];
-            const ratingClasses = ['rating-0', 'rating-1', 'rating-2', 'rating-3'];
+            document.getElementById('detail-food-name').textContent = food.name;
 
-            let flags = '';
-            if (food.histamin) flags += '<li><strong>Histamin:</strong> Hoher Histamingehalt</li>';
-            if (food.amine) flags += '<li><strong>Amine:</strong> Biogene Amine</li>';
-            if (food.liberator) flags += '<li><strong>Histaminliberator:</strong> Triggert Histaminfreisetzung</li>';
-            if (food.blocker) flags += '<li><strong>Histaminblocker:</strong> Kann hilfreich sein</li>';
+            const ampel = getAmpelInfo(food.rating);
+            const detail = document.getElementById('food-detail-content');
 
-            content.innerHTML = `
-                <div style="margin-bottom: 20px;">
-                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
-                        <div>
-                            <p style="color: var(--gray-500); font-size: 13px; margin-bottom: 4px;">${food.category} • ${food.mainCategory}</p>
-                            <h3 style="font-size: 20px; color: var(--dark);">${food.name}</h3>
+            let html = `
+                <div class="food-detail-section">
+                    <div class="ampel-indicator">
+                        <div class="ampel-dot ampel-${food.rating}">●</div>
+                        <div class="ampel-info">
+                            <div class="ampel-title">${ampel.label}</div>
+                            <div class="ampel-description">${ampel.text}</div>
                         </div>
-                        <span class="food-rating ${ratingClasses[food.rating]}" style="font-size: 12px;">${ratingTexts[food.rating]}</span>
                     </div>
-
-                    ${food.note ? `<p style="color: var(--gray-700); margin: 12px 0; font-size: 14px;">${food.note}</p>` : ''}
-
-                    ${flags ? `<div style="background: var(--teal-50); padding: 12px 14px; border-radius: 10px; margin: 12px 0;">
-                        <ul style="list-style: none; font-size: 13px; color: var(--gray-700);">
-                            ${flags}
-                        </ul>
-                    </div>` : ''}
                 </div>
 
-                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.06);">
-                    <p style="font-size: 12px; color: var(--gray-500); margin-bottom: 12px;"><strong>Getestet?</strong></p>
-                    <div class="food-test-btns">
-                        <button onclick="markFoodTested('${food.name}', 'green')" class="test-btn-${appState.profile.testedFoods[food.name] === 'green' ? 'active' : ''}">✓ Grün</button>
-                        <button onclick="markFoodTested('${food.name}', 'yellow')" class="test-btn-${appState.profile.testedFoods[food.name] === 'yellow' ? 'active' : ''}">⚠ Gelb</button>
-                        <button onclick="markFoodTested('${food.name}', 'red')" class="test-btn-${appState.profile.testedFoods[food.name] === 'red' ? 'active' : ''}">✗ Rot</button>
-                        <button onclick="markFoodTested('${food.name}', null)">Löschen</button>
+                <div class="food-detail-section">
+                    <h3>Für DICH bedeutet das:</h3>
+                    <div class="personalization-card">
+                        <div class="personalization-text">${getPersonalizedMessage(food)}</div>
                     </div>
                 </div>
             `;
 
-            document.getElementById('detail-food-name').textContent = food.name;
+            if (food.triggers.length > 0) {
+                html += `
+                    <div class="food-detail-section">
+                        <h3>Auslöser-Kategorien</h3>
+                        <div class="categories-badges">
+                            ${food.triggers.map(t => `<span class="category-badge">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div class="food-detail-section">
+                    <h3>Praktische Tipps</h3>
+                    <ul class="tips-list">
+                        <li>Frische ist wichtig – je frischer das Produkt, desto niedriger die Histaminwerte</li>
+                        <li>Lagern Sie das Lebensmittel immer im Kühlschrank</li>
+                        <li>Vermeiden Sie längeres Lagern, auch nicht bei niedriger Temperatur</li>
+                        <li>Verarbeitete oder fermentierte Varianten haben höhere Histaminwerte</li>
+                    </ul>
+                </div>
+            `;
+
+            if (appState.profile.phase === 'reintroduction') {
+                html += `
+                    <div class="food-detail-section">
+                        <h3>Reintroduktions-Test</h3>
+                        <button class="test-button" onclick="markFoodTested('${food.name}', true)">✓ Verträglich</button>
+                        <button class="test-button" style="background: #D32F2F; margin-top: 8px;" onclick="markFoodTested('${food.name}', false)">✗ Unverträglich</button>
+                    </div>
+                `;
+            }
+
+            detail.innerHTML = html;
             openModal('food-detail-modal');
         }
 
@@ -1719,363 +1989,223 @@
             closeModal('food-detail-modal');
         }
 
-        function markFoodTested(foodName, rating) {
-            if (rating) {
-                appState.profile.testedFoods[foodName] = rating;
-            } else {
-                delete appState.profile.testedFoods[foodName];
-            }
+        function markFoodTested(foodName, compatible) {
+            appState.profile.testedFoods[foodName] = compatible ? 'ok' : 'bad';
             saveProfile();
-            showFoodDetail(SIGHI_DB.find(f => f.name === foodName));
+            showToast(`${foodName} als ${compatible ? 'verträglich' : 'unverträglich'} markiert`);
+            closeFoodDetail();
         }
 
+        // ===== SEARCH & FILTER =====
+        function performSearch() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const results = [];
+
+            for (const category in SIGHI_DB) {
+                SIGHI_DB[category].forEach(food => {
+                    if (food.name.toLowerCase().includes(query) && isFoodSuitable(food)) {
+                        results.push(food);
+                    }
+                });
+            }
+
+            displayFoodCards(results);
+        }
+
+        function filterBy(filter) {
+            appState.currentFilter = filter;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            performSearch();
+        }
+
+        function displayFoodCards(foods) {
+            const container = document.getElementById('search-results');
+
+            if (foods.length === 0) {
+                container.innerHTML = '<div style="padding: 40px 20px; text-align: center; color: var(--gray-500);">Keine Lebensmittel gefunden</div>';
+                return;
+            }
+
+            let filtered = foods;
+            if (appState.currentFilter !== 'all') {
+                filtered = foods.filter(f => `rating-${f.rating}` === appState.currentFilter);
+            }
+
+            container.innerHTML = filtered.map(food => `
+                <div class="food-card rating-${food.rating}" onclick="showFoodDetail(${JSON.stringify(food).replace(/"/g, '&quot;')})">
+                    <div class="food-header">
+                        <span class="food-name">${food.name}</span>
+                        <span class="food-rating rating-${food.rating}">${getAmpelInfo(food.rating).text}</span>
+                    </div>
+                    <div class="food-category">${food.category}</div>
+                    ${food.triggers.length > 0 ? `<div class="food-flags">${food.triggers.map(t => `<span class="flag">${t}</span>`).join('')}</div>` : ''}
+                    ${appState.profile.exceptions.some(e => e.toLowerCase() === food.name.toLowerCase()) ? '<div class="personal-badge">✓ Persönlich verträglich</div>' : ''}
+                </div>
+            `).join('');
+        }
+
+        function displayCategoryFoods(category) {
+            const foods = SGHI_DB[category] || [];
+            displayFoodCards(foods);
+        }
+
+        // ===== CATEGORIES =====
+        function loadCategories() {
+            const grid = document.getElementById('category-grid');
+            grid.innerHTML = Object.keys(SIGHI_DB).map(category => `
+                <div class="category-item" onclick="showCategoryFoods('${category}')">
+                    <div>
+                        <div class="category-item h3">${category}</div>
+                        <div class="category-count">${SIGHI_DB[category].length} Lebensmittel</div>
+                    </div>
+                    <div class="category-item-arrow">→</div>
+                </div>
+            `).join('');
+        }
+
+        function showCategoryFoods(category) {
+            const foods = SIGHI_DB[category];
+            switchTab('search');
+            document.getElementById('search-input').value = '';
+            displayFoodCards(foods.filter(f => isFoodSuitable(f)));
+        }
+
+        // ===== PROFILE MODALS =====
+        function saveTolerance() {
+            const tol = document.querySelector('input[name="tol"]:checked')?.value;
+            if (tol) {
+                appState.profile.tolerance = tol;
+                saveProfile();
+                closeModal('tolerance-modal');
+            }
+        }
+
+        function savePhase() {
+            const phase = document.querySelector('input[name="phase"]:checked')?.value;
+            if (phase) {
+                appState.profile.phase = phase;
+                saveProfile();
+                closeModal('phase-modal');
+            }
+        }
+
+        function saveTriggers() {
+            const triggers = Array.from(document.querySelectorAll('input[name="trig"]:checked')).map(el => el.value);
+            appState.profile.triggers = triggers;
+            saveProfile();
+            closeModal('triggers-modal');
+        }
+
+        function saveExceptions() {
+            const text = document.getElementById('exceptions-text').value;
+            const exceptions = text.split(/[,\n]+/).map(e => e.trim()).filter(e => e.length > 0);
+            appState.profile.exceptions = exceptions;
+            saveProfile();
+            closeModal('exceptions-modal');
+        }
+
+        document.getElementById('edit-tolerance-btn')?.addEventListener('click', () => {
+            document.querySelector(`input[name="tol"][value="${appState.profile.tolerance}"]`).checked = true;
+            openModal('tolerance-modal');
+        });
+
+        document.getElementById('edit-phase-btn')?.addEventListener('click', () => {
+            document.querySelector(`input[name="phase"][value="${appState.profile.phase}"]`).checked = true;
+            openModal('phase-modal');
+        });
+
+        document.getElementById('edit-triggers-btn')?.addEventListener('click', () => {
+            appState.profile.triggers.forEach(t => {
+                document.querySelector(`input[name="trig"][value="${t}"]`).checked = true;
+            });
+            openModal('triggers-modal');
+        });
+
+        document.getElementById('edit-exceptions-btn')?.addEventListener('click', () => {
+            document.getElementById('exceptions-text').value = appState.profile.exceptions.join('\n');
+            openModal('exceptions-modal');
+        });
+
+        document.getElementById('reset-profile-btn')?.addEventListener('click', () => {
+            if (confirm('Profil wirklich zurücksetzen?')) {
+                localStorage.removeItem('salua-profile');
+                appState.profile = {tolerance: 'medium', phase: 'elimination', triggers: [], exceptions: [], testedFoods: {}};
+                updateProfileDisplay();
+                updateSuitableCount();
+                showToast('Profil zurückgesetzt');
+            }
+        });
+
+        // ===== SEARCH EVENTS =====
+        document.getElementById('search-btn')?.addEventListener('click', performSearch);
+        document.getElementById('search-input')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
+
         // ===== SCANNER =====
-        let html5QrCode = null;
+        let scanner = null;
 
-        async function startScanner() {
+        document.getElementById('start-scan-btn')?.addEventListener('click', async () => {
             try {
-                html5QrCode = new Html5Qrcode("scanner-container");
-                const cameraId = (await Html5Qrcode.getCameras())[0].id;
+                if (!scanner) {
+                    scanner = new Html5Qrcode('scanner-container');
+                }
 
-                await html5QrCode.start(
-                    cameraId,
-                    { fps: 10, qrbox: { width: 250, height: 250 } },
-                    onScanSuccess,
-                    onScanError
-                );
+                await scanner.start({facingMode: 'environment'}, {fps: 10, qrbox: 250}, (code) => {
+                    handleScanResult(code);
+                }, () => {});
 
                 document.getElementById('start-scan-btn').style.display = 'none';
                 document.getElementById('stop-scan-btn').style.display = 'block';
             } catch (err) {
-                alert('Kamera nicht verfügbar: ' + err);
-            }
-        }
-
-        function stopScanner() {
-            if (html5QrCode) {
-                html5QrCode.stop().then(() => {
-                    document.getElementById('start-scan-btn').style.display = 'block';
-                    document.getElementById('stop-scan-btn').style.display = 'none';
-                    document.getElementById('scanner-result').style.display = 'none';
-                }).catch(err => console.error(err));
-            }
-        }
-
-        function onScanSuccess(decodedText) {
-            // Try to look up in Open Food Facts
-            fetch(`https://world.openfoodfacts.org/api/v0/product/${decodedText}.json`)
-                .then(r => r.json())
-                .then(data => {
-                    if (data.product) {
-                        const productName = data.product.product_name || data.product.generic_name || 'Unbekannt';
-                        showScanResult(productName);
-                    } else {
-                        showScanResult(`Barcode: ${decodedText}`);
-                    }
-                })
-                .catch(() => {
-                    showScanResult(`Barcode: ${decodedText}`);
-                });
-        }
-
-        function onScanError(error) {
-            // Ignore scanning errors
-        }
-
-        function showScanResult(productName) {
-            const results = SIGHI_DB.filter(f => f.name.toLowerCase().includes(productName.toLowerCase()));
-            const resultDiv = document.getElementById('scanner-result');
-
-            if (results.length > 0) {
-                resultDiv.innerHTML = `
-                    <h4 style="margin-bottom: 12px; color: var(--dark);">${productName}</h4>
-                    <div style="display: flex; flex-direction: column; gap: 10px;">
-                        ${results.slice(0, 3).map(food => `
-                            <div onclick="showFoodDetail(SIGHI_DB.find(f => f.name === '${food.name}'))" style="cursor: pointer; padding: 10px; background: var(--gray-100); border-radius: 8px; font-size: 13px;">
-                                ${food.name} <strong style="color: var(--primary);">•</strong>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            } else {
-                resultDiv.innerHTML = `<p style="text-align: center; color: var(--gray-500);">Leider nicht in unserer Datenbank gefunden</p>`;
-            }
-
-            resultDiv.style.display = 'block';
-        }
-
-        // ===== TOAST NOTIFICATION =====
-        function showToast(message, undoFn = null) {
-            const toast = document.getElementById('toast');
-            const messageEl = document.getElementById('toast-message');
-            const undoBtn = document.getElementById('toast-undo');
-
-            messageEl.textContent = message;
-            toast.classList.add('show');
-
-            if (undoFn) {
-                undoBtn.style.display = 'block';
-                undoBtn.onclick = undoFn;
-            } else {
-                undoBtn.style.display = 'none';
-            }
-
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 5000);
-        }
-
-        // ===== EVENT LISTENERS =====
-        document.addEventListener('DOMContentLoaded', () => {
-            loadProfile();
-
-            // Profile modal events
-            document.getElementById('edit-tolerance-btn').addEventListener('click', () => {
-                document.querySelector(`input[name="tol"][value="${appState.profile.tolerance}"]`).checked = true;
-                openModal('tolerance-modal');
-            });
-
-            document.getElementById('edit-triggers-btn').addEventListener('click', () => {
-                document.querySelectorAll('input[name="trig"]').forEach(el => {
-                    el.checked = appState.profile.triggers.includes(el.value);
-                });
-                openModal('triggers-modal');
-            });
-
-            document.getElementById('edit-exceptions-btn').addEventListener('click', () => {
-                document.getElementById('exceptions-text').value = appState.profile.exceptions.join('\n');
-                openModal('exceptions-modal');
-            });
-
-            document.getElementById('edit-phase-btn').addEventListener('click', () => {
-                document.querySelector(`input[name="phase"][value="${appState.profile.phase}"]`).checked = true;
-                openModal('phase-modal');
-            });
-
-            // Reset profile
-            document.getElementById('reset-profile-btn').addEventListener('click', () => {
-                if (confirm('Wirklich alle Daten zurücksetzen?')) {
-                    localStorage.removeItem('salua-profile');
-                    appState.profile = { tolerance: 'medium', triggers: [], exceptions: [], phase: 'elimination', testedFoods: {} };
-                    loadProfile();
-                    showOnboarding();
-                }
-            });
-
-            // Search
-            document.getElementById('search-btn').addEventListener('click', () => {
-                searchFoods(document.getElementById('search-input').value);
-            });
-
-            document.getElementById('search-input').addEventListener('keyup', (e) => {
-                if (e.key === 'Enter') {
-                    searchFoods(e.target.value);
-                }
-            });
-
-            // Scanner
-            document.getElementById('start-scan-btn').addEventListener('click', startScanner);
-            document.getElementById('stop-scan-btn').addEventListener('click', stopScanner);
-
-            // Close modals on background click
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.classList.remove('active');
-                    }
-                });
-            });
-
-            // Register service worker
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('data:text/javascript,' + encodeURIComponent(`
-                    self.addEventListener('install', e => e.waitUntil(caches.open('v1')));
-                    self.addEventListener('fetch', e => {
-                        e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
-                    });
-                `));
+                showToast('Fehler beim Starten des Scanners');
             }
         });
 
-        // ===== SIGHI DATABASE =====
-        const SIGHI_DB = [
-            // OBST (Fruits)
-            {name:"Äpfel",category:"Obst",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Obst",keywords:["äpfel","apfel"]},
-            {name:"Birnen",category:"Obst",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Obst",keywords:["birnen"]},
-            {name:"Heidelbeeren",category:"Obst",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frische Beeren",keywords:["heidelbeeren"]},
-            {name:"Kirschen",category:"Obst",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Obst",keywords:["kirschen"]},
-            {name:"Mango",category:"Obst",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Obst",keywords:["mango"]},
-            {name:"Melone",category:"Obst",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Obst",keywords:["melone"]},
-            {name:"Pfirsiche",category:"Obst",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Obst",keywords:["pfirsiche"]},
-            {name:"Trauben",category:"Obst",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Obst",keywords:["trauben"]},
-            {name:"Granatapfel",category:"Obst",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Obst",keywords:["granatapfel"]},
-            {name:"Litschi",category:"Obst",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Obst",keywords:["litschi"]},
-            {name:"Feigen (frisch)",category:"Obst",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Obst",keywords:["feigen","feige"]},
-            {name:"Aprikosen",category:"Obst",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Mäßiges Histamin",keywords:["aprikosen"]},
-            {name:"Pflaumen",category:"Obst",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Mäßiges Histamin",keywords:["pflaumen"]},
-            {name:"Kiwi",category:"Obst",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Mäßiges Histamin",keywords:["kiwi"]},
-            {name:"Nektarinen",category:"Obst",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Mäßiges Histamin",keywords:["nektarinen"]},
-            {name:"Brombeeren",category:"Obst",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Mäßiges Histamin",keywords:["brombeeren"]},
-            {name:"Erdbeeren",category:"Obst",mainCategory:"Pflanzlich",rating:2,histamin:"",amine:"",liberator:"",blocker:"",note:"Histaminreich",keywords:["erdbeeren"]},
-            {name:"Himbeeren",category:"Obst",mainCategory:"Pflanzlich",rating:2,histamin:"",amine:"",liberator:"",blocker:"",note:"Histaminreich",keywords:["himbeeren"]},
-            {name:"Zitrusfrüchte (Orangen)",category:"Obst",mainCategory:"Pflanzlich",rating:2,histamin:"",amine:"",liberator:"",blocker:"",note:"Histaminreich",keywords:["zitrusfrüchte","orangen"]},
-            {name:"Zitronen",category:"Obst",mainCategory:"Pflanzlich",rating:2,histamin:"",amine:"",liberator:"",blocker:"",note:"Histaminreich",keywords:["zitronen"]},
-            {name:"Grapefruit",category:"Obst",mainCategory:"Pflanzlich",rating:2,histamin:"",amine:"",liberator:"",blocker:"",note:"Histaminreich",keywords:["grapefruit"]},
-            {name:"Ananas",category:"Obst",mainCategory:"Pflanzlich",rating:2,histamin:"",amine:"",liberator:"",blocker:"",note:"Histaminreich",keywords:["ananas"]},
-            {name:"Bananen (überreif)",category:"Obst",mainCategory:"Pflanzlich",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Je reifer, desto höher Histamin",keywords:["bananen","überreif"]},
-            {name:"Papaya",category:"Obst",mainCategory:"Pflanzlich",rating:2,histamin:"",amine:"",liberator:"",blocker:"",note:"Histaminreich",keywords:["papaya"]},
-            {name:"Trockenfrüchte",category:"Obst",mainCategory:"Pflanzlich",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Meiden: Sehr histaminreich",keywords:["trockenfrüchte"]},
-            {name:"Datteln (getrocknet)",category:"Obst",mainCategory:"Pflanzlich",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Sehr histaminreich",keywords:["datteln"]},
-            {name:"Rosinen",category:"Obst",mainCategory:"Pflanzlich",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Sehr histaminreich",keywords:["rosinen"]},
-            {name:"Feigen (getrocknet)",category:"Obst",mainCategory:"Pflanzlich",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Sehr histaminreich",keywords:["feigen"]},
+        document.getElementById('stop-scan-btn')?.addEventListener('click', async () => {
+            if (scanner) {
+                await scanner.stop();
+                document.getElementById('start-scan-btn').style.display = 'block';
+                document.getElementById('stop-scan-btn').style.display = 'none';
+            }
+        });
 
-            // GEMÜSE (Vegetables)
-            {name:"Kartoffeln",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Stärkereich",keywords:["kartoffeln","kartoffel"]},
-            {name:"Süßkartoffeln",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Stärkereich",keywords:["süßkartoffeln","susskartoffeln"]},
-            {name:"Brokkoli",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Kreuzblütler",keywords:["brokkoli"]},
-            {name:"Blumenkohl",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Kreuzblütler",keywords:["blumenkohl"]},
-            {name:"Zucchini",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Kürbisgewächs",keywords:["zucchini","courgette"]},
-            {name:"Gurke",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Gemüse",keywords:["gurke","gurken"]},
-            {name:"Karotten",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Wurzelgemüse",keywords:["karotten","möhren"]},
-            {name:"Kürbis",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Kürbisgewächs",keywords:["kürbis"]},
-            {name:"Salat (grün)",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Blattsalat",keywords:["salat","kopfsalat"]},
-            {name:"Mangold",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Blattgemüse",keywords:["mangold"]},
-            {name:"Spargel",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Gemüse",keywords:["spargel"]},
-            {name:"Fenchel",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Gemüse",keywords:["fenchel"]},
-            {name:"Kohlrabi",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Kreuzblütler",keywords:["kohlrabi"]},
-            {name:"Radieschen",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Gemüse",keywords:["radieschen"]},
-            {name:"Rote Bete (frisch)",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Wurzelgemüse",keywords:["rote bete","rüben"]},
-            {name:"Lauch",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Zwiebel-Familie",keywords:["lauch","porree"]},
-            {name:"Mais",category:"Gemüse",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Getreide-ähnlich",keywords:["mais"]},
-            {name:"Paprika",category:"Gemüse",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Mäßiges Histamin",keywords:["paprika"]},
-            {name:"Zwiebeln",category:"Gemüse",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Mäßiges Histamin",keywords:["zwiebeln"]},
-            {name:"Knoblauch",category:"Gemüse",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Mäßiges Histamin",keywords:["knoblauch"]},
-            {name:"Pilze",category:"Gemüse",mainCategory:"Pflanzlich",rating:1,histamin:"H",amine:"",liberator:"",blocker:"",note:"Mäßiges Histamin",keywords:["pilze","champignons"]},
-            {name:"Erbsen",category:"Gemüse",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Hülsenfrüchte",keywords:["erbsen"]},
-            {name:"Bohnen (grün, frisch)",category:"Gemüse",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Hülsenfrüchte",keywords:["bohnen","grüne bohnen"]},
-            {name:"Tomaten",category:"Gemüse",mainCategory:"Pflanzlich",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Histaminreich, meiden in Elimination",keywords:["tomaten"]},
-            {name:"Spinat",category:"Gemüse",mainCategory:"Pflanzlich",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Histaminreich",keywords:["spinat"]},
-            {name:"Avocado",category:"Gemüse",mainCategory:"Pflanzlich",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Histaminreich",keywords:["avocado"]},
-            {name:"Aubergine",category:"Gemüse",mainCategory:"Pflanzlich",rating:2,histamin:"",amine:"",liberator:"",blocker:"",note:"Nachtschattengewächs",keywords:["aubergine"]},
-            {name:"Sauerkraut",category:"Gemüse",mainCategory:"Pflanzlich",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Fermentiert - sehr histaminreich",keywords:["sauerkraut"]},
-            {name:"Eingelegtes Gemüse",category:"Gemüse",mainCategory:"Pflanzlich",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Fermentiert",keywords:["eingelegtes","gärung"]},
-            {name:"Oliven",category:"Gemüse",mainCategory:"Pflanzlich",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Fermentiert",keywords:["oliven"]},
+        function handleScanResult(code) {
+            const food = findFoodByBarcode(code);
+            if (food) {
+                showFoodDetail(food);
+                if (scanner) scanner.stop();
+                document.getElementById('start-scan-btn').style.display = 'block';
+                document.getElementById('stop-scan-btn').style.display = 'none';
+            } else {
+                showToast('Lebensmittel nicht gefunden');
+            }
+        }
 
-            // MILCHPRODUKTE (Dairy)
-            {name:"Butter",category:"Milchprodukte",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frische Butter",keywords:["butter"]},
-            {name:"Frischkäse (natur)",category:"Milchprodukte",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Ungereift",keywords:["frischkäse","frischkaese"]},
-            {name:"Quark",category:"Milchprodukte",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Ungereift",keywords:["quark"]},
-            {name:"Sahne (frisch)",category:"Milchprodukte",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frische Sahne",keywords:["sahne","rahm"]},
-            {name:"Mozzarella",category:"Milchprodukte",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frischer Käse",keywords:["mozzarella"]},
-            {name:"Ricotta",category:"Milchprodukte",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frischer Käse",keywords:["ricotta"]},
-            {name:"Mascarpone",category:"Milchprodukte",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frischer Käse",keywords:["mascarpone"]},
-            {name:"Milch (frisch)",category:"Milchprodukte",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frische Kuhmilch",keywords:["milch"]},
-            {name:"Joghurt (natur)",category:"Milchprodukte",mainCategory:"Tierisch",rating:1,histamin:"H",amine:"",liberator:"",blocker:"?",note:"Mäßig fermentiert",keywords:["joghurt","yogurt"]},
-            {name:"Feta",category:"Milchprodukte",mainCategory:"Tierisch",rating:1,histamin:"H",amine:"",liberator:"",blocker:"",note:"Salzlake",keywords:["feta"]},
-            {name:"Hüttenkäse",category:"Milchprodukte",mainCategory:"Tierisch",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Frischer Käse",keywords:["hüttenkäse"]},
-            {name:"Buttermilch",category:"Milchprodukte",mainCategory:"Tierisch",rating:1,histamin:"H",amine:"",liberator:"",blocker:"",note:"Angesäuert",keywords:["buttermilch"]},
-            {name:"Gouda (gereift)",category:"Milchprodukte",mainCategory:"Tierisch",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Gereifter Käse",keywords:["gouda"]},
-            {name:"Cheddar",category:"Milchprodukte",mainCategory:"Tierisch",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Gereifter Käse",keywords:["cheddar"]},
-            {name:"Emmentaler",category:"Milchprodukte",mainCategory:"Tierisch",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Gereifter Käse",keywords:["emmentaler","emmenthal"]},
-            {name:"Camembert",category:"Milchprodukte",mainCategory:"Tierisch",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Schimmelkäse, gereift",keywords:["camembert"]},
-            {name:"Blauschimmelkäse",category:"Milchprodukte",mainCategory:"Tierisch",rating:3,histamin:"H",amine:"A",liberator:"",blocker:"",note:"Sehr gereift und histaminreich",keywords:["blauschimmelkäse","gorgonzola"]},
-            {name:"Parmesan",category:"Milchprodukte",mainCategory:"Tierisch",rating:3,histamin:"H",amine:"A",liberator:"",blocker:"",note:"Lang gereift - sehr histaminreich",keywords:["parmesan","parmigiano"]},
-            {name:"Kefir",category:"Milchprodukte",mainCategory:"Tierisch",rating:3,histamin:"H",amine:"A",liberator:"",blocker:"",note:"Fermentiert und histaminreich",keywords:["kefir"]},
+        function findFoodByBarcode(code) {
+            for (const category in SIGHI_DB) {
+                const found = SIGHI_DB[category].find(f => f.name.toLowerCase().includes(code.toLowerCase()));
+                if (found) return found;
+            }
+            return null;
+        }
 
-            // FLEISCH & FISCH (Meat & Fish)
-            {name:"Hühnchen (frisch)",category:"Fleisch",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Geflügel",keywords:["hühnchen","huhn","chicken"]},
-            {name:"Pute (frisch)",category:"Fleisch",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Geflügel",keywords:["pute","truthahn"]},
-            {name:"Lamm (frisch)",category:"Fleisch",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Fleisch",keywords:["lamm"]},
-            {name:"Rind (frisch)",category:"Fleisch",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Fleisch",keywords:["rind","rinder"]},
-            {name:"Wild (frisch)",category:"Fleisch",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisches Wildfleisch",keywords:["wild","wildfleisch"]},
-            {name:"Lachs (frisch, sofort)",category:"Fleisch",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frischer Fisch",keywords:["lachs","laks"]},
-            {name:"Forelle (frisch)",category:"Fleisch",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frischer Fisch",keywords:["forelle"]},
-            {name:"Kabeljau (frisch)",category:"Fleisch",mainCategory:"Tierisch",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frischer Fisch",keywords:["kabeljau"]},
-            {name:"Hackfleisch (frisch)",category:"Fleisch",mainCategory:"Tierisch",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Bald verbrauchen",keywords:["hackfleisch","hack"]},
-            {name:"Garnelen (frisch)",category:"Fleisch",mainCategory:"Tierisch",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Meeresfrüchte, frisch",keywords:["garnelen","shrimps"]},
-            {name:"Eier",category:"Fleisch",mainCategory:"Tierisch",rating:1,histamin:"",amine:"",liberator:"L",blocker:"",note:"Histaminliberator",keywords:["eier","ei","hühnerei"]},
-            {name:"Thunfisch (Dose)",category:"Fleisch",mainCategory:"Tierisch",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Konserviert, histaminreich",keywords:["thunfisch","tuna"]},
-            {name:"Sardinen (Dose)",category:"Fleisch",mainCategory:"Tierisch",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Konserviert, histaminreich",keywords:["sardinen"]},
-            {name:"Makrele (geräuchert)",category:"Fleisch",mainCategory:"Tierisch",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Verarbeitet, histaminreich",keywords:["makrele"]},
-            {name:"Wurst / Aufschnitt",category:"Fleisch",mainCategory:"Tierisch",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Fermentiert und Additiva",keywords:["wurst","aufschnitt"]},
-            {name:"Salami",category:"Fleisch",mainCategory:"Tierisch",rating:3,histamin:"H",amine:"A",liberator:"",blocker:"",note:"Fermentiert - sehr histaminreich",keywords:["salami"]},
-            {name:"Schinken (geräuchert)",category:"Fleisch",mainCategory:"Tierisch",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Verarbeitet und geräuchert",keywords:["schinken"]},
-            {name:"Speck",category:"Fleisch",mainCategory:"Tierisch",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Verarbeitet",keywords:["speck"]},
-            {name:"Räucherlachs",category:"Fleisch",mainCategory:"Tierisch",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Verarbeitet",keywords:["räucherlachs"]},
-            {name:"Fischkonserven",category:"Fleisch",mainCategory:"Tierisch",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Konserviert",keywords:["fischkonserven"]},
-            {name:"Meeresfrüchte (nicht frisch)",category:"Fleisch",mainCategory:"Tierisch",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Lagern schnell histaminarme",keywords:["meeresfrüchte"]},
+        // ===== TOAST =====
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-message');
+            msgEl.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
 
-            // GETREIDE (Grains)
-            {name:"Reis",category:"Getreide",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Glutenfreie Stärke",keywords:["reis"]},
-            {name:"Haferflocken",category:"Getreide",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Glutenfreie Stärke",keywords:["haferflocken","oats"]},
-            {name:"Dinkel",category:"Getreide",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Getreide",keywords:["dinkel"]},
-            {name:"Hirse",category:"Getreide",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Glutenfreies Getreide",keywords:["hirse"]},
-            {name:"Quinoa",category:"Getreide",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Glutenfreie Stärke",keywords:["quinoa"]},
-            {name:"Amaranth",category:"Getreide",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Glutenfreie Stärke",keywords:["amaranth"]},
-            {name:"Buchweizen",category:"Getreide",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Glutenfreie Stärke",keywords:["buchweizen"]},
-            {name:"Mais (Polenta)",category:"Getreide",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Glutenfreie Stärke",keywords:["mais","polenta"]},
-            {name:"Nudeln (frisch)",category:"Getreide",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frische Nudeln",keywords:["nudeln","pasta"]},
-            {name:"Brot (frisch, hefefrei)",category:"Getreide",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frisch gebacken",keywords:["brot"]},
-            {name:"Weizenbrot (Hefe)",category:"Getreide",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Mit Hefe - histaminlibera",keywords:["weizenbrot"]},
-            {name:"Vollkornbrot",category:"Getreide",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Oft mit Hefe",keywords:["vollkornbrot"]},
-            {name:"Couscous",category:"Getreide",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Getreideprodukt",keywords:["couscous"]},
-            {name:"Knäckebrot",category:"Getreide",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Verarbeitet",keywords:["knäckebrot"]},
-            {name:"Sauerteigbrot",category:"Getreide",mainCategory:"Pflanzlich",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Fermentiert",keywords:["sauerteigbrot"]},
-
-            // GETRÄNKE (Beverages)
-            {name:"Wasser",category:"Getränke",mainCategory:"Getränk",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Leitungs- oder Mineralwasser",keywords:["wasser"]},
-            {name:"Kräutertee (Kamille)",category:"Getränke",mainCategory:"Getränk",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frischer Kräutertee",keywords:["kräutertee","kamille"]},
-            {name:"Pfefferminztee",category:"Getränke",mainCategory:"Getränk",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frischer Kräutertee",keywords:["pfefferminztee","minztee"]},
-            {name:"Rooibostee",category:"Getränke",mainCategory:"Getränk",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Koffeinfreier Tee",keywords:["rooibostee","rotbusch"]},
-            {name:"Hafer- / Reismilch",category:"Getränke",mainCategory:"Getränk",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Pflanzliche Milch",keywords:["hafermilch","reismilch"]},
-            {name:"Apfelsaft (naturtrüb)",category:"Getränke",mainCategory:"Getränk",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Frischer Saft",keywords:["apfelsaft"]},
-            {name:"Kaffee",category:"Getränke",mainCategory:"Getränk",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Mäßiges Histamin",keywords:["kaffee","coffee"]},
-            {name:"Grüner Tee",category:"Getränke",mainCategory:"Getränk",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Mäßiges Histamin",keywords:["grüner tee","green tea"]},
-            {name:"Schwarzer Tee",category:"Getränke",mainCategory:"Getränk",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Mäßiges Histamin",keywords:["schwarzer tee","black tea"]},
-            {name:"Kakao",category:"Getränke",mainCategory:"Getränk",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Mäßiges Histamin",keywords:["kakao","cacao"]},
-            {name:"Orangensaft",category:"Getränke",mainCategory:"Getränk",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Histaminreich",keywords:["orangensaft"]},
-            {name:"Tomatensaft",category:"Getränke",mainCategory:"Getränk",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Histaminreich",keywords:["tomatensaft"]},
-            {name:"Energydrinks",category:"Getränke",mainCategory:"Getränk",rating:2,histamin:"",amine:"",liberator:"",blocker:"",note:"Additiva und Zucker",keywords:["energydrinks","energy drinks"]},
-            {name:"Weißwein",category:"Getränke",mainCategory:"Getränk",rating:2,histamin:"H",amine:"",liberator:"",blocker:"",note:"Fermentiert, histaminreich",keywords:["weißwein","weisswein"]},
-            {name:"Rotwein",category:"Getränke",mainCategory:"Getränk",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Sehr histaminreich",keywords:["rotwein"]},
-            {name:"Bier",category:"Getränke",mainCategory:"Getränk",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Fermentiert, Hefe",keywords:["bier","beer"]},
-            {name:"Sekt / Champagner",category:"Getränke",mainCategory:"Getränk",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Gärung und Lagerung",keywords:["sekt","champagner"]},
-            {name:"Spirituosen",category:"Getränke",mainCategory:"Getränk",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Fermentiert",keywords:["spirituosen","schnaps"]},
-            {name:"Kombucha",category:"Getränke",mainCategory:"Getränk",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Fermentiert",keywords:["kombucha"]},
-
-            // SONSTIGES (Miscellaneous)
-            {name:"Olivenöl",category:"Sonstiges",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Hochwertige Fette",keywords:["olivenöl"]},
-            {name:"Kokosöl",category:"Sonstiges",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Hochwertige Fette",keywords:["kokosöl"]},
-            {name:"Honig",category:"Sonstiges",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Natürlicher Süßstoff",keywords:["honig"]},
-            {name:"Ahornsirup",category:"Sonstiges",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Natürlicher Süßstoff",keywords:["ahornsirup"]},
-            {name:"Salz & Pfeffer",category:"Sonstiges",mainCategory:"Gewürz",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Grundgewürze",keywords:["salz","pfeffer"]},
-            {name:"Frische Kräuter",category:"Sonstiges",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Basilikum, Petersilie, etc.",keywords:["kräuter","herbs"]},
-            {name:"Ingwer (frisch)",category:"Sonstiges",mainCategory:"Pflanzlich",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Entzündungshemmend",keywords:["ingwer","ginger"]},
-            {name:"Kurkuma",category:"Sonstiges",mainCategory:"Gewürz",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Gewürz",keywords:["kurkuma","turmeric"]},
-            {name:"Mandeln",category:"Sonstiges",mainCategory:"Nuss",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Nuss",keywords:["mandeln","almonds"]},
-            {name:"Macadamia",category:"Sonstiges",mainCategory:"Nuss",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Nuss",keywords:["macadamia"]},
-            {name:"Kürbiskerne",category:"Sonstiges",mainCategory:"Nuss",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Samen",keywords:["kürbiskerne"]},
-            {name:"Leinsamen",category:"Sonstiges",mainCategory:"Nuss",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Samen",keywords:["leinsamen"]},
-            {name:"Chiasamen",category:"Sonstiges",mainCategory:"Nuss",rating:0,histamin:"",amine:"",liberator:"",blocker:"",note:"Samen",keywords:["chiasamen"]},
-            {name:"Erdnüsse",category:"Sonstiges",mainCategory:"Nuss",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Hülsenfrucht",keywords:["erdnüsse","peanuts"]},
-            {name:"Cashewkerne",category:"Sonstiges",mainCategory:"Nuss",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Nuss",keywords:["cashewkerne"]},
-            {name:"Haselnüsse",category:"Sonstiges",mainCategory:"Nuss",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Nuss",keywords:["haselnüsse"]},
-            {name:"Sonnenblumenkerne",category:"Sonstiges",mainCategory:"Nuss",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Samen",keywords:["sonnenblumenkerne"]},
-            {name:"Dunkle Schokolade",category:"Sonstiges",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Minimal verarbeitet",keywords:["dunkle schokolade","dark chocolate"]},
-            {name:"Kokosmilch (Dose)",category:"Sonstiges",mainCategory:"Pflanzlich",rating:1,histamin:"",amine:"",liberator:"",blocker:"",note:"Konserviert",keywords:["kokosmilch"]},
-            {name:"Walnüsse",category:"Sonstiges",mainCategory:"Nuss",rating:2,histamin:"",amine:"",liberator:"",blocker:"",note:"Nuss",keywords:["walnüsse","walnuts"]},
-            {name:"Schokolade (Milch)",category:"Sonstiges",mainCategory:"Pflanzlich",rating:2,histamin:"",amine:"",liberator:"",blocker:"",note:"Zucker und Additiva",keywords:["milchschokolade","milk chocolate"]},
-            {name:"Sojasauce",category:"Sonstiges",mainCategory:"Gewürz",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Fermentiert, sehr histaminreich",keywords:["sojasauce","soy sauce"]},
-            {name:"Essig (außer Apfelessig)",category:"Sonstiges",mainCategory:"Gewürz",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Fermentiert",keywords:["essig","vinegar"]},
-            {name:"Hefe / Hefeextrakt",category:"Sonstiges",mainCategory:"Gewürz",rating:3,histamin:"H",amine:"A",liberator:"",blocker:"",note:"Histaminliberator und histaminreich",keywords:["hefe","hefeextrakt","yeast"]},
-            {name:"Glutamat (MSG)",category:"Sonstiges",mainCategory:"Gewürz",rating:3,histamin:"",amine:"",liberator:"",blocker:"",note:"Geschmacksverstärker",keywords:["glutamat","msg"]},
-            {name:"Fermentierte Lebensmittel",category:"Sonstiges",mainCategory:"Pflanzlich",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Sehr histaminreich",keywords:["fermentiert","gärung"]},
-            {name:"Miso",category:"Sonstiges",mainCategory:"Gewürz",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Fermentiert, sehr histaminreich",keywords:["miso"]},
-            {name:"Senf",category:"Sonstiges",mainCategory:"Gewürz",rating:3,histamin:"",amine:"",liberator:"",blocker:"",note:"Oft mit Additiva",keywords:["senf","mustard"]},
-            {name:"Ketchup",category:"Sonstiges",mainCategory:"Gewürz",rating:3,histamin:"",amine:"",liberator:"",blocker:"",note:"Zucker und Additiva",keywords:["ketchup"]},
-            {name:"Worcestersauce",category:"Sonstiges",mainCategory:"Gewürz",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Fermentiert",keywords:["worcestersauce"]},
-            {name:"Fertiggerichte",category:"Sonstiges",mainCategory:"Pflanzlich",rating:3,histamin:"H",amine:"",liberator:"",blocker:"",note:"Additiva, Lagerung",keywords:["fertiggerichte","fertiggericht"]}
-        ];
+        // ===== INIT =====
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfile();
+            loadCategories();
+            updateBackButton();
+        });
     </script>
 </body>
 </html>
