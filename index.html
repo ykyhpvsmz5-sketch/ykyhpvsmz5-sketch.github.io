@@ -394,26 +394,17 @@ body {
   font-size: 2rem; color: var(--white); margin-bottom: 0.8rem; position: relative;
 }
 .newsletter-card > p { color: var(--gray-400); font-size: 1rem; margin-bottom: 2rem; position: relative; line-height: 1.7; }
-/* MailerLite embedded form overrides for dark card background */
+/* MailerLite embedded form overrides */
 .newsletter-card .ml-embedded { position: relative; max-width: 440px; margin: 0 auto; }
 .newsletter-card .ml-form-embedWrapper { background: transparent !important; border: none !important; box-shadow: none !important; }
 .newsletter-card .ml-form-embedBody { background: transparent !important; padding: 0 !important; }
 .newsletter-card .ml-form-formContent { padding: 0 !important; }
-.newsletter-card .ml-form-fieldRow input[type="email"] {
-  background: rgba(255,255,255,0.06) !important; border: 1px solid rgba(255,255,255,0.1) !important;
-  color: var(--white) !important; border-radius: 12px !important; padding: 14px 20px !important;
-  font-family: inherit !important; font-size: 0.95rem !important;
-}
+.newsletter-card .ml-form-fieldRow input[type="email"] { background: rgba(255,255,255,0.06) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: var(--white) !important; border-radius: 12px !important; padding: 14px 20px !important; font-family: inherit !important; font-size: 0.95rem !important; }
 .newsletter-card .ml-form-fieldRow input[type="email"]::placeholder { color: rgba(255,255,255,0.3) !important; }
 .newsletter-card .ml-form-fieldRow input[type="email"]:focus { border-color: var(--primary-light) !important; background: rgba(255,255,255,0.1) !important; }
-.newsletter-card .ml-form-embedSubmit button {
-  background: var(--primary) !important; color: var(--white) !important; border-radius: 12px !important;
-  padding: 14px 26px !important; font-weight: 700 !important; font-size: 0.9rem !important;
-  border: none !important; cursor: pointer !important; font-family: inherit !important;
-}
+.newsletter-card .ml-form-embedSubmit button { background: var(--primary) !important; color: var(--white) !important; border-radius: 12px !important; padding: 14px 26px !important; font-weight: 700 !important; font-size: 0.9rem !important; border: none !important; cursor: pointer !important; font-family: inherit !important; }
 .newsletter-card .ml-form-embedSubmit button:hover { background: var(--primary-light) !important; }
-.newsletter-card .ml-form-successBody { color: var(--primary-light) !important; }
-.newsletter-card .ml-form-successBody h4, .newsletter-card .ml-form-successBody p { color: var(--primary-light) !important; }
+.newsletter-card .ml-form-successBody, .newsletter-card .ml-form-successBody h4, .newsletter-card .ml-form-successBody p { color: var(--primary-light) !important; }
 .newsletter-note { font-size: 0.78rem; color: rgba(255,255,255,0.3); margin-top: 1rem; position: relative; }
 
 /* ===== ABOUT ===== */
@@ -487,6 +478,7 @@ body {
     box-shadow: 0 20px 40px rgba(0,0,0,0.08);
   }
   .newsletter-card { padding: 2.5rem 1.5rem; }
+  
   .footer-inner { grid-template-columns: 1fr; }
   .video-inner { grid-template-columns: 1fr; }
 }
@@ -1108,8 +1100,7 @@ if ('IntersectionObserver' in window) {
   fadeEls.forEach(el => el.classList.add('visible'));
 }
 
-// Newsletter: MailerLite embedded form handles submission automatically via ml-embedded div);
-}
+// Newsletter: MailerLite embedded form handles submission via ml-embedded div
 </script>
 
 </body>
