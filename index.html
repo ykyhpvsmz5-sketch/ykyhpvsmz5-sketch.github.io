@@ -394,6 +394,1122 @@ body {
   font-size: 2rem; color: var(--white); margin-bottom: 0.8rem; position: relative;
 }
 .newsletter-card > p { color: var(--gray-400); font-size: 1rem; margin-bottom: 2rem; position: relative; line-height: 1.7; }
+/* MailerLite embedded form overrides for dark card background */
+.newsletter-card .ml-embedded { position: relative; max-width: 440px; margin: 0 auto; }
+.newsletter-card .ml-form-embedWrapper { background: transparent !important; border: none !important; box-shadow: none !important; }
+.newsletter-card .ml-form-embedBody { background: transparent !important; padding: 0 !important; }
+.newsletter-card .ml-form-formContent { padding: 0 !important; }
+.newsletter-card .ml-form-fieldRow input[type="email"] {
+  background: rgba(255,255,255,0.06) !important; border: 1px solid rgba(255,255,255,0.1) !important;
+  color: var(--white) !important; border-radius: 12px !important; padding: 14px 20px !important;
+  font-family: inherit !important; font-size: 0.95rem !important;
+}
+.newsletter-card .ml-form-fieldRow input[type="email"]::placeholder { color: rgba(255,255,255,0.3) !important; }
+.newsletter-card .ml-form-fieldRow input[type="email"]:focus { border-color: var(--primary-light) !important; background: rgba(255,255,255,0.1) !important; }
+.newsletter-card .ml-form-embedSubmit button {
+  background: var(--primary) !important; color: var(--white) !important; border-radius: 12px !important;
+  padding: 14px 26px !important; font-weight: 700 !important; font-size: 0.9rem !important;
+  border: none !important; cursor: pointer !important; font-family: inherit !important;
+}
+.newsletter-card .ml-form-embedSubmit button:hover { background: var(--primary-light) !important; }
+.newsletter-card .ml-form-successBody { color: var(--primary-light) !important; }
+.newsletter-card .ml-form-successBody h4, .newsletter-card .ml-form-successBody p { color: var(--primary-light) !important; }
+.newsletter-note { font-size: 0.78rem; color: rgba(255,255,255,0.3); margin-top: 1rem; position: relative; }
+
+/* ===== ABOUT ===== */
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+}
+.about-text h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem; color: var(--dark); margin-bottom: 1.5rem; line-height: 1.3;
+}
+.about-text p { font-size: 1.05rem; color: var(--gray-700); margin-bottom: 1.3rem; line-height: 1.8; }
+.values-stack { display: flex; flex-direction: column; gap: 1rem; }
+.value-card {
+  display: flex; align-items: start; gap: 1.2rem;
+  padding: 1.8rem; background: #f8fafb;
+  border-radius: var(--radius); transition: var(--transition);
+}
+.value-card:hover { background: #f0f5f4; }
+.value-card h4 { font-size: 0.95rem; color: var(--dark); margin-bottom: 0.3rem; font-weight: 600; }
+.value-card p { font-size: 0.87rem; color: var(--gray-700); line-height: 1.6; }
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--dark); color: var(--gray-500);
+  padding: 5rem 2rem 2rem;
+}
+.footer-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+}
+.footer-brand p { font-size: 0.88rem; line-height: 1.7; margin-top: 1.2rem; }
+.footer h4 {
+  color: var(--white); font-size: 0.78rem; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 1.2rem; font-weight: 600;
+}
+.footer ul { list-style: none; }
+.footer ul li { margin-bottom: 0.6rem; }
+.footer ul a { color: var(--gray-500); text-decoration: none; font-size: 0.88rem; transition: var(--transition); }
+.footer ul a:hover { color: var(--primary-light); }
+.footer-bottom {
+  max-width: 1280px; margin: 3rem auto 0;
+  padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.8rem; color: var(--gray-500);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .hero h1 { font-size: 3.2rem; }
+  .hero-stats { gap: 2rem; }
+  .intro-grid, .about-grid, .video-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .topics-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+}
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.4rem; }
+  .hero-inner { padding: 4rem 1.5rem; }
+  .hero-stats { flex-direction: column; gap: 1.5rem; align-items: center; }
+  .section-title { font-size: 2rem; }
+  .symptom-grid { grid-template-columns: 1fr; }
+  .topics-grid { grid-template-columns: 1fr; }
+  .tools-grid { grid-template-columns: 1fr; }
+  .bento-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .hamburger { display: block; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 72px; left: 0; right: 0;
+    background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
+    padding: 1.5rem 2rem; gap: 1rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  }
+  .newsletter-card { padding: 2.5rem 1.5rem; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .video-inner { grid-template-columns: 1fr; }
+}
+
+/* ===== ANIMATIONS ===== */
+.fade-in { opacity: 0; transform: translateY(24px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+/* Fallback: if JS fails or observer doesn't trigger, ensure content is visible */
+.no-js .fade-in, .fade-in-fallback { opacity: 1 !important; transform: none !important; }
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+
+/* ===== APP PROMO BANNER ===== */
+.app-promo {
+  background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.04);
+  padding: 0 2rem;
+}
+.app-promo-inner {
+  max-width: 1280px; margin: 0 auto;
+  padding: 2rem 0;
+}
+.app-promo-card {
+  background: linear-gradient(135deg, var(--dark) 0%, #152028 100%);
+  border-radius: var(--radius-lg); padding: 2.5rem 3rem;
+  display: flex; align-items: center; gap: 3rem;
+  position: relative; overflow: hidden;
+}
+.app-promo-card::before {
+  content: ''; position: absolute; top: -40%; right: -10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(42,157,143,0.12) 0%, transparent 60%);
+  border-radius: 50%; filter: blur(40px);
+}
+.app-promo-mockup {
+  width: 160px; height: 280px; flex-shrink: 0;
+  background: #1a2830; border-radius: 24px; border: 2px solid rgba(255,255,255,0.08);
+  display: flex; flex-direction: column; overflow: hidden; position: relative;
+}
+.app-mockup-bar {
+  height: 32px; background: rgba(255,255,255,0.06);
+  display: flex; align-items: center; padding: 0 10px; gap: 6px;
+}
+.app-mockup-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+.app-mockup-body { flex: 1; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+.app-mockup-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 6px; border-radius: 6px; background: rgba(255,255,255,0.04);
+}
+.app-mockup-item .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.app-mockup-item .dot.g { background: #2A9D8F; }
+.app-mockup-item .dot.y { background: #E9C46A; }
+.app-mockup-item .dot.o { background: #E76F51; }
+.app-mockup-item .dot.r { background: #C0392B; }
+.app-mockup-item .bar { height: 4px; border-radius: 2px; background: rgba(255,255,255,0.1); flex: 1; }
+.app-mockup-item .bar.short { flex: 0.6; }
+.app-promo-text { flex: 1; position: relative; z-index: 1; }
+.app-promo-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(42,157,143,0.15); color: var(--primary-light);
+  padding: 6px 14px; border-radius: 8px;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+.app-promo-text h3 { font-size: 1.6rem; color: var(--white); font-weight: 700; margin-bottom: 0.6rem; line-height: 1.3; }
+.app-promo-text p { color: var(--gray-400); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; }
+.app-promo-features { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.8rem; }
+.app-promo-feat {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.85rem; color: var(--gray-400);
+}
+.app-promo-feat svg { width: 18px; height: 18px; stroke: var(--primary-light); fill: none; stroke-width: 2; flex-shrink: 0; }
+.app-promo-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 30px; border-radius: 14px;
+  background: var(--primary); color: var(--white);
+  text-decoration: none; font-weight: 700; font-size: 0.95rem;
+  transition: var(--transition);
+  box-shadow: 0 4px 20px rgba(27,122,110,0.35);
+}
+.app-promo-cta:hover { background: var(--primary-light); transform: translateY(-2px); }
+.app-promo-cta svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+@media (max-width: 768px) {
+  .app-promo-card { flex-direction: column; padding: 2rem 1.5rem; gap: 2rem; text-align: center; }
+  .app-promo-mockup { width: 120px; height: 210px; margin: 0 auto; }
+  .app-promo-features { justify-content: center; }
+  .app-promo-cta { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg viewBox="0 0 90 90" height="38">
+        <defs>
+          <linearGradient id="navLg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#54E5D4"/>
+            <stop offset="60%" stop-color="#2A8C7F"/>
+            <stop offset="100%" stop-color="#1A574E"/>
+          </linearGradient>
+          <linearGradient id="navGloss" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#fff" stop-opacity="0.9"/>
+            <stop offset="50%" stop-color="#fff" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#fff" stop-opacity="0.3"/>
+          </linearGradient>
+        </defs>
+        <g transform="translate(10,20)">
+          <path d="M 25,50 C 45,50 45,15 25,-5 C 5,15 5,50 25,50 Z" fill="url(#navLg)" transform="rotate(-30 25 22.5)"/>
+          <path d="M 55,60 C 75,60 75,25 55,5 C 35,25 35,60 55,60 Z" fill="url(#navLg)" transform="rotate(15 55 32.5)"/>
+          <path d="M 55,5 C 65,15 65,35 55,45" fill="none" stroke="url(#navGloss)" stroke-width="1.5" stroke-linecap="round" transform="rotate(15 55 32.5) translate(-1,-3)"/>
+        </g>
+      </svg>
+      <span class="nav-logo-text">Salua</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#mecfs">ME/CFS</a>
+      <a href="#symptome">Symptome</a>
+      <a href="#themen">Themen</a>
+      <a href="#tools">Tools</a>
+      <a href="#ueber">Über uns</a>
+      <a href="#newsletter" class="nav-cta">Newsletter</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menü">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-gradient-1"></div>
+    <div class="hero-gradient-2"></div>
+    <div class="hero-grid-pattern"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-label">Für Betroffene. Von Betroffenen.</div>
+    <h1>ME/CFS <em>verstehen.</em><br>Wege finden. Nicht allein sein.</h1>
+    <p class="hero-text">
+      Salua ist deine Anlaufstelle für ME/CFS – verständlich aufbereitet, immer auf dem aktuellen Stand der Forschung, und geschrieben von jemandem, der weiß, wie sich das anfühlt.
+    </p>
+    <div class="hero-buttons">
+      <a href="#mecfs" class="btn btn-primary">Was ist ME/CFS?</a>
+      <a href="#tools" class="btn btn-ghost">Kostenlose Tools</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-number">600.000+</span>
+        <span class="hero-stat-label">Betroffene in Deutschland</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-number">7–10 Jahre</span>
+        <span class="hero-stat-label">Durchschnitt bis zur Diagnose</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-number">84%</span>
+        <span class="hero-stat-label">Nicht oder fehldiagnostiziert</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP PROMO -->
+<div class="app-promo">
+  <div class="app-promo-inner fade-in">
+    <div class="app-promo-card">
+      <div class="app-promo-mockup">
+        <div class="app-mockup-bar">
+          <span class="app-mockup-dot"></span>
+          <span class="app-mockup-dot"></span>
+          <span class="app-mockup-dot"></span>
+        </div>
+        <div class="app-mockup-body">
+          <div class="app-mockup-item"><span class="dot g"></span><span class="bar"></span></div>
+          <div class="app-mockup-item"><span class="dot g"></span><span class="bar short"></span></div>
+          <div class="app-mockup-item"><span class="dot y"></span><span class="bar"></span></div>
+          <div class="app-mockup-item"><span class="dot y"></span><span class="bar short"></span></div>
+          <div class="app-mockup-item"><span class="dot o"></span><span class="bar"></span></div>
+          <div class="app-mockup-item"><span class="dot r"></span><span class="bar short"></span></div>
+          <div class="app-mockup-item"><span class="dot g"></span><span class="bar"></span></div>
+          <div class="app-mockup-item"><span class="dot r"></span><span class="bar short"></span></div>
+        </div>
+      </div>
+      <div class="app-promo-text">
+        <div class="app-promo-badge">Neu: Kostenlose App</div>
+        <h3>Was kann ich essen?</h3>
+        <p>Die Salua-App für Histaminintoleranz. Über 200 Lebensmittel, sofort durchsuchbar – mit Barcode-Scanner für unterwegs. Installierbar auf Android und iPhone.</p>
+        <div class="app-promo-features">
+          <span class="app-promo-feat">
+            <svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="7" y1="12" x2="17" y2="12"/></svg>
+            Barcode-Scanner
+          </span>
+          <span class="app-promo-feat">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Installierbar
+          </span>
+          <span class="app-promo-feat">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Offline nutzbar
+          </span>
+        </div>
+        <a href="histamin.html" class="app-promo-cta">
+          App öffnen
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WAS IST ME/CFS -->
+<section class="section" id="mecfs">
+  <div class="section-inner">
+    <div class="intro-grid fade-in">
+      <div class="intro-content">
+        <span class="section-label">Grundlagen</span>
+        <h2>Was ist ME/CFS?</h2>
+        <p>
+          <strong>Myalgische Enzephalomyelitis / Chronisches Fatigue-Syndrom (ME/CFS)</strong> ist eine schwere,
+          chronische Multisystemerkrankung. Das Leitsymptom ist eine massive Belastungsintoleranz
+          – die sogenannte <strong>Post-Exertional Malaise (PEM)</strong>.
+        </p>
+        <p>
+          Anders als normale Müdigkeit führt ME/CFS dazu, dass selbst minimale körperliche oder geistige
+          Anstrengung eine Verschlechterung aller Symptome auslöst – oft erst nach 24–72 Stunden.
+        </p>
+        <p>
+          ME/CFS ist <strong>keine psychische Erkrankung</strong>. Es handelt sich um eine neuroimmunologische
+          Erkrankung, die von der WHO seit 1969 als neurologische Erkrankung klassifiziert wird (ICD-10: G93.3).
+        </p>
+        <div class="intro-highlight">
+          <strong>Hinweis:</strong> Die Informationen auf dieser Seite ersetzen keine ärztliche Beratung.
+          Sie sollen dir helfen, deine Erkrankung besser zu verstehen und informierte Gespräche mit
+          deinem Arzt zu führen.
+        </div>
+      </div>
+      <div class="bento-grid">
+        <div class="bento-card">
+          <div class="icon-box icon-box--teal">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2"/><path d="M12 6v6l4.5 2.5"/></svg>
+          </div>
+          <h4>Neuroimmunologisch</h4>
+          <p>ME/CFS betrifft das Nerven- und Immunsystem, den Energiestoffwechsel und das autonome Nervensystem.</p>
+        </div>
+        <div class="bento-card">
+          <div class="icon-box icon-box--teal">
+            <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h4>Belastungsintoleranz</h4>
+          <p>Das Leitsymptom PEM unterscheidet ME/CFS von Depression, Burnout und anderen Erschöpfungszuständen.</p>
+        </div>
+        <div class="bento-card">
+          <div class="icon-box icon-box--teal">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+          </div>
+          <h4>Untererforscht</h4>
+          <p>Pro Patient erhält ME/CFS nur einen Bruchteil der Forschungsgelder im Vergleich zu ähnlich schweren Erkrankungen.</p>
+        </div>
+        <div class="bento-card">
+          <div class="icon-box icon-box--teal">
+            <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <h4>Nicht hoffnungslos</h4>
+          <p>Pacing, Symptommanagement und neue Forschungsansätze bieten echte Strategien, die Betroffenen helfen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SYMPTOME -->
+<section class="section bg-subtle" id="symptome">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <span class="section-label">Symptome</span>
+      <h2 class="section-title">Wie sich ME/CFS anfühlt</h2>
+      <p class="section-subtitle">ME/CFS betrifft viele Körpersysteme gleichzeitig. Die Symptome variieren von Person zu Person – aber diese treten am häufigsten auf.</p>
+    </div>
+    <div class="symptom-grid fade-in">
+      <div class="symptom-card">
+        <div class="icon-box icon-box--teal">
+          <svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        </div>
+        <h4>Schwere Erschöpfung</h4>
+        <p>Nicht vergleichbar mit normaler Müdigkeit. Eine bleierne, durchdringende Erschöpfung, die durch Schlaf nicht besser wird.</p>
+      </div>
+      <div class="symptom-card">
+        <div class="icon-box icon-box--teal">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h4>Post-Exertional Malaise</h4>
+        <p>Verschlechterung aller Symptome nach Belastung – oft erst 24-72h später. Das Kernsymptom von ME/CFS.</p>
+      </div>
+      <div class="symptom-card">
+        <div class="icon-box icon-box--teal">
+          <svg viewBox="0 0 24 24"><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h4>Brain Fog</h4>
+        <p>Konzentrations- und Gedächtnisprobleme, Wortfindungsstörungen, verlangsamtes Denken – wie Denken durch Nebel.</p>
+      </div>
+      <div class="symptom-card">
+        <div class="icon-box icon-box--teal">
+          <svg viewBox="0 0 24 24"><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/><path d="M12 2v2"/><circle cx="12" cy="12" r="4"/><path d="M12 20v2"/><path d="m17.66 17.66 1.41 1.41"/><path d="m4.93 4.93 1.41 1.41"/></svg>
+        </div>
+        <h4>Schlafstörungen</h4>
+        <p>Trotz extremer Erschöpfung: nicht-erholsamer Schlaf, Einschlafprobleme oder Phasen mit übermäßigem Schlaf.</p>
+      </div>
+      <div class="symptom-card">
+        <div class="icon-box icon-box--teal">
+          <svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        </div>
+        <h4>Orthostatische Intoleranz</h4>
+        <p>Schwindel, Herzrasen oder Benommenheit beim Stehen. Viele Betroffene haben POTS oder andere Dysautonomie-Formen.</p>
+      </div>
+      <div class="symptom-card">
+        <div class="icon-box icon-box--teal">
+          <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6"/><path d="M12 16h.01"/></svg>
+        </div>
+        <h4>Schmerzen</h4>
+        <p>Muskel- und Gelenkschmerzen, Kopfschmerzen, Halsschmerzen – oft wandernd und schwankend in der Intensität.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THEMEN A-Z -->
+<section class="section" id="themen">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <span class="section-label">Wissen</span>
+      <h2 class="section-title">Themen von A bis Z</h2>
+      <p class="section-subtitle">ME/CFS verstehen heißt, viele Puzzleteile zusammenzusetzen. Hier findest du Informationen zu allen wichtigen Aspekten.</p>
+    </div>
+    <div class="topics-grid fade-in">
+      <a class="topic-card" href="themen/diagnose.html">
+        <span class="topic-tag">Grundlagen</span>
+        <h4>Diagnose & Kriterien <span class="arrow">&#8594;</span></h4>
+        <p>Kanadische Kriterien, ICC, Fukuda – welche Diagnosekriterien gibt es und wie wird ME/CFS festgestellt?</p>
+      </a>
+      <a class="topic-card" href="themen/pacing.html">
+        <span class="topic-tag">Management</span>
+        <h4>Pacing & Energiemanagement <span class="arrow">&#8594;</span></h4>
+        <p>Die wichtigste Strategie bei ME/CFS: Wie du deine Energie einteilst und Crashs vermeidest.</p>
+      </a>
+      <a class="topic-card" href="themen/ernaehrung.html">
+        <span class="topic-tag">Ernährung</span>
+        <h4>Ernährung bei ME/CFS <span class="arrow">&#8594;</span></h4>
+        <p>Histaminintoleranz, Nährstoffmängel, entzündungshemmende Ernährung – was die aktuelle Forschung zeigt.</p>
+      </a>
+      <a class="topic-card" href="themen/psyche.html">
+        <span class="topic-tag">Psyche</span>
+        <h4>Psyche & chronische Krankheit <span class="arrow">&#8594;</span></h4>
+        <p>Wie ME/CFS die mentale Gesundheit beeinflusst – und warum das keine Einbildung ist.</p>
+      </a>
+      <a class="topic-card" href="themen/forschung.html">
+        <span class="topic-tag">Forschung</span>
+        <h4>Aktuelle Forschung <span class="arrow">&#8594;</span></h4>
+        <p>Was wir über die Ursachen wissen: Immunsystem, Mitochondrien, Mikrobiom, Autoimmunität.</p>
+      </a>
+      <a class="topic-card" href="themen/behandlung.html">
+        <span class="topic-tag">Therapie</span>
+        <h4>Behandlungsansätze <span class="arrow">&#8594;</span></h4>
+        <p>Von LDN über Immunadsorption bis Pacing – was aktuell erforscht und angewendet wird.</p>
+      </a>
+      <a class="topic-card" href="themen/alltag.html">
+        <span class="topic-tag">Alltag</span>
+        <h4>Leben mit ME/CFS <span class="arrow">&#8594;</span></h4>
+        <p>Arbeit, Beziehungen, Sozialleistungen, Nachteilsausgleich – praktische Hilfe für den Alltag.</p>
+      </a>
+      <a class="topic-card" href="themen/komorbiditaeten.html">
+        <span class="topic-tag">Komorbidität</span>
+        <h4>Begleiterkrankungen <span class="arrow">&#8594;</span></h4>
+        <p>POTS, MCAS, Fibromyalgie, Histaminintoleranz, EDS – häufige Begleitdiagnosen verstehen.</p>
+      </a>
+      <a class="topic-card" href="themen/rechte.html">
+        <span class="topic-tag">Rechte</span>
+        <h4>Rechtliches & Soziales <span class="arrow">&#8594;</span></h4>
+        <p>Schwerbehinderung, Erwerbsminderungsrente, Pflegegrad, Nachteilsausgleich – deine Rechte kennen.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="section bg-dark" id="tools">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <span class="section-label">Tools</span>
+      <h2 class="section-title">Kostenlose Werkzeuge</h2>
+      <p class="section-subtitle">Digitale Helfer, die dir den Alltag mit ME/CFS erleichtern – entwickelt mit KI, gebaut für Betroffene.</p>
+    </div>
+    <div class="tools-grid fade-in">
+      <a href="histamin.html" class="tool-card" style="text-decoration:none;color:inherit;display:block;">
+        <span class="tool-status live">Jetzt als App verfügbar</span>
+        <h3 style="color:var(--white);">Was kann ich essen?</h3>
+        <p>Histaminintoleranz: Finde sofort heraus, welche Lebensmittel du verträgst. Mit Barcode-Scanner – einfach im Supermarkt scannen.</p>
+        <ul class="tool-features">
+          <li class="live-item">Über 200 Lebensmittel mit Verträglichkeits-Ampel</li>
+          <li class="live-item">Barcode-Scanner – Produkte direkt im Laden prüfen</li>
+          <li class="live-item">Als App installierbar (Android & iPhone)</li>
+          <li class="live-item">Komplett kostenlos, kein Account nötig</li>
+        </ul>
+      </a>
+      <div class="tool-card">
+        <span class="tool-status soon">Bald verfügbar</span>
+        <h3>Energie-Tagebuch</h3>
+        <p>Tracke deine tägliche Energie, Aktivitäten und Symptome – und erkenne Muster.</p>
+        <ul class="tool-features">
+          <li>Tägliches Energie-Level dokumentieren</li>
+          <li>Aktivitäten und deren Auswirkungen erfassen</li>
+          <li>PEM-Muster erkennen und visualisieren</li>
+          <li>Pacing-Empfehlungen basierend auf deinen Daten</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO / MEDIA SECTION -->
+<section class="video-section" id="media">
+  <div class="video-inner fade-in">
+    <div class="video-placeholder">
+      <div class="video-play-btn">
+        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+      <span class="video-coming">Bald verfügbar</span>
+    </div>
+    <div class="video-content">
+      <span class="section-label">Coming Soon</span>
+      <h2>Video-Inhalte, die ME/CFS sichtbar machen</h2>
+      <p>
+        Wir arbeiten an verständlichen Video-Erklärungen, persönlichen Erfahrungsberichten
+        und Experten-Interviews – damit ME/CFS nicht nur gelesen, sondern auch verstanden wird.
+      </p>
+      <ul class="video-features">
+        <li>
+          <span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+          Verständliche Erklärungen komplexer Themen
+        </li>
+        <li>
+          <span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+          Erfahrungsberichte von Betroffenen
+        </li>
+        <li>
+          <span class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+          Interviews mit Forschenden und Fachleuten
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section" id="newsletter">
+  <div class="newsletter-card fade-in">
+    <h2>Bleib auf dem Laufenden</h2>
+    <p>Neue Forschungsergebnisse, praktische Tipps und Strategien für den Alltag mit ME/CFS. Jeden Freitag, kostenlos, jederzeit abbestellbar.</p>
+    <div class="ml-embedded" data-form="qwZLkl"></div>
+    <p class="newsletter-note">Kein Spam. Deine Daten werden nicht weitergegeben.</p>
+  </div>
+</section>
+
+<!-- ÜBER SALUA -->
+<section class="section" id="ueber">
+  <div class="section-inner">
+    <div class="about-grid fade-in">
+      <div class="about-text">
+        <span class="section-label">Über uns</span>
+        <h2>Warum es Salua gibt</h2>
+        <p>
+          Salua wurde von jemandem gegründet, der selbst mit ME/CFS lebt. Jemand, der die endlosen
+          Arztbesuche kennt, die Fehldiagnosen, die gut gemeinten Ratschläge – und die Verzweiflung,
+          wenn man merkt: die meisten Ärzte wissen nicht, was ME/CFS ist.
+        </p>
+        <p>
+          Salua entstand aus der Überzeugung, dass Wissen Macht ist. Nicht die Macht, über Nacht gesund
+          zu werden – sondern die Macht, deine Erkrankung zu verstehen, informierte Entscheidungen zu
+          treffen und zu wissen: du bist nicht allein.
+        </p>
+        <p>
+          Alle Inhalte werden sorgfältig recherchiert, mit Quellen belegt und
+          verständlich aufbereitet. Keine Heilversprechen – aber Hoffnung, die auf Fakten basiert.
+        </p>
+      </div>
+      <div class="values-stack">
+        <div class="value-card">
+          <div class="icon-box icon-box--white">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </div>
+          <div>
+            <h4>Aktueller Forschungsstand</h4>
+            <p>Wir verfolgen die neueste Forschung zu ME/CFS und bereiten sie verständlich auf – transparent und mit Quellenangaben.</p>
+          </div>
+        </div>
+        <div class="value-card">
+          <div class="icon-box icon-box--white">
+            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <h4>Von Betroffenen</h4>
+            <p>Wir wissen, wie sich ME/CFS anfühlt – weil wir es selbst leben. Kein Mitleid, sondern echtes Verständnis.</p>
+          </div>
+        </div>
+        <div class="value-card">
+          <div class="icon-box icon-box--white">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h4>Ehrlich & transparent</h4>
+            <p>Keine Wunderheilungen, keine leeren Versprechen. Nur fundierte Informationen und echte Unterstützung.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg viewBox="0 0 90 90" height="32">
+        <defs>
+          <linearGradient id="fLg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#54E5D4"/>
+            <stop offset="60%" stop-color="#2A8C7F"/>
+            <stop offset="100%" stop-color="#1A574E"/>
+          </linearGradient>
+        </defs>
+        <g transform="translate(10,20)">
+          <path d="M 25,50 C 45,50 45,15 25,-5 C 5,15 5,50 25,50 Z" fill="url(#fLg)" transform="rotate(-30 25 22.5)"/>
+          <path d="M 55,60 C 75,60 75,25 55,5 C 35,25 35,60 55,60 Z" fill="url(#fLg)" transform="rotate(15 55 32.5)"/>
+        </g>
+      </svg>
+      <p>Gesundheit verstehen. Verständlich aufbereitet, immer aktuell, von Betroffenen für Betroffene.</p>
+    </div>
+    <div>
+      <h4>Themen</h4>
+      <ul>
+        <li><a href="#mecfs">Was ist ME/CFS?</a></li>
+        <li><a href="#symptome">Symptome</a></li>
+        <li><a href="themen/diagnose.html">Diagnose</a></li>
+        <li><a href="themen/pacing.html">Pacing</a></li>
+        <li><a href="themen/ernaehrung.html">Ernährung</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Ressourcen</h4>
+      <ul>
+        <li><a href="histamin.html">Was kann ich essen?</a></li>
+        <li><a href="#themen">Themen A-Z</a></li>
+        <li><a href="#newsletter">Newsletter</a></li>
+        <li><a href="medizinischer-hinweis.html">Medizinischer Hinweis</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Rechtliches</h4>
+      <ul>
+        <li><a href="impressum.html">Impressum</a></li>
+        <li><a href="datenschutz.html">Datenschutz</a></li>
+        <li><a href="medizinischer-hinweis.html">Medizinischer Hinweis</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Salua. Alle Rechte vorbehalten.</span>
+    <span>Von Salus (lat.) – Heil, Gesundheit, Wohlergehen</span>
+  </div>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Hamburger
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById('navLinks').classList.remove('open');
+    }
+  });
+});
+
+// Fade-in on scroll with stagger
+const fadeEls = document.querySelectorAll('.fade-in');
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+  fadeEls.forEach(el => observer.observe(el));
+  // Safety fallback: if any element still hasn't become visible after 4s, force it
+  setTimeout(() => {
+    fadeEls.forEach(el => {
+      if (!el.classList.contains('visible')) el.classList.add('visible');
+    });
+  }, 4000);
+} else {
+  // No IntersectionObserver support — show everything immediately
+  fadeEls.forEach(el => el.classList.add('visible'));
+}
+
+// Newsletter: MailerLite embedded form handles submission automatically via ml-embedded div);
+}
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salua – ME/CFS verstehen. Wege finden. Nicht allein sein.</title>
+<meta name="description" content="Salua ist deine Anlaufstelle für ME/CFS – Myalgische Enzephalomyelitis / Chronisches Fatigue-Syndrom. Aktuell, verständlich, von Betroffenen für Betroffene.">
+<!-- MailerLite Universal -->
+<script>
+(function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[]).push(arguments);},l=d.createElement(e),l.async=1,l.src=u,n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+ml('account', '2211435');
+</script>
+<!-- End MailerLite Universal -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #1B7A6E;
+  --primary-dark: #155F56;
+  --primary-light: #2A9D8F;
+  --accent: #E9C46A;
+  --accent-dark: #D4A843;
+  --dark: #0F1A20;
+  --dark-soft: #1A2830;
+  --gray-900: #1a1a2e;
+  --gray-700: #4a5568;
+  --gray-500: #718096;
+  --gray-400: #90a4ae;
+  --gray-300: #CBD5E0;
+  --gray-100: #F7FAFC;
+  --cream: #FEFCF6;
+  --teal-light: rgba(42,157,143,0.08);
+  --teal-50: #F0FAF8;
+  --white: #ffffff;
+  --glass: rgba(255,255,255,0.05);
+  --glass-border: rgba(255,255,255,0.08);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.08);
+  --shadow-xl: 0 24px 60px rgba(0,0,0,0.1);
+  --radius: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--gray-700);
+  background: var(--white);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ===== NAVIGATION ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  transition: var(--transition);
+}
+.nav.scrolled { box-shadow: 0 1px 30px rgba(0,0,0,0.06); }
+.nav-inner {
+  max-width: 1280px; margin: 0 auto;
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 72px;
+}
+.nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.nav-logo svg { height: 38px; width: auto; }
+.nav-logo-text {
+  font-size: 1.3rem; font-weight: 300; letter-spacing: 5px;
+  color: var(--dark); text-transform: uppercase;
+}
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a {
+  text-decoration: none; color: var(--gray-500);
+  font-size: 0.88rem; font-weight: 500; letter-spacing: 0.2px;
+  transition: var(--transition);
+}
+.nav-links a:hover { color: var(--primary); }
+.nav-cta {
+  background: var(--dark) !important; color: var(--white) !important;
+  padding: 10px 22px; border-radius: 50px;
+  font-weight: 600 !important; font-size: 0.85rem !important;
+}
+.nav-cta:hover { background: var(--primary) !important; }
+
+.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.hamburger span { display: block; width: 22px; height: 1.5px; background: var(--dark); margin: 6px 0; transition: var(--transition); border-radius: 2px; }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  background: var(--dark);
+  position: relative; overflow: hidden; padding-top: 72px;
+}
+.hero-bg {
+  position: absolute; inset: 0; overflow: hidden;
+}
+.hero-gradient-1 {
+  position: absolute; top: -20%; right: -10%;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(42,157,143,0.15) 0%, transparent 65%);
+  border-radius: 50%; filter: blur(60px);
+}
+.hero-gradient-2 {
+  position: absolute; bottom: -30%; left: -15%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(233,196,106,0.08) 0%, transparent 65%);
+  border-radius: 50%; filter: blur(60px);
+}
+.hero-grid-pattern {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 100%);
+}
+.hero-inner {
+  max-width: 1280px; margin: 0 auto; padding: 6rem 2rem;
+  position: relative; z-index: 1;
+  text-align: center;
+}
+.hero-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: var(--primary-light);
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+.hero-label::before, .hero-label::after {
+  content: ''; width: 30px; height: 1px; background: var(--primary-light); opacity: 0.4;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 4.2rem; font-weight: 600; line-height: 1.15;
+  color: var(--white); margin-bottom: 1.8rem;
+  max-width: 800px; margin-left: auto; margin-right: auto;
+}
+.hero h1 em { color: var(--primary-light); font-style: italic; }
+.hero-text {
+  font-size: 1.15rem; color: var(--gray-400); line-height: 1.85;
+  margin-bottom: 3rem; max-width: 580px; margin-left: auto; margin-right: auto;
+}
+.hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 15px 34px; border-radius: 50px;
+  font-size: 0.95rem; font-weight: 600; text-decoration: none;
+  transition: var(--transition); cursor: pointer; border: none;
+  letter-spacing: 0.3px;
+}
+.btn-primary {
+  background: var(--primary); color: var(--white);
+  box-shadow: 0 4px 20px rgba(27,122,110,0.35);
+}
+.btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(27,122,110,0.4); }
+.btn-ghost {
+  background: rgba(255,255,255,0.06); color: var(--white);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2); }
+
+/* Hero Stats Row */
+.hero-stats {
+  display: flex; justify-content: center; gap: 3rem; margin-top: 5rem;
+  padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.06);
+}
+.hero-stat { text-align: center; }
+.hero-stat-number {
+  font-size: 2.4rem; font-weight: 700; color: var(--white);
+  display: block; line-height: 1;
+  background: linear-gradient(135deg, var(--white), var(--primary-light));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-stat-label { font-size: 0.78rem; color: var(--gray-500); margin-top: 8px; letter-spacing: 0.5px; }
+
+/* ===== SECTIONS ===== */
+.section { padding: 7rem 2rem; }
+.section-inner { max-width: 1280px; margin: 0 auto; }
+.section-header { text-align: center; max-width: 680px; margin: 0 auto 4.5rem; }
+.section-label {
+  display: inline-block; font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--primary); margin-bottom: 1.2rem;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem; font-weight: 600; color: var(--dark);
+  margin-bottom: 1.2rem; line-height: 1.25;
+}
+.section-subtitle { font-size: 1.08rem; color: var(--gray-700); line-height: 1.75; }
+
+.bg-subtle { background: #f8fafb; }
+.bg-dark {
+  background: var(--dark);
+  color: var(--gray-400);
+}
+.bg-dark .section-label { color: var(--primary-light); }
+.bg-dark .section-title { color: var(--white); }
+.bg-dark .section-subtitle { color: var(--gray-300); }
+
+/* ===== SVG ICON SYSTEM ===== */
+.icon-box {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.icon-box svg { width: 24px; height: 24px; }
+.icon-box--teal { background: rgba(42,157,143,0.1); }
+.icon-box--teal svg { stroke: var(--primary); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.icon-box--dark { background: rgba(255,255,255,0.06); }
+.icon-box--dark svg { stroke: var(--primary-light); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.icon-box--white { background: var(--white); box-shadow: var(--shadow-sm); }
+.icon-box--white svg { stroke: var(--primary); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ===== WAS IST ME/CFS ===== */
+.intro-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+}
+.intro-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem; color: var(--dark); margin-bottom: 1.5rem; line-height: 1.3;
+}
+.intro-content p { color: var(--gray-700); margin-bottom: 1.2rem; font-size: 1.05rem; }
+.intro-highlight {
+  background: var(--dark); color: var(--gray-400);
+  padding: 1.8rem 2rem; border-radius: var(--radius);
+  margin-top: 2rem; font-size: 0.95rem; line-height: 1.7;
+  border-left: 3px solid var(--primary);
+}
+.intro-highlight strong { color: var(--white); }
+
+.bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.bento-card {
+  background: var(--white); border-radius: var(--radius);
+  padding: 2rem;
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: var(--transition);
+}
+.bento-card:hover { border-color: var(--primary-light); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.bento-card h4 { font-size: 0.95rem; color: var(--dark); margin: 1rem 0 0.5rem; font-weight: 600; }
+.bento-card p { font-size: 0.87rem; color: var(--gray-700); line-height: 1.65; }
+
+/* ===== SYMPTOME ===== */
+.symptom-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.symptom-card {
+  background: var(--white); border-radius: var(--radius);
+  padding: 2rem;
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.symptom-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  opacity: 0; transition: var(--transition);
+}
+.symptom-card:hover::after { opacity: 1; }
+.symptom-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.symptom-card h4 { font-size: 0.95rem; color: var(--dark); margin: 1rem 0 0.5rem; font-weight: 600; }
+.symptom-card p { font-size: 0.87rem; color: var(--gray-700); line-height: 1.65; }
+
+/* ===== THEMEN A-Z ===== */
+.topics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.topic-card {
+  background: var(--white); border-radius: var(--radius);
+  padding: 1.8rem; border: 1px solid rgba(0,0,0,0.05);
+  transition: var(--transition);
+  text-decoration: none; color: inherit; display: block; cursor: pointer;
+  position: relative;
+}
+.topic-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.topic-tag {
+  display: inline-block; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--primary); background: rgba(42,157,143,0.08);
+  padding: 4px 10px; border-radius: 6px; margin-bottom: 0.8rem;
+}
+.topic-card h4 {
+  font-size: 1rem; color: var(--dark); margin-bottom: 0.5rem; font-weight: 600;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.topic-card .arrow {
+  color: var(--gray-300); transition: var(--transition);
+  font-size: 1.1rem;
+}
+.topic-card:hover .arrow { color: var(--primary); transform: translateX(3px); }
+.topic-card p { font-size: 0.87rem; color: var(--gray-700); line-height: 1.6; }
+
+/* ===== TOOLS ===== */
+.tools-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+}
+.tool-card {
+  background: rgba(255,255,255,0.08); border-radius: var(--radius-lg);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 2.5rem;
+  transition: var(--transition);
+}
+.tool-card:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.16); transform: translateY(-3px); }
+.tool-status {
+  display: inline-block; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 6px; margin-bottom: 1.2rem;
+}
+.tool-status.live { background: rgba(42,157,143,0.15); color: var(--primary-light); }
+.tool-status.soon { background: rgba(233,196,106,0.15); color: var(--accent); }
+.tool-card h3 { font-size: 1.3rem; color: var(--white); margin-bottom: 0.6rem; font-weight: 600; }
+.tool-card > p { color: var(--gray-300); font-size: 0.95rem; margin-bottom: 1.5rem; }
+.tool-features { list-style: none; }
+.tool-features li {
+  padding: 0.45rem 0; font-size: 0.88rem; color: var(--gray-300);
+  display: flex; align-items: center; gap: 10px;
+}
+.tool-features li::before {
+  content: '';
+  width: 16px; height: 16px; flex-shrink: 0;
+  border: 1.5px solid var(--primary-light); border-radius: 50%;
+  position: relative;
+}
+.tool-features .live-item::before {
+  background: var(--primary-light);
+  box-shadow: inset 0 0 0 3px var(--dark);
+}
+
+/* ===== VIDEO SECTION ===== */
+.video-section { padding: 7rem 2rem; background: #f8fafb; }
+.video-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center;
+}
+.video-placeholder {
+  aspect-ratio: 16/9; background: var(--dark); border-radius: var(--radius-lg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.video-placeholder::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(42,157,143,0.1) 0%, transparent 60%);
+}
+.video-play-btn {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--primary); display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 1;
+  box-shadow: 0 8px 30px rgba(27,122,110,0.4);
+}
+.video-play-btn svg { width: 24px; height: 24px; fill: var(--white); margin-left: 3px; }
+.video-coming { color: var(--gray-500); font-size: 0.82rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 1.2rem; position: relative; z-index: 1; }
+.video-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem; color: var(--dark); margin-bottom: 1.2rem; line-height: 1.3;
+}
+.video-content p { color: var(--gray-700); font-size: 1.05rem; margin-bottom: 1.5rem; line-height: 1.75; }
+.video-features { list-style: none; margin-top: 2rem; }
+.video-features li {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0.6rem 0; font-size: 0.95rem; color: var(--gray-700);
+}
+.video-features li .check-icon {
+  width: 20px; height: 20px; border-radius: 6px;
+  background: rgba(42,157,143,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.video-features li .check-icon svg { width: 12px; height: 12px; stroke: var(--primary); fill: none; stroke-width: 2.5; }
+
+/* ===== NEWSLETTER ===== */
+.newsletter-section {
+  padding: 6rem 2rem; text-align: center;
+  background: linear-gradient(180deg, #f0faf8 0%, var(--white) 100%);
+  position: relative;
+}
+.newsletter-card {
+  max-width: 640px; margin: 0 auto;
+  background: var(--dark); border-radius: var(--radius-xl);
+  padding: 4rem 3rem; position: relative; overflow: hidden;
+}
+.newsletter-card::before {
+  content: ''; position: absolute; top: -50%; right: -30%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(42,157,143,0.12) 0%, transparent 60%);
+  border-radius: 50%; filter: blur(40px);
+}
+.newsletter-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; color: var(--white); margin-bottom: 0.8rem; position: relative;
+}
+.newsletter-card > p { color: var(--gray-400); font-size: 1rem; margin-bottom: 2rem; position: relative; line-height: 1.7; }
 .newsletter-form { display: flex; gap: 0.7rem; max-width: 440px; margin: 0 auto; position: relative; }
 .newsletter-form input {
   flex: 1; padding: 14px 20px; border-radius: 12px;
