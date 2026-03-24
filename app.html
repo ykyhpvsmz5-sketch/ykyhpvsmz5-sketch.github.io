@@ -1,0 +1,2095 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Salua Ernährungskompass - Dein persönlicher Begleiter für Histamin-Unverträglichkeit">
+    <meta name="theme-color" content="#1B7A6E">
+    <title>Salua Ernährungskompass</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Salua%20Ernährungskompass%22,%22short_name%22:%22Salua%20Kompass%22,%22start_url%22:%22/app.html%22,%22display%22:%22standalone%22,%22background_color%22:%22%230F1A20%22,%22theme_color%22:%221B7A6E%22,%22orientation%22:%22portrait-primary%22,%22scope%22:%22/%22,%22icons%22:[{%22src%22:%22data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27%3E%3Crect fill=%271B7A6E%27 width=%27192%27 height=%27192%27/%3E%3Ctext x=%2796%27 y=%27120%27 font-size=%27100%27 fill=%27%23E9C46A%27 text-anchor=%27middle%27 font-weight=%27bold%27%3ES%3C/text%3E%3C/svg%3E%22,%22sizes%22:%22192x192%22,%22type%22:%22image/svg+xml%22,%22purpose%22:%22any%22}]}">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1B7A6E;
+            --primary-light: #2A9D8F;
+            --dark: #0F1A20;
+            --dark-light: #1a2632;
+            --accent: #E9C46A;
+            --accent-light: #f4d699;
+            --success: #52b788;
+            --warning: #FFB74D;
+            --danger: #D32F2F;
+            --light: #f5f5f5;
+            --border: #2a3f4f;
+            --text-primary: #ffffff;
+            --text-secondary: #b0bec5;
+            --radius: 12px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--dark);
+        }
+
+        /* Header */
+        .header {
+            padding: 16px 20px;
+            background-color: var(--dark-light);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            color: var(--accent);
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 20px;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .icon-btn:hover {
+            background-color: var(--border);
+        }
+
+        /* Main Content Area */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 60px;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Bottom Navigation */
+        .nav-tabs {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--dark-light);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            z-index: 100;
+            height: 60px;
+        }
+
+        .nav-tab {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 24px;
+            padding: 8px;
+            transition: color 0.2s;
+        }
+
+        .nav-tab.active {
+            color: var(--accent);
+        }
+
+        .nav-tab span {
+            font-size: 10px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* Home Screen */
+        .home-section {
+            padding: 20px;
+        }
+
+        .greeting {
+            margin-bottom: 24px;
+        }
+
+        .greeting h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .greeting p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .profile-badge {
+            background-color: var(--border);
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .badge-label {
+            color: var(--text-secondary);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .badge-value {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .action-card {
+            background-color: var(--dark-light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-card:active {
+            transform: scale(0.98);
+            background-color: var(--primary);
+        }
+
+        .action-card-icon {
+            font-size: 32px;
+        }
+
+        .action-card-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Scanner Section */
+        .scanner-section {
+            padding: 20px;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #scanner-container {
+            width: 100%;
+            max-width: 400px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 20px;
+            background-color: #000;
+        }
+
+        .scanner-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .scanner-btn:active {
+            background-color: var(--primary-light);
+        }
+
+        .scanner-result {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--dark-light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        /* Search Section */
+        .search-section {
+            padding: 20px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            background-color: var(--dark-light);
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .search-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .filter-chip {
+            background-color: var(--border);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .filter-chip.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .search-results {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Categories Section */
+        .categories-section {
+            padding: 20px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .category-item {
+            background-color: var(--dark-light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-item:active {
+            background-color: var(--primary);
+        }
+
+        .category-item h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .category-count {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .category-item-arrow {
+            color: var(--accent);
+            font-size: 20px;
+        }
+
+        /* Food Cards */
+        .food-card {
+            background-color: var(--dark-light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .food-card.rating-0 {
+            border-left: 4px solid var(--success);
+        }
+
+        .food-card.rating-1 {
+            border-left: 4px solid var(--warning);
+        }
+
+        .food-card.rating-2 {
+            border-left: 4px solid #FF9800;
+        }
+
+        .food-card.rating-3 {
+            border-left: 4px solid var(--danger);
+        }
+
+        .food-card.rating-unknown {
+            border-left: 4px solid #9E9E9E;
+        }
+
+        .food-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 8px;
+        }
+
+        .food-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .food-rating {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .rating-0 { background-color: rgba(82, 183, 136, 0.2); color: var(--success); }
+        .rating-1 { background-color: rgba(255, 183, 77, 0.2); color: var(--warning); }
+        .rating-2 { background-color: rgba(255, 152, 0, 0.2); color: #FF9800; }
+        .rating-3 { background-color: rgba(211, 47, 47, 0.2); color: var(--danger); }
+        .rating-unknown { background-color: rgba(158, 158, 158, 0.2); color: #9E9E9E; }
+
+        .food-flags {
+            display: flex;
+            gap: 6px;
+            margin: 8px 0;
+            flex-wrap: wrap;
+        }
+
+        .flag {
+            font-size: 11px;
+            padding: 3px 6px;
+            background-color: var(--border);
+            border-radius: 3px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .food-category {
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .food-note {
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        /* Personal Transparency Notes */
+        .personal-note {
+            font-size: 12px;
+            line-height: 1.4;
+            padding: 8px 10px;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+        .personal-note-green { background: rgba(82, 183, 136, 0.15); color: #52b788; }
+        .personal-note-yellow { background: rgba(255, 183, 77, 0.15); color: #FFB74D; }
+        .personal-note-orange { background: rgba(255, 152, 0, 0.15); color: #FF9800; }
+        .personal-note-red { background: rgba(211, 47, 47, 0.15); color: #ef5350; }
+        .personal-note-neutral { background: rgba(176, 190, 197, 0.1); color: var(--text-secondary); }
+
+        /* Test Buttons */
+        .food-test-btns {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+        }
+        .food-test-btns button {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .food-test-btns button:hover { border-color: var(--primary); }
+        .test-btn-active {
+            border-color: var(--primary) !important;
+            background: rgba(27, 122, 110, 0.2) !important;
+            box-shadow: 0 0 0 2px rgba(27, 122, 110, 0.3);
+        }
+
+        /* Food Detail Overlay */
+        .detail-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .detail-card {
+            background: var(--dark-light);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .detail-card h3 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+        .detail-close {
+            position: absolute;
+            top: 12px; right: 12px;
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .detail-sighi {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+        .detail-section {
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .detail-section strong { color: var(--text-primary); }
+        .detail-section ul { margin-top: 4px; padding-left: 20px; }
+        .detail-section li { margin-bottom: 2px; }
+        .detail-source {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        .food-rating-text {
+            font-weight: 500;
+        }
+
+        .food-card {
+            cursor: pointer;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            padding: 20px;
+        }
+
+        .profile-item {
+            background-color: var(--dark-light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .profile-label {
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .profile-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:active {
+            background-color: var(--primary-light);
+        }
+
+        .disclaimer {
+            background-color: var(--border);
+            padding: 12px;
+            border-radius: var(--radius);
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--dark-light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            max-width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-item,
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .radio-item input[type="radio"],
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .radio-item label,
+        .checkbox-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .textarea {
+            width: 100%;
+            background-color: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            padding: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .textarea::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* Settings Modal */
+        .settings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .settings-item {
+            background-color: var(--dark);
+            padding: 12px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Onboarding */
+        .onboarding {
+            display: none;
+        }
+
+        .onboarding.active {
+            display: flex;
+        }
+
+        /* Compatibility Badge */
+        .compatibility-badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .compat-0 { background-color: rgba(82, 183, 136, 0.2); color: var(--success); }
+        .compat-1 { background-color: rgba(255, 183, 77, 0.2); color: var(--warning); }
+        .compat-2 { background-color: rgba(255, 152, 0, 0.2); color: #FF9800; }
+        .compat-3 { background-color: rgba(211, 47, 47, 0.2); color: var(--danger); }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Category Details */
+        .category-detail-header {
+            background-color: var(--dark-light);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 24px;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .category-detail-header h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        /* Ingredient Analysis */
+        .ingredient-list {
+            margin: 16px 0;
+        }
+
+        .ingredient-item {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .ingredient-item:last-child {
+            border-bottom: none;
+        }
+
+        .ingredient-name {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .ingredient-flags {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .ingredient-flag {
+            font-size: 10px;
+            padding: 2px 4px;
+            background-color: var(--border);
+            border-radius: 2px;
+            color: var(--accent);
+        }
+
+        @media (min-width: 600px) {
+            .container {
+                max-width: 500px;
+                margin: 0 auto;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Salua Kompass</h1>
+            <div class="header-icons">
+                <button class="icon-btn" id="settings-btn" title="Einstellungen">⚙️</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Home Section -->
+            <div class="content-section home-section active">
+                <div class="greeting">
+                    <h2>Dein persönlicher Ernährungskompass</h2>
+                    <p>Finde Lebensmittel, die du verträgst</p>
+                </div>
+
+                <div class="profile-badge" id="profile-badge">
+                    <span class="badge-label">Deine Empfindlichkeit:</span>
+                    <span class="badge-value">Nicht konfiguriert</span>
+                </div>
+
+                <div class="quick-actions">
+                    <div class="action-card" id="action-scan">
+                        <div class="action-card-icon">📱</div>
+                        <div class="action-card-text">Barcode scannen</div>
+                    </div>
+                    <div class="action-card" id="action-search">
+                        <div class="action-card-icon">🔍</div>
+                        <div class="action-card-text">Suchen</div>
+                    </div>
+                    <div class="action-card" id="action-categories">
+                        <div class="action-card-icon">🍽️</div>
+                        <div class="action-card-text">Kategorien</div>
+                    </div>
+                    <div class="action-card" id="action-exceptions">
+                        <div class="action-card-icon">❤️</div>
+                        <div class="action-card-text">Meine Ausnahmen</div>
+                    </div>
+                </div>
+
+                <div class="disclaimer">
+                    <strong>⚕️ Hinweis:</strong> Diese App ersetzt keine ärztliche Beratung. Bei schweren Reaktionen immer einen Arzt aufsuchen.
+                    <br><br>
+                    <strong>Datenquelle:</strong> SIGHI-Lebensmittel-Verträglichkeitsliste, Stand 2024 © SIGHI (mastzellaktivierung.info)
+                </div>
+            </div>
+
+            <!-- Scanner Section -->
+            <div class="content-section scanner-section">
+                <h2 style="margin-bottom: 20px;">Barcode scannen</h2>
+                <div id="scanner-container"></div>
+                <button class="scanner-btn" id="start-scan-btn">📷 Kamera starten</button>
+                <button class="scanner-btn" style="background-color: var(--border); display: none;" id="stop-scan-btn">Kamera stoppen</button>
+                <div id="scanner-result"></div>
+            </div>
+
+            <!-- Search Section -->
+            <div class="content-section search-section">
+                <h2 style="margin-bottom: 20px;">Lebensmittel suchen</h2>
+                <div class="search-box">
+                    <input type="text" class="search-input" id="search-input" placeholder="z.B. Tomate, Käse, Fisch...">
+                    <button class="search-btn" id="search-btn">🔍</button>
+                </div>
+                <div class="filters" id="filters"></div>
+                <div class="search-results" id="search-results"></div>
+            </div>
+
+            <!-- Categories Section -->
+            <div class="content-section categories-section">
+                <h2 style="margin-bottom: 20px;">Was kann ich essen?</h2>
+                <div class="category-grid" id="category-grid"></div>
+            </div>
+
+            <!-- Profile Section -->
+            <div class="content-section profile-section">
+                <h2 style="margin-bottom: 20px;">Dein Profil</h2>
+                <div class="profile-item">
+                    <div class="profile-label">Phase</div>
+                    <div class="profile-value" id="profile-phase">Eliminationsphase</div>
+                    <div style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;line-height:1.5;">
+                        <strong>Eliminationsphase:</strong> Strikt — nur Bewertung 0 essen, um Symptome zu reduzieren (4-6 Wochen)<br>
+                        <strong>Aufbauphase:</strong> Schrittweise testen — einzelne Lebensmittel vorsichtig einführen
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn-primary" onclick="setPhase('elimination')" id="phase-elim-btn" style="flex:1;">Elimination</button>
+                        <button class="btn-primary" onclick="setPhase('expansion')" id="phase-exp-btn" style="flex:1;background:var(--dark);border:1px solid var(--border);">Aufbau</button>
+                    </div>
+                </div>
+                <div class="profile-item">
+                    <div class="profile-label">Empfindlichkeitsstufe</div>
+                    <div class="profile-value" id="profile-tolerance">Nicht konfiguriert</div>
+                    <button class="btn-primary" id="edit-tolerance-btn">Ändern</button>
+                </div>
+                <div class="profile-item">
+                    <div class="profile-label">Bekannte Auslöser</div>
+                    <div class="profile-value" id="profile-triggers" style="font-size: 14px; color: var(--text-secondary); margin-bottom: 0;">Keine angegeben</div>
+                    <button class="btn-primary" id="edit-triggers-btn">Bearbeiten</button>
+                </div>
+                <div class="profile-item">
+                    <div class="profile-label">Persönliche Ausnahmen</div>
+                    <div id="profile-exceptions" style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;"></div>
+                    <button class="btn-primary" id="edit-exceptions-btn">Bearbeiten</button>
+                </div>
+                <div class="profile-item">
+                    <div class="profile-label"">Getestete Lebensmittel</div>
+                    <div id="profile-tested-count" style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">0 Lebensmittel getestet</div>
+                    <button class="btn-primary" onclick="showTestedFoods()">Meine Tests ansehen</button>
+                </div>
+                <div class="disclaimer" style="margin-top: 24px;">
+                    <strong>Transparenz-Prinzip:</strong> Wir zeigen dir immer die originale SIGHI-Bewertung. Deine persönliche Erfahrung ergänzt die wissenschaftliche Basis — nicht umgekehrt.
+                    <br><br>
+                    <strong>⚕️ Medizinischer Hinweis:</strong> Diese App ersetzt keine ärztliche Beratung. Konsultiere deinen Arzt vor größeren Ernährungsumstellungen.
+                    <br><br>
+                    <strong>Datenquelle:</strong> SIGHI-Lebensmittel-Verträglichkeitsliste, Stand 2024, © SIGHI (mastzellaktivierung.info)
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-section="0">
+                <span>🏠</span>
+                <span>Start</span>
+            </button>
+            <button class="nav-tab" data-section="1">
+                <span>📱</span>
+                <span>Scanner</span>
+            </button>
+            <button class="nav-tab" data-section="2">
+                <span>🔍</span>
+                <span>Suche</span>
+            </button>
+            <button class="nav-tab" data-section="3">
+                <span>🍽️</span>
+                <span>Kategorien</span>
+            </button>
+            <button class="nav-tab" data-section="4">
+                <span>👤</span>
+                <span>Profil</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Onboarding Modal -->
+    <div class="modal" id="onboarding-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Willkommen bei Salua! 👋</h2>
+            </div>
+            <p style="margin-bottom: 20px; color: var(--text-secondary);">Lass uns dein Profil einrichten, damit die App dir die besten Empfehlungen geben kann.</p>
+
+            <div class="form-group">
+                <label class="form-label">Wie empfindlich bist du?</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="tolerance-low" name="tolerance" value="low">
+                        <label for="tolerance-low"><strong>Gering (sehr empfindlich)</strong> — Viele Lebensmittel können Symptome auslösen</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="tolerance-medium" name="tolerance" value="medium" checked>
+                        <label for="tolerance-medium"><strong>Mittel</strong> — Durchschnittliche Empfindlichkeit</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="tolerance-high" name="tolerance" value="high">
+                        <label for="tolerance-high"><strong>Hoch (mild empfindlich)</strong> — Nur wenige Lebensmittel sind problematisch</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Deine bekannten Auslöser</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="trigger-histamin" name="triggers" value="histamin">
+                        <label for="trigger-histamin">Histamin</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="trigger-amine" name="triggers" value="amine">
+                        <label for="trigger-amine">Biogene Amine (Tyramin, Serotonin, etc.)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="trigger-liberator" name="triggers" value="liberator">
+                        <label for="trigger-liberator">Histaminliberatoren (triggern Histaminausschüttung)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="trigger-blocker" name="triggers" value="blocker">
+                        <label for="trigger-blocker">DAO-Blocker (hemmen das Histamin-Abbauenzym)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="trigger-salicylate" name="triggers" value="salicylate">
+                        <label for="trigger-salicylate">Salicylate (Pflanzen-Wirkstoffe)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Lebensmittel, die du trotzdem verträgst?</label>
+                <textarea class="textarea" id="onboarding-exceptions" placeholder="z.B. Tomaten, obwohl Histamin — ich vertrage sie gut"></textarea>
+            </div>
+
+            <button class="btn-primary" id="onboarding-save">Profil speichern</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Einstellungen</h2>
+                <button class="modal-close" id="settings-close">✕</button>
+            </div>
+            <div class="settings-list">
+                <div class="settings-item">
+                    <div>
+                        <div style="font-weight: 600;">Offline-Modus</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">App funktioniert ohne Internetverbindung</div>
+                    </div>
+                    <span>✓ Aktiviert</span>
+                </div>
+                <div class="settings-item">
+                    <div>
+                        <div style="font-weight: 600;">Dark Mode</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">Schonend für die Augen</div>
+                    </div>
+                    <span>✓ An</span>
+                </div>
+                <button class="btn-primary" style="margin-top: 12px;" id="reset-profile-btn">Profil zurücksetzen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tolerance Edit Modal -->
+    <div class="modal" id="tolerance-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Empfindlichkeitsstufe ändern</h2>
+                <button class="modal-close" id="tolerance-close">✕</button>
+            </div>
+            <div class="form-group">
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="tol-low" name="tol" value="low">
+                        <label for="tol-low"><strong>Gering (sehr empfindlich)</strong></label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="tol-medium" name="tol" value="medium">
+                        <label for="tol-medium"><strong>Mittel</strong></label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="tol-high" name="tol" value="high">
+                        <label for="tol-high"><strong>Hoch (mild empfindlich)</strong></label>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-primary" id="tolerance-save">Speichern</button>
+        </div>
+    </div>
+
+    <!-- Triggers Edit Modal -->
+    <div class="modal" id="triggers-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Bekannte Auslöser</h2>
+                <button class="modal-close" id="triggers-close">✕</button>
+            </div>
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="trig-histamin" name="trig" value="histamin">
+                        <label for="trig-histamin">Histamin</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="trig-amine" name="trig" value="amine">
+                        <label for="trig-amine">Biogene Amine</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="trig-liberator" name="trig" value="liberator">
+                        <label for="trig-liberator">Histaminliberatoren</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="trig-blocker" name="trig" value="blocker">
+                        <label for="trig-blocker">DAO-Blocker</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="trig-salicylate" name="trig" value="salicylate">
+                        <label for="trig-salicylate">Salicylate</label>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-primary" id="triggers-save">Speichern</button>
+        </div>
+    </div>
+
+    <!-- Exceptions Edit Modal -->
+    <div class="modal" id="exceptions-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Persönliche Ausnahmen</h2>
+                <button class="modal-close" id="exceptions-close">✕</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Lebensmittel, die du trotzdem verträgst</label>
+                <textarea class="textarea" id="exceptions-text" placeholder="z.B. Tomaten, Erdbeeren (jeweils eine pro Zeile oder komma-getrennt)"></textarea>
+            </div>
+            <button class="btn-primary" id="exceptions-save">Speichern</button>
+        </div>
+    </div>
+
+    <!-- Script imports and app code -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script>
+        // ============================================
+        // SIGHI DATABASE
+        // ============================================
+        const SIGHI_DB = [
+            // Eier
+            {name: "Eidotter", category: "Eier", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "Eigelb allein", keywords: ["eidotter", "eigelb"]},
+            {name: "Eier/Hühnerei/Vollei", category: "Eier", mainCategory: "Tierisch", rating: 2, histamin: "", amine: "", liberator: "L", blocker: "", note: "Histaminliberator", keywords: ["hühnerei", "vollei", "ei", "eier"]},
+            {name: "Eiklar/Eiweiß", category: "Eier", mainCategory: "Tierisch", rating: 2, histamin: "", amine: "", liberator: "L", blocker: "", note: "", keywords: ["eiklar", "eiweiß", "eiweiss"]},
+            {name: "Wachteleier", category: "Eier", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["wachteleier"]},
+
+            // Milchprodukte - Käse
+            {name: "Blauschimmelkäse", category: "Milchprodukte", mainCategory: "Tierisch", rating: 3, histamin: "H", amine: "A", liberator: "", blocker: "?", note: "Gereift", keywords: ["blauschimmelkäse", "gorgonzola", "stilton"]},
+            {name: "Butter (Süßrahm)", category: "Milchprodukte", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "Frische Butter", keywords: ["butter", "süßrahmbutter"]},
+            {name: "Butter (Sauerrahm)", category: "Milchprodukte", mainCategory: "Tierisch", rating: 1, histamin: "H", amine: "A", liberator: "", blocker: "", note: "Mildgesäuerte", keywords: ["sauerrahmbutter"]},
+            {name: "Butterkäse", category: "Milchprodukte", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["butterkäse"]},
+            {name: "Buttermilch", category: "Milchprodukte", mainCategory: "Tierisch", rating: 1, histamin: "H", amine: "", liberator: "", blocker: "", note: "Angesäuert", keywords: ["buttermilch"]},
+            {name: "Cheddar", category: "Milchprodukte", mainCategory: "Tierisch", rating: 2, histamin: "H", amine: "A", liberator: "", blocker: "", note: "Gereift", keywords: ["cheddar"]},
+            {name: "Crème fraîche", category: "Milchprodukte", mainCategory: "Tierisch", rating: 1, histamin: "H", amine: "", liberator: "", blocker: "", note: "", keywords: ["crème fraîche", "creme fraiche"]},
+            {name: "Edelschimmelkäse", category: "Milchprodukte", mainCategory: "Tierisch", rating: 2, histamin: "H", amine: "A", liberator: "", blocker: "?", note: "Gereift", keywords: ["edelschimmelkäse"]},
+            {name: "Feta", category: "Milchprodukte", mainCategory: "Tierisch", rating: 1, histamin: "H", amine: "A", liberator: "", blocker: "", note: "Salzlake", keywords: ["feta", "fetakäse"]},
+            {name: "Fontina", category: "Milchprodukte", mainCategory: "Tierisch", rating: 2, histamin: "H", amine: "A", liberator: "", blocker: "", note: "Gereift", keywords: ["fontina"]},
+            {name: "Frischkäse", category: "Milchprodukte", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["frischkäse", "cream cheese", "quark"]},
+            {name: "Gouda (jung)", category: "Milchprodukte", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["gouda jung"]},
+            {name: "Gouda (gereift)", category: "Milchprodukte", mainCategory: "Tierisch", rating: 2, histamin: "H", amine: "", liberator: "", blocker: "", note: "", keywords: ["gouda gereift"]},
+            {name: "Hartkäse", category: "Milchprodukte", mainCategory: "Tierisch", rating: 3, histamin: "H", amine: "A", liberator: "", blocker: "", note: "Lang gereift", keywords: ["hartkäse", "parmesan", "pecorino"]},
+            {name: "Haltbarmilch", category: "Milchprodukte", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "?", note: "UHT-Milch", keywords: ["haltbarmilch", "uht"]},
+            {name: "Joghurt natur", category: "Milchprodukte", mainCategory: "Tierisch", rating: 1, histamin: "H", amine: "", liberator: "", blocker: "?", note: "Ohne Zusatzstoffe", keywords: ["joghurt", "yoghurt", "natur"]},
+            {name: "Kefir", category: "Milchprodukte", mainCategory: "Tierisch", rating: 1, histamin: "H", amine: "A", liberator: "", blocker: "", note: "Fermentiert", keywords: ["kefir"]},
+            {name: "Mascarpone", category: "Milchprodukte", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["mascarpone"]},
+            {name: "Milch (pasteurisiert)", category: "Milchprodukte", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "?", note: "", keywords: ["milch", "frischmilch"]},
+            {name: "Milch (laktosefrei)", category: "Milchprodukte", mainCategory: "Tierisch", rating: 1, histamin: "H", amine: "", liberator: "", blocker: "?", note: "", keywords: ["laktosefrei", "lactose-free"]},
+            {name: "Mozzarella", category: "Milchprodukte", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "Frisch", keywords: ["mozzarella", "mozarella"]},
+            {name: "Quark", category: "Milchprodukte", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["quark", "topfen"]},
+            {name: "Raclette", category: "Milchprodukte", mainCategory: "Tierisch", rating: 2, histamin: "H", amine: "A", liberator: "", blocker: "", note: "Gereift", keywords: ["raclette"]},
+            {name: "Ricotta", category: "Milchprodukte", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["ricotta"]},
+            {name: "Roquefort", category: "Milchprodukte", mainCategory: "Tierisch", rating: 3, histamin: "H", amine: "A", liberator: "", blocker: "", note: "Blauschimmel, gereift", keywords: ["roquefort"]},
+            {name: "Sahne (süß)", category: "Milchprodukte", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "Ohne Zusatzstoffe", keywords: ["sahne", "rahm", "creme"]},
+            {name: "Sauerrahm", category: "Milchprodukte", mainCategory: "Tierisch", rating: 1, histamin: "H", amine: "", liberator: "", blocker: "", note: "", keywords: ["sauerrahm", "sour cream"]},
+            {name: "Schimmelkäse", category: "Milchprodukte", mainCategory: "Tierisch", rating: 2, histamin: "H", amine: "A", liberator: "", blocker: "?", note: "Gereift", keywords: ["schimmelkäse", "camembert", "brie"]},
+            {name: "Schlagsahne", category: "Milchprodukte", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["schlagsahne", "whipped cream"]},
+            {name: "Schmelzkäse", category: "Milchprodukte", mainCategory: "Tierisch", rating: 2, histamin: "H", amine: "A", liberator: "", blocker: "", note: "", keywords: ["schmelzkäse", "processed cheese"]},
+            {name: "Ziegenmilch", category: "Milchprodukte", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "?", note: "", keywords: ["ziegenmilch", "goat milk"]},
+
+            // Fleisch
+            {name: "Huhn", category: "Fleisch", mainCategory: "Tierisch", rating: 0, histamin: "H!", amine: "", liberator: "", blocker: "", note: "Geflügel, frisch", keywords: ["huhn", "hähnchen", "poulet", "chicken"]},
+            {name: "Ente", category: "Fleisch", mainCategory: "Tierisch", rating: 0, histamin: "H!", amine: "", liberator: "", blocker: "", note: "Wildgeflügel", keywords: ["ente", "duck"]},
+            {name: "Pute/Truthahn", category: "Fleisch", mainCategory: "Tierisch", rating: 0, histamin: "H!", amine: "", liberator: "", blocker: "", note: "Geflügel", keywords: ["pute", "truthahn", "turkey"]},
+            {name: "Rindfleisch (frisch)", category: "Fleisch", mainCategory: "Tierisch", rating: 0, histamin: "H!", amine: "", liberator: "", blocker: "", note: "", keywords: ["rindfleisch", "rind", "beef"]},
+            {name: "Kalbfleisch", category: "Fleisch", mainCategory: "Tierisch", rating: 0, histamin: "H!", amine: "", liberator: "", blocker: "", note: "", keywords: ["kalbfleisch", "veal"]},
+            {name: "Schweinefleisch (frisch)", category: "Fleisch", mainCategory: "Tierisch", rating: 1, histamin: "H!", amine: "", liberator: "", blocker: "?", note: "", keywords: ["schweinefleisch", "schwein", "pork"]},
+            {name: "Hackfleisch (frisch)", category: "Fleisch", mainCategory: "Tierisch", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["hackfleisch", "faschiertes", "ground meat"]},
+            {name: "Hackfleisch (Offenverkauf)", category: "Fleisch", mainCategory: "Tierisch", rating: 2, histamin: "H", amine: "A", liberator: "", blocker: "", note: "Nicht frisch verarbeitet", keywords: ["hackfleisch offen"]},
+            {name: "Innereien", category: "Fleisch", mainCategory: "Tierisch", rating: 2, histamin: "H!", amine: "", liberator: "L", blocker: "", note: "Leber, Niere, etc.", keywords: ["innereien", "leber", "niere", "offal"]},
+            {name: "Wildfleisch", category: "Fleisch", mainCategory: "Tierisch", rating: 1, histamin: "H", amine: "", liberator: "", blocker: "", note: "Hirsch, Reh, etc.", keywords: ["wildfleisch", "wild game"]},
+            {name: "Wurstwaren", category: "Fleisch", mainCategory: "Tierisch", rating: 3, histamin: "H", amine: "", liberator: "", blocker: "", note: "Salami, Leberwurst, etc.", keywords: ["wurst", "salami", "leberwurst"]},
+            {name: "Rohschinken", category: "Fleisch", mainCategory: "Tierisch", rating: 3, histamin: "H", amine: "A", liberator: "", blocker: "?", note: "Reifungsprodukt", keywords: ["rohschinken", "prosciutto"]},
+            {name: "Räucherfleisch", category: "Fleisch", mainCategory: "Tierisch", rating: 3, histamin: "H", amine: "", liberator: "", blocker: "?", note: "", keywords: ["räucherfleisch", "smoked meat"]},
+
+            // Fisch
+            {name: "Fisch (fangfrisch, tiefgekühlt)", category: "Fisch", mainCategory: "Tierisch", rating: 0, histamin: "H!", amine: "A", liberator: "", blocker: "", note: "Sofort tiefgekühlt", keywords: ["fisch frisch", "fischfilet"]},
+            {name: "Frischfisch (Kühlregal)", category: "Fisch", mainCategory: "Tierisch", rating: 3, histamin: "H!", amine: "A", liberator: "", blocker: "", note: "Zu lange gekühlt", keywords: ["frischfisch"]},
+            {name: "Forelle", category: "Fisch", mainCategory: "Tierisch", rating: 0, histamin: "H!", amine: "", liberator: "", blocker: "", note: "Süßwasser, frisch", keywords: ["forelle", "trout"]},
+            {name: "Thunfisch", category: "Fisch", mainCategory: "Tierisch", rating: 3, histamin: "H", amine: "A", liberator: "", blocker: "", note: "Sehr histaminreich", keywords: ["thunfisch", "tuna"]},
+            {name: "Anchovis/Sardellen", category: "Fisch", mainCategory: "Tierisch", rating: 3, histamin: "H", amine: "A", liberator: "", blocker: "", note: "Konserve/Salzlake", keywords: ["anchovis", "sardellen"]},
+            {name: "Geräucherter Fisch", category: "Fisch", mainCategory: "Tierisch", rating: 3, histamin: "H", amine: "", liberator: "", blocker: "?", note: "", keywords: ["räucherfisch", "smoked fish"]},
+
+            // Meeresfrüchte
+            {name: "Austern", category: "Meeresfrüchte", mainCategory: "Tierisch", rating: 2, histamin: "H!", amine: "", liberator: "L", blocker: "", note: "", keywords: ["austern", "oyster"]},
+            {name: "Garnelen", category: "Meeresfrüchte", mainCategory: "Tierisch", rating: 2, histamin: "H!", amine: "", liberator: "L", blocker: "", note: "", keywords: ["garnelen", "shrimp", "krevetten"]},
+            {name: "Krabben", category: "Meeresfrüchte", mainCategory: "Tierisch", rating: 2, histamin: "H!", amine: "", liberator: "L", blocker: "", note: "", keywords: ["krabben", "crab"]},
+            {name: "Muscheln", category: "Meeresfrüchte", mainCategory: "Tierisch", rating: 2, histamin: "H!", amine: "", liberator: "L", blocker: "", note: "", keywords: ["muscheln", "clams"]},
+
+            // Gemüse
+            {name: "Brokkoli", category: "Gemüse", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "Crucifere", keywords: ["brokkoli", "broccoli"]},
+            {name: "Blumenkohl", category: "Gemüse", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["blumenkohl", "cauliflower"]},
+            {name: "Karotte", category: "Gemüse", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["karotte", "möhre", "carrot"]},
+            {name: "Gurke", category: "Gemüse", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["gurke", "cucumber"]},
+            {name: "Zucchini", category: "Gemüse", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["zucchini", "courgette"]},
+            {name: "Kürbis", category: "Gemüse", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["kürbis", "pumpkin", "hokkaido"]},
+            {name: "Paprika (mild)", category: "Gemüse", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["paprika mild", "bell pepper"]},
+            {name: "Paprika (scharf)", category: "Gemüse", mainCategory: "Pflanzlich", rating: 2, histamin: "", amine: "", liberator: "", blocker: "", note: "Capsaicin", keywords: ["paprika scharf", "chili pepper"]},
+            {name: "Tomate", category: "Gemüse", mainCategory: "Pflanzlich", rating: 2, histamin: "H", amine: "", liberator: "L", blocker: "", note: "Histamin + Liberator", keywords: ["tomate", "tomato"]},
+            {name: "Spinat", category: "Gemüse", mainCategory: "Pflanzlich", rating: 2, histamin: "H", amine: "", liberator: "", blocker: "", note: "Histamin + Oxalate", keywords: ["spinat", "spinach"]},
+            {name: "Sauerkraut", category: "Gemüse", mainCategory: "Pflanzlich", rating: 3, histamin: "H", amine: "", liberator: "", blocker: "", note: "Fermentiert", keywords: ["sauerkraut", "fermented cabbage"]},
+            {name: "Aubergine", category: "Gemüse", mainCategory: "Pflanzlich", rating: 2, histamin: "H", amine: "", liberator: "", blocker: "?", note: "", keywords: ["aubergine", "eggplant"]},
+            {name: "Avocado", category: "Gemüse", mainCategory: "Pflanzlich", rating: 2, histamin: "H", amine: "", liberator: "L", blocker: "", note: "Dopamin-Liberator", keywords: ["avocado"]},
+            {name: "Kartoffel", category: "Gemüse", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["kartoffel", "erdäpfel", "potato"]},
+            {name: "Zwiebel", category: "Gemüse", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["zwiebel", "onion"]},
+            {name: "Knoblauch", category: "Gemüse", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["knoblauch", "garlic"]},
+
+            // Früchte
+            {name: "Apfel", category: "Früchte", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["apfel", "apple"]},
+            {name: "Birne", category: "Früchte", mainCategory: "Pflanzlich", rating: 1, histamin: "", amine: "A", liberator: "", blocker: "", note: "", keywords: ["birne", "pear"]},
+            {name: "Banane", category: "Früchte", mainCategory: "Pflanzlich", rating: 2, histamin: "", amine: "A", liberator: "", blocker: "", note: "Tyramin, Serotonin", keywords: ["banane", "banana"]},
+            {name: "Erdbeere", category: "Früchte", mainCategory: "Pflanzlich", rating: 2, histamin: "", amine: "A", liberator: "L", blocker: "", note: "Liberator + Amine", keywords: ["erdbeere", "strawberry"]},
+            {name: "Himbeere", category: "Früchte", mainCategory: "Pflanzlich", rating: 2, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["himbeere", "raspberry"]},
+            {name: "Blaubeere", category: "Früchte", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["blaubeere", "heidelbeere", "blueberry"]},
+            {name: "Zitrone", category: "Früchte", mainCategory: "Pflanzlich", rating: 2, histamin: "", amine: "A", liberator: "L", blocker: "", note: "", keywords: ["zitrone", "lemon"]},
+            {name: "Orange", category: "Früchte", mainCategory: "Pflanzlich", rating: 3, histamin: "", amine: "A", liberator: "L", blocker: "", note: "Schwer histaminreich", keywords: ["orange", "apfelsine"]},
+            {name: "Ananas", category: "Früchte", mainCategory: "Pflanzlich", rating: 2, histamin: "", amine: "A", liberator: "L", blocker: "", note: "Bromelain", keywords: ["ananas", "pineapple"]},
+            {name: "Melone", category: "Früchte", mainCategory: "Pflanzlich", rating: 1, histamin: "", amine: "", liberator: "?", blocker: "", note: "", keywords: ["melone", "melon", "wassermelone"]},
+            {name: "Mango", category: "Früchte", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["mango"]},
+            {name: "Kiwi", category: "Früchte", mainCategory: "Pflanzlich", rating: 1, histamin: "", amine: "", liberator: "L", blocker: "", note: "", keywords: ["kiwi"]},
+
+            // Nüsse
+            {name: "Mandeln", category: "Nüsse", mainCategory: "Pflanzlich", rating: 1, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["mandel", "almond"]},
+            {name: "Haselnuss", category: "Nüsse", mainCategory: "Pflanzlich", rating: 1, histamin: "", amine: "", liberator: "L", blocker: "", note: "", keywords: ["haselnuss", "hazelnut"]},
+            {name: "Baumnuss", category: "Nüsse", mainCategory: "Pflanzlich", rating: 3, histamin: "", amine: "A", liberator: "L", blocker: "", note: "Walnuss", keywords: ["baumnuss", "walnuss", "walnut"]},
+            {name: "Cashewnuss", category: "Nüsse", mainCategory: "Pflanzlich", rating: 1, histamin: "", amine: "A", liberator: "L", blocker: "", note: "", keywords: ["cashew", "cashewnuss"]},
+            {name: "Paranuss", category: "Nüsse", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["paranuss", "brazil nut"]},
+            {name: "Makadamia", category: "Nüsse", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["makadamia"]},
+            {name: "Pistazie", category: "Nüsse", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["pistazie", "pistachio"]},
+
+            // Getreide & Stärke
+            {name: "Reis", category: "Getreide", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["reis", "rice"]},
+            {name: "Kartoffel", category: "Getreide", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["kartoffel", "potato"]},
+            {name: "Mais", category: "Getreide", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["mais", "corn", "maize"]},
+            {name: "Weizen", category: "Getreide", mainCategory: "Pflanzlich", rating: 1, histamin: "", amine: "", liberator: "", blocker: "?", note: "", keywords: ["weizen", "wheat"]},
+            {name: "Roggen", category: "Getreide", mainCategory: "Pflanzlich", rating: 1, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["roggen", "rye"]},
+            {name: "Hafer", category: "Getreide", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["hafer", "oat"]},
+            {name: "Dinkel", category: "Getreide", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["dinkel", "spelt"]},
+            {name: "Quinoa", category: "Getreide", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["quinoa"]},
+            {name: "Brot", category: "Getreide", mainCategory: "Pflanzlich", rating: 1, histamin: "", amine: "", liberator: "", blocker: "?", note: "Abhängig von Hefemenge", keywords: ["brot", "bread"]},
+
+            // Öle & Fette
+            {name: "Olivenöl", category: "Öle & Fette", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["olivenöl", "olive oil"]},
+            {name: "Rapsöl", category: "Öle & Fette", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["rapsöl", "canola oil"]},
+            {name: "Kokosöl", category: "Öle & Fette", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["kokosöl", "coconut oil"]},
+            {name: "Sonnenblumenöl", category: "Öle & Fette", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["sonnenblumenöl", "sunflower oil"]},
+
+            // Kräuter
+            {name: "Petersilie", category: "Kräuter", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["petersilie", "parsley"]},
+            {name: "Basilikum", category: "Kräuter", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["basilikum", "basil"]},
+            {name: "Oregano", category: "Kräuter", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["oregano"]},
+            {name: "Thymian", category: "Kräuter", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["thymian", "thyme"]},
+            {name: "Rosmarin", category: "Kräuter", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["rosmarin", "rosemary"]},
+            {name: "Dill", category: "Kräuter", mainCategory: "Pflanzlich", rating: 1, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["dill"]},
+            {name: "Schnittlauch", category: "Kräuter", mainCategory: "Pflanzlich", rating: 1, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["schnittlauch", "chives"]},
+            {name: "Minze", category: "Kräuter", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["minze", "mint"]},
+
+            // Gewürze & Würzung
+            {name: "Salz", category: "Gewürze", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["salz", "salt"]},
+            {name: "Zucker", category: "Gewürze", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["zucker", "sugar"]},
+            {name: "Honig", category: "Gewürze", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["honig", "honey"]},
+            {name: "Essig (mild)", category: "Gewürze", mainCategory: "Pflanzlich", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["essig"]},
+            {name: "Hefeextrakt", category: "Gewürze", mainCategory: "Pflanzlich", rating: 2, histamin: "", amine: "", liberator: "L", blocker: "", note: "Histaminliberator", keywords: ["hefeextrakt", "vegemite", "marmite"]},
+            {name: "Bouillon", category: "Gewürze", mainCategory: "Pflanzlich", rating: 2, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["bouillon", "broth", "stock"]},
+            {name: "Sojasauce", category: "Gewürze", mainCategory: "Pflanzlich", rating: 3, histamin: "H", amine: "", liberator: "", blocker: "", note: "Fermentiert", keywords: ["sojasauce", "soy sauce"]},
+            {name: "Glutamat", category: "Gewürze", mainCategory: "Pflanzlich", rating: 2, histamin: "", amine: "", liberator: "L", blocker: "", note: "Auch als E621 oder \"Geschmacksverstärker\"", keywords: ["glutamat", "msg", "e621"]},
+
+            // Getränke
+            {name: "Wasser", category: "Getränke", mainCategory: "Sonstige", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["wasser", "water"]},
+            {name: "Kaffee", category: "Getränke", mainCategory: "Sonstige", rating: 1, histamin: "H", amine: "", liberator: "", blocker: "", note: "", keywords: ["kaffee", "coffee", "espresso"]},
+            {name: "Schwarzer Tee", category: "Getränke", mainCategory: "Sonstige", rating: 1, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["schwarzer tee", "black tea"]},
+            {name: "Grüner Tee", category: "Getränke", mainCategory: "Sonstige", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["grüner tee", "green tea"]},
+            {name: "Kamillentee", category: "Getränke", mainCategory: "Sonstige", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["kamillentee", "chamomile"]},
+            {name: "Alkohol", category: "Getränke", mainCategory: "Sonstige", rating: 3, histamin: "H", amine: "A", liberator: "", blocker: "B", note: "Besonders Rotwein, Bier", keywords: ["alkohol", "bier", "wein", "beer", "wine"]},
+            {name: "Rotwein", category: "Getränke", mainCategory: "Sonstige", rating: 3, histamin: "H", amine: "A", liberator: "", blocker: "B", note: "", keywords: ["rotwein", "red wine"]},
+            {name: "Kohlensäure-Getränk", category: "Getränke", mainCategory: "Sonstige", rating: 1, histamin: "", amine: "", liberator: "", blocker: "?", note: "", keywords: ["kohlensäure", "soda", "lemonade"]},
+
+            // Zusatzstoffe
+            {name: "Ascorbinsäure / E300", category: "Zusatzstoffe", mainCategory: "Sonstige", rating: 0, histamin: "", amine: "", liberator: "", blocker: "B", note: "Vitamin C", keywords: ["ascorbinsäure", "e300", "vitamin c"]},
+            {name: "Benzoesäure / E210", category: "Zusatzstoffe", mainCategory: "Sonstige", rating: 2, histamin: "", amine: "", liberator: "L", blocker: "", note: "Konservierungsstoff", keywords: ["benzoesäure", "e210"]},
+            {name: "Sorbinsäure / E200", category: "Zusatzstoffe", mainCategory: "Sonstige", rating: 1, histamin: "", amine: "", liberator: "", blocker: "", note: "Konservierungsstoff", keywords: ["sorbinsäure", "e200"]},
+            {name: "Sulfite / E220-228", category: "Zusatzstoffe", mainCategory: "Sonstige", rating: 2, histamin: "", amine: "", liberator: "", blocker: "", note: "Konservierungsstoff", keywords: ["sulfit", "e220", "e221", "e222", "e223", "e224", "e225", "e226", "e227", "e228"]},
+            {name: "Zitronensäure / E330", category: "Zusatzstoffe", mainCategory: "Sonstige", rating: 0, histamin: "", amine: "", liberator: "", blocker: "", note: "", keywords: ["zitronensäure", "e330"]},
+            {name: "Tartrazin / E110", category: "Zusatzstoffe", mainCategory: "Sonstige", rating: 1, histamin: "", amine: "", liberator: "", blocker: "", note: "Farbstoff", keywords: ["tartrazin", "e110"]},
+        ];
+
+        // ============================================
+        // APP STATE MANAGEMENT
+        // ============================================
+        const appState = {
+            profile: {
+                tolerance: 'medium',
+                triggers: [],
+                exceptions: []
+            },
+            currentSection: 0,
+            scannerActive: false,
+            html5QrCode: null
+        };
+
+        // Load profile from localStorage
+        function loadProfile() {
+            const saved = localStorage.getItem('salua-profile');
+            if (saved) {
+                appState.profile = JSON.parse(saved);
+            } else {
+                showOnboarding();
+            }
+            updateProfileDisplay();
+        }
+
+        // Save profile to localStorage
+        function saveProfile() {
+            localStorage.setItem('salua-profile', JSON.stringify(appState.profile));
+            updateProfileDisplay();
+        }
+
+        function setPhase(phase) {
+            appState.profile.phase = phase;
+            saveProfile();
+            // Update phase button styling
+            const elimBtn = document.getElementById('phase-elim-btn');
+            const expBtn = document.getElementById('phase-exp-btn');
+            if (elimBtn && expBtn) {
+                if (phase === 'elimination') {
+                    elimBtn.style.background = 'var(--primary)';
+                    elimBtn.style.border = 'none';
+                    expBtn.style.background = 'var(--dark)';
+                    expBtn.style.border = '1px solid var(--border)';
+                } else {
+                    expBtn.style.background = 'var(--primary)';
+                    expBtn.style.border = 'none';
+                    elimBtn.style.background = 'var(--dark)';
+                    elimBtn.style.border = '1px solid var(--border)';
+                }
+            }
+            document.getElementById('profile-phase').textContent =
+                phase === 'elimination' ? 'Eliminationsphase (strikt)' : 'Aufbauphase (schrittweise testen)';
+        }
+
+        function showTestedFoods() {
+            const tested = appState.profile.testedFoods || {};
+            const entries = Object.entries(tested);
+            if (entries.length === 0) {
+                alert('Du hast noch keine Lebensmittel als getestet markiert. Nutze die 👍🤷👎 Buttons bei den einzelnen Lebensmitteln.');
+                return;
+            }
+            const good = entries.filter(([k,v]) => v === 'good');
+            const mixed = entries.filter(([k,v]) => v === 'mixed');
+            const bad = entries.filter(([k,v]) => v === 'bad');
+
+            const overlay = document.createElement('div');
+            overlay.className = 'detail-overlay';
+            overlay.innerHTML = `
+                <div class="detail-card" style="max-height:85vh;overflow-y:auto;">
+                    <button class="detail-close" onclick="this.closest('.detail-overlay').remove()">✕</button>
+                    <h3>Deine getesteten Lebensmittel</h3>
+                    <p style="color:var(--text-secondary);font-size:13px;margin-bottom:16px;">${entries.length} Lebensmittel getestet</p>
+                    ${good.length > 0 ? `
+                        <div class="detail-section">
+                            <strong style="color:#52b788;">👍 Gut vertragen (${good.length}):</strong>
+                            <div style="margin-top:6px;">${good.map(([k]) => `<span style="display:inline-block;background:rgba(82,183,136,0.15);color:#52b788;padding:4px 10px;border-radius:20px;font-size:12px;margin:2px;">${k}</span>`).join('')}</div>
+                        </div>
+                    ` : ''}
+                    ${mixed.length > 0 ? `
+                        <div class="detail-section">
+                            <strong style="color:#FFB74D;">🤷 Manchmal (${mixed.length}):</strong>
+                            <div style="margin-top:6px;">${mixed.map(([k]) => `<span style="display:inline-block;background:rgba(255,183,77,0.15);color:#FFB74D;padding:4px 10px;border-radius:20px;font-size:12px;margin:2px;">${k}</span>`).join('')}</div>
+                        </div>
+                    ` : ''}
+                    ${bad.length > 0 ? `
+                        <div class="detail-section">
+                            <strong style="color:#ef5350;">👎 Nicht vertragen (${bad.length}):</strong>
+                            <div style="margin-top:6px;">${bad.map(([k]) => `<span style="display:inline-block;background:rgba(211,47,47,0.15);color:#ef5350;padding:4px 10px;border-radius:20px;font-size:12px;margin:2px;">${k}</span>`).join('')}</div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+        }
+
+        // ============================================
+        // UI FUNCTIONS
+        // ============================================
+        function showSection(index) {
+            document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+
+            const sections = document.querySelectorAll('.content-section');
+            if (sections[index]) {
+                sections[index].classList.add('active');
+            }
+
+            const tabs = document.querySelectorAll('.nav-tab');
+            if (tabs[index]) {
+                tabs[index].classList.add('active');
+            }
+
+            appState.currentSection = index;
+
+            // Scroll to top
+            document.querySelector('.content').scrollTop = 0;
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function showOnboarding() {
+            openModal('onboarding-modal');
+        }
+
+        // ============================================
+        // PROFILE DISPLAY
+        // ============================================
+        function updateProfileDisplay() {
+            const toleranceLabels = {
+                'low': 'Gering (sehr empfindlich)',
+                'medium': 'Mittel',
+                'high': 'Hoch (mild empfindlich)'
+            };
+
+            document.getElementById('profile-badge').innerHTML = `
+                <span class="badge-label">Deine Empfindlichkeit:</span>
+                <span class="badge-value">${toleranceLabels[appState.profile.tolerance]}</span>
+            `;
+
+            document.getElementById('profile-tolerance').textContent = toleranceLabels[appState.profile.tolerance];
+
+            const triggerLabels = {
+                'histamin': 'Histamin',
+                'amine': 'Biogene Amine',
+                'liberator': 'Histaminliberatoren',
+                'blocker': 'DAO-Blocker',
+                'salicylate': 'Salicylate'
+            };
+
+            if (appState.profile.triggers.length > 0) {
+                document.getElementById('profile-triggers').textContent = appState.profile.triggers.map(t => triggerLabels[t]).join(', ');
+            } else {
+                document.getElementById('profile-triggers').textContent = 'Keine angegeben';
+            }
+
+            if (appState.profile.exceptions.length > 0) {
+                document.getElementById('profile-exceptions').textContent = appState.profile.exceptions.join(', ');
+            } else {
+                document.getElementById('profile-exceptions').textContent = 'Noch keine hinzugefügt';
+            }
+
+            // Update phase display
+            const phase = appState.profile.phase || 'elimination';
+            const phaseEl = document.getElementById('profile-phase');
+            if (phaseEl) phaseEl.textContent = phase === 'elimination' ? 'Eliminationsphase (strikt)' : 'Aufbauphase (schrittweise testen)';
+            setPhase(phase);
+
+            // Update tested count
+            const tested = appState.profile.testedFoods || {};
+            const testedCount = Object.keys(tested).length;
+            const testedEl = document.getElementById('profile-tested-count');
+            if (testedEl) testedEl.textContent = `${testedCount} Lebensmittel getestet`;
+        }
+
+        // ============================================
+        // RATING & COMPATIBILITY
+        // ============================================
+        function getRatingClass(rating) {
+            if (rating === 0) return 'rating-0';
+            if (rating === 1) return 'rating-1';
+            if (rating === 2) return 'rating-2';
+            if (rating === 3) return 'rating-3';
+            return 'rating-unknown';
+        }
+
+        function getRatingText(rating) {
+            if (rating === 0) return '✓ Gut verträglich';
+            if (rating === 1) return '⚠ Meistens verträglich';
+            if (rating === 2) return '⚠ Kann Symptome auslösen';
+            if (rating === 3) return '✕ Eher meiden';
+            return '? Keine Daten';
+        }
+
+        // Always returns original SIGHI rating - we show adjustments as NOTES, not hidden changes
+        function getCompatibilityByTolerance(item, tolerance) {
+            return item.rating; // Transparent: always show original SIGHI rating
+        }
+
+        // Get personal context note based on profile + tested foods
+        function getPersonalNote(item) {
+            const tested = appState.profile.testedFoods || {};
+            const isException = appState.profile.exceptions.some(e => e.toLowerCase() === item.name.toLowerCase());
+            const isTested = tested[item.name.toLowerCase()];
+            const phase = appState.profile.phase || 'elimination';
+            const tolerance = appState.profile.tolerance;
+
+            if (isException) {
+                return { text: '✓ Du verträgst das gut — für dich freigegeben', css: 'personal-note-green' };
+            }
+
+            if (isTested === 'good') {
+                return { text: '✓ Von dir getestet — gut vertragen', css: 'personal-note-green' };
+            }
+            if (isTested === 'bad') {
+                return { text: '✕ Von dir getestet — nicht vertragen', css: 'personal-note-red' };
+            }
+            if (isTested === 'mixed') {
+                return { text: '~ Von dir getestet — manchmal verträglich', css: 'personal-note-yellow' };
+            }
+
+            // Not tested yet
+            if (item.rating === 0) {
+                return { text: 'Noch nicht getestet — laut SIGHI gut verträglich, probier es aus', css: 'personal-note-neutral' };
+            }
+            if (item.rating === 1) {
+                if (phase === 'elimination') {
+                    return { text: 'Noch nicht getestet — in der Eliminationsphase erstmal meiden, später testen', css: 'personal-note-yellow' };
+                }
+                return { text: 'Noch nicht getestet — oft verträglich in kleinen Mengen, probiere vorsichtig', css: 'personal-note-yellow' };
+            }
+            if (item.rating === 2) {
+                return { text: 'Noch nicht getestet — kann Symptome auslösen, teste nur in der Aufbauphase', css: 'personal-note-orange' };
+            }
+            if (item.rating === 3) {
+                return { text: 'Noch nicht getestet — bekannter Auslöser, mit Vorsicht und ärztlicher Begleitung testen', css: 'personal-note-red' };
+            }
+            return { text: 'Keine ausreichenden Daten — probiere vorsichtig', css: 'personal-note-neutral' };
+        }
+
+        // Mark a food as tested with result
+        function markFoodTested(foodName, result) {
+            if (!appState.profile.testedFoods) appState.profile.testedFoods = {};
+            appState.profile.testedFoods[foodName.toLowerCase()] = result;
+            saveProfile();
+        }
+
+        // ============================================
+        // FOOD CARD RENDERING
+        // ============================================
+        function renderFoodCard(item) {
+            const flags = [];
+            if (item.histamin) flags.push(`H${item.histamin === 'H!' ? '!' : ''}`);
+            if (item.amine) flags.push('A');
+            if (item.liberator) flags.push('L');
+            if (item.blocker) flags.push('B');
+            const personal = getPersonalNote(item);
+            const tested = (appState.profile.testedFoods || {})[item.name.toLowerCase()];
+
+            return `
+                <div class="food-card rating-${item.rating}" onclick="showFoodDetail('${item.name.replace(/'/g, "\\'")}')">
+                    <div class="food-header">
+                        <div class="food-name">${item.name}</div>
+                        <div class="food-rating ${getRatingClass(item.rating)}">SIGHI: ${item.rating}/3</div>
+                    </div>
+                    <div class="food-rating-text ${getRatingClass(item.rating)}" style="font-size:12px;margin-bottom:6px;">${getRatingText(item.rating)}</div>
+                    ${item.category ? `<div class="food-category">${item.category}</div>` : ''}
+                    ${flags.length > 0 ? `<div class="food-flags">${flags.map(f => `<div class="flag">${f}</div>`).join('')}</div>` : ''}
+                    ${item.note ? `<div class="food-note">${item.note}</div>` : ''}
+                    <div class="personal-note ${personal.css}">${personal.text}</div>
+                    <div class="food-test-btns">
+                        <span style="font-size:11px;color:var(--text-secondary);">Vertragen?</span>
+                        <button class="${tested==='good'?'test-btn-active':''}" onclick="event.stopPropagation();markFoodTested('${item.name.replace(/'/g, "\\'")}','good');renderCurrentView();" title="Gut vertragen">👍</button>
+                        <button class="${tested==='mixed'?'test-btn-active':''}" onclick="event.stopPropagation();markFoodTested('${item.name.replace(/'/g, "\\'")}','mixed');renderCurrentView();" title="Mal so, mal so">🤷</button>
+                        <button class="${tested==='bad'?'test-btn-active':''}" onclick="event.stopPropagation();markFoodTested('${item.name.replace(/'/g, "\\'")}','bad');renderCurrentView();" title="Nicht vertragen">👎</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showFoodDetail(foodName) {
+            const item = SIGHI_DB.find(f => f.name === foodName);
+            if (!item) return;
+            const personal = getPersonalNote(item);
+            const flags = [];
+            if (item.histamin) flags.push('Histamin' + (item.histamin === 'H!' ? ' (hoch!)' : ''));
+            if (item.amine) flags.push('Andere biogene Amine');
+            if (item.liberator) flags.push('Histaminliberator');
+            if (item.blocker) flags.push('DAO-Blocker');
+
+            const overlay = document.createElement('div');
+            overlay.className = 'detail-overlay';
+            overlay.innerHTML = `
+                <div class="detail-card">
+                    <button class="detail-close" onclick="this.closest('.detail-overlay').remove()">✕</button>
+                    <h3>${item.name}</h3>
+                    <div class="detail-sighi">
+                        <span>SIGHI-Bewertung:</span>
+                        <span class="food-rating ${getRatingClass(item.rating)}" style="display:inline-block;margin-left:8px;">
+                            ${item.rating}/3 — ${getRatingText(item.rating)}
+                        </span>
+                    </div>
+                    <div class="detail-section">
+                        <strong>Kategorie:</strong> ${item.category} (${item.mainCategory})
+                    </div>
+                    ${flags.length > 0 ? `
+                        <div class="detail-section">
+                            <strong>Wirkungsweise:</strong>
+                            <ul>${flags.map(f => `<li>${f}</li>`).join('')}</ul>
+                        </div>
+                    ` : ''}
+                    ${item.note ? `<div class="detail-section"><strong>Hinweis:</strong> ${item.note}</div>` : ''}
+                    <div class="detail-section personal-note ${personal.css}" style="margin-top:12px;padding:12px;border-radius:8px;">
+                        <strong>Für dich:</strong> ${personal.text}
+                    </div>
+                    <div class="detail-source">Quelle: SIGHI-Lebensmittel-Verträglichkeitsliste © SIGHI, mastzellaktivierung.info</div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+        }
+
+        function renderCurrentView() {
+            const activeTab = document.querySelector('.tab-btn.active');
+            if (activeTab) {
+                const tabName = activeTab.getAttribute('onclick').match(/switchTab\('(\w+)'\)/)?.[1];
+                if (tabName === 'search') renderSearch();
+                else if (tabName === 'categories') renderCategories();
+                else if (tabName === 'home') renderHome();
+            }
+        }
+
+        // ============================================
+        // SEARCH & FILTER
+        // ============================================
+        function normalizeText(text) {
+            return text.toLowerCase()
+                .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+                .trim();
+        }
+
+        function matchFood(item, query) {
+            const normalized = normalizeText(query);
+            const itemName = normalizeText(item.name);
+            const category = normalizeText(item.category || '');
+
+            if (itemName.includes(normalized) || category.includes(normalized)) {
+                return true;
+            }
+
+            if (item.keywords) {
+                return item.keywords.some(kw => normalizeText(kw).includes(normalized));
+            }
+
+            return false;
+        }
+
+        function searchFoods(query) {
+            if (!query.trim()) {
+                document.getElementById('search-results').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <h3>Womit kann ich dir helfen?</h3>
+                        <p>Gib ein Lebensmittel ein</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const results = SIGHI_DB.filter(item => matchFood(item, query))
+                .sort((a, b) => a.rating - b.rating);
+
+            if (results.length === 0) {
+                document.getElementById('search-results').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🤔</div>
+                        <h3>Nicht gefunden</h3>
+                        <p>Versuche einen anderen Suchbegriff</p>
+                    </div>
+                `;
+            } else {
+                document.getElementById('search-results').innerHTML = results
+                    .map(item => renderFoodCard(item))
+                    .join('');
+            }
+        }
+
+        // ============================================
+        // BARCODE SCANNER
+        // ============================================
+        async function startScanner() {
+            try {
+                appState.html5QrCode = new Html5Qrcode('scanner-container');
+                const cameraId = (await Html5Qrcode.getCameras())[0].id;
+
+                await appState.html5QrCode.start(
+                    cameraId,
+                    { fps: 10, qrbox: { width: 250, height: 250 } },
+                    onBarcodeScanned,
+                    onScanError
+                );
+
+                appState.scannerActive = true;
+                document.getElementById('start-scan-btn').style.display = 'none';
+                document.getElementById('stop-scan-btn').style.display = 'block';
+            } catch (err) {
+                alert('Kamera konnte nicht gestartet werden: ' + err);
+            }
+        }
+
+        async function stopScanner() {
+            if (appState.html5QrCode) {
+                await appState.html5QrCode.stop();
+                appState.scannerActive = false;
+                document.getElementById('start-scan-btn').style.display = 'block';
+                document.getElementById('stop-scan-btn').style.display = 'none';
+                document.getElementById('scanner-container').innerHTML = '';
+            }
+        }
+
+        function onBarcodeScanned(decodedText) {
+            stopScanner();
+            queryOpenFoodFacts(decodedText);
+        }
+
+        function onScanError(err) {
+            // Silent error handling
+        }
+
+        async function queryOpenFoodFacts(barcode) {
+            document.getElementById('scanner-result').innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Produkt wird gesucht...
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`);
+                const data = await response.json();
+
+                if (data.product) {
+                    analyzeProduct(data.product);
+                } else {
+                    document.getElementById('scanner-result').innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">❌</div>
+                            <h3>Produkt nicht gefunden</h3>
+                            <p>Barcode: ${barcode}</p>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                document.getElementById('scanner-result').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <h3>Fehler beim Laden</h3>
+                        <p>Bitte versuche es später erneut</p>
+                    </div>
+                `;
+            }
+        }
+
+        function analyzeProduct(product) {
+            const name = product.product_name || 'Unbekanntes Produkt';
+            const brand = product.brands || '';
+            const ingredients = product.ingredients_text_de || product.ingredients_text || '';
+
+            if (!ingredients) {
+                document.getElementById('scanner-result').innerHTML = `
+                    <div class="scanner-result">
+                        <h3>${name}</h3>
+                        ${brand ? `<p style="color: var(--text-secondary); margin-bottom: 12px;">${brand}</p>` : ''}
+                        <p style="color: var(--text-secondary);">Keine Zutatenliste gefunden</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const ingredientList = parseIngredients(ingredients);
+            const analysis = analyzeIngredients(ingredientList);
+
+            document.getElementById('scanner-result').innerHTML = `
+                <div class="scanner-result">
+                    <h3 style="margin-bottom: 8px;">${name}</h3>
+                    ${brand ? `<p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 13px;">${brand}</p>` : ''}
+                    <div class="food-rating ${getRatingClass(analysis.overallRating)}" style="display: inline-block; margin-bottom: 12px;">
+                        ${getRatingText(analysis.overallRating)}
+                    </div>
+                    <div style="background:rgba(176,190,197,0.1);padding:10px;border-radius:8px;margin:12px 0;font-size:12px;color:var(--text-secondary);">
+                        Jede Zutat wird einzeln gegen die SIGHI-Datenbank geprüft. Die Bewertung zeigt die originale wissenschaftliche Einstufung.
+                    </div>
+                    <h4 style="margin-top: 16px; margin-bottom: 8px; font-size: 14px;">Zutaten-Analyse (${analysis.ingredients.length} Zutaten):</h4>
+                    <div class="ingredient-list">
+                        ${analysis.ingredients.map(ing => `
+                            <div class="ingredient-item">
+                                <span class="ingredient-name">${ing.name}</span>
+                                <div class="ingredient-flags" style="display: flex; gap: 4px; align-items: center; justify-content: space-between;">
+                                    <div style="flex: 1;">
+                                        ${ing.flags.length > 0 ? ing.flags.map(f => `<span class="ingredient-flag">${f}</span>`).join('') : '<span style="color: var(--text-secondary); font-size: 11px;">✓ Keine Flags</span>'}
+                                    </div>
+                                    <span class="${ing.rating === 0 ? 'rating-0' : ing.rating === 1 ? 'rating-1' : ing.rating === 2 ? 'rating-2' : 'rating-3'}" style="font-size: 11px; padding: 2px 8px; border-radius: 10px;">SIGHI: ${ing.rating}/3</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="margin-top:12px;font-size:11px;color:var(--text-secondary);border-top:1px solid var(--border);padding-top:8px;">
+                        Quelle: SIGHI-Verträglichkeitsliste © SIGHI | Produkt: Open Food Facts
+                    </div>
+                </div>
+            `;
+        }
+
+        function parseIngredients(ingredientString) {
+            return ingredientString.split(',').map(ing => ing.trim()).filter(ing => ing.length > 0);
+        }
+
+        function analyzeIngredients(ingredientList) {
+            const analyzed = ingredientList.map(ing => {
+                const match = SIGHI_DB.find(item => matchFood(item, ing));
+                if (match) {
+                    const flags = [];
+                    if (match.histamin) flags.push(`H${match.histamin === 'H!' ? '!' : ''}`);
+                    if (match.amine) flags.push('A');
+                    if (match.liberator) flags.push('L');
+                    if (match.blocker) flags.push('B');
+
+                    return {
+                        name: match.name,
+                        rating: match.rating,
+                        flags: flags
+                    };
+                }
+                return {
+                    name: ing,
+                    rating: 0,
+                    flags: []
+                };
+            });
+
+            const overallRating = Math.max(...analyzed.map(a => a.rating));
+            return {
+                ingredients: analyzed,
+                overallRating: overallRating
+            };
+        }
+
+        // ============================================
+        // CATEGORIES
+        // ============================================
+        function renderCategories() {
+            const categories = [...new Set(SIGHI_DB.map(item => item.category))].sort();
+            const categoryGrid = document.getElementById('category-grid');
+
+            categoryGrid.innerHTML = categories.map(cat => {
+                const count = SIGHI_DB.filter(item => item.category === cat).length;
+                return `
+                    <div class="category-item" onclick="showCategory('${cat}')">
+                        <div>
+                            <h3>${cat}</h3>
+                            <div class="category-count">${count} Lebensmittel</div>
+                        </div>
+                        <div class="category-item-arrow">→</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function showCategory(category) {
+            const items = SIGHI_DB.filter(item => item.category === category)
+                .sort((a, b) => {
+                    const compatA = getCompatibilityByTolerance(a, appState.profile.tolerance);
+                    const compatB = getCompatibilityByTolerance(b, appState.profile.tolerance);
+                    return compatA - compatB;
+                });
+
+            const content = document.querySelector('.content');
+            const section = document.querySelector('.categories-section');
+
+            section.innerHTML = `
+                <div style="padding: 20px;">
+                    <button class="back-btn" onclick="renderCategories(); showCategory()">← Zurück</button>
+                    <h2 style="margin-bottom: 8px;">${category}</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">Bei deiner Empfindlichkeit:</p>
+                    <div id="category-foods">
+                        ${items.map(item => renderFoodCard(item)).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfile();
+            renderCategories();
+
+            // Navigation
+            document.querySelectorAll('.nav-tab').forEach((tab, idx) => {
+                tab.addEventListener('click', () => showSection(idx));
+            });
+
+            // Quick actions
+            document.getElementById('action-scan').addEventListener('click', () => showSection(1));
+            document.getElementById('action-search').addEventListener('click', () => showSection(2));
+            document.getElementById('action-categories').addEventListener('click', () => showSection(3));
+            document.getElementById('action-exceptions').addEventListener('click', () => openModal('exceptions-modal'));
+
+            // Settings
+            document.getElementById('settings-btn').addEventListener('click', () => openModal('settings-modal'));
+            document.getElementById('settings-close').addEventListener('click', () => closeModal('settings-modal'));
+            document.getElementById('reset-profile-btn').addEventListener('click', () => {
+                localStorage.removeItem('salua-profile');
+                appState.profile = { tolerance: 'medium', triggers: [], exceptions: [], phase: 'elimination', testedFoods: {} };
+                saveProfile();
+                showOnboarding();
+            });
+
+            // Onboarding
+            document.getElementById('onboarding-save').addEventListener('click', () => {
+                appState.profile.tolerance = document.querySelector('input[name="tolerance"]:checked').value;
+                appState.profile.triggers = Array.from(document.querySelectorAll('input[name="triggers"]:checked')).map(el => el.value);
+                appState.profile.exceptions = document.getElementById('onboarding-exceptions').value
+                    .split(/[,\n]+/)
+                    .map(e => e.trim())
+                    .filter(e => e.length > 0);
+                saveProfile();
+                closeModal('onboarding-modal');
+            });
+
+            // Tolerance modal
+            document.getElementById('edit-tolerance-btn').addEventListener('click', () => {
+                document.querySelector(`input[name="tol"][value="${appState.profile.tolerance}"]`).checked = true;
+                openModal('tolerance-modal');
+            });
+            document.getElementById('tolerance-close').addEventListener('click', () => closeModal('tolerance-modal'));
+            document.getElementById('tolerance-save').addEventListener('click', () => {
+                appState.profile.tolerance = document.querySelector('input[name="tol"]:checked').value;
+                saveProfile();
+                closeModal('tolerance-modal');
+            });
+
+            // Triggers modal
+            document.getElementById('edit-triggers-btn').addEventListener('click', () => {
+                document.querySelectorAll('input[name="trig"]').forEach(el => {
+                    el.checked = appState.profile.triggers.includes(el.value);
+                });
+                openModal('triggers-modal');
+            });
+            document.getElementById('triggers-close').addEventListener('click', () => closeModal('triggers-modal'));
+            document.getElementById('triggers-save').addEventListener('click', () => {
+                appState.profile.triggers = Array.from(document.querySelectorAll('input[name="trig"]:checked')).map(el => el.value);
+                saveProfile();
+                closeModal('triggers-modal');
+            });
+
+            // Exceptions modal
+            document.getElementById('edit-exceptions-btn').addEventListener('click', () => {
+                document.getElementById('exceptions-text').value = appState.profile.exceptions.join('\n');
+                openModal('exceptions-modal');
+            });
+            document.getElementById('exceptions-close').addEventListener('click', () => closeModal('exceptions-modal'));
+            document.getElementById('exceptions-save').addEventListener('click', () => {
+                appState.profile.exceptions = document.getElementById('exceptions-text').value
+                    .split(/[,\n]+/)
+                    .map(e => e.trim())
+                    .filter(e => e.length > 0);
+                saveProfile();
+                closeModal('exceptions-modal');
+            });
+
+            // Scanner
+            document.getElementById('start-scan-btn').addEventListener('click', startScanner);
+            document.getElementById('stop-scan-btn').addEventListener('click', stopScanner);
+
+            // Search
+            document.getElementById('search-btn').addEventListener('click', () => {
+                searchFoods(document.getElementById('search-input').value);
+            });
+            document.getElementById('search-input').addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    searchFoods(e.target.value);
+                }
+            });
+
+            // Register service worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('data:text/javascript,' + encodeURIComponent(`
+                    self.addEventListener('install', e => e.waitUntil(caches.open('v1')));
+                    self.addEventListener('fetch', e => {
+                        e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+                    });
+                `));
+            }
+        });
+
+        // Close modals on background click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
